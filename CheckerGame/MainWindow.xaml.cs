@@ -24,14 +24,23 @@ namespace CheckerGame
     /// </summary>
     public partial class MainWindow : Window
     {
-        Cell chosedCell;
+        Bool whiteTurn;
         Int32 clickCounter;
+        UserControl1 chosedCell;
         Cell[,] battleField = new Cell[8, 8];
         List<GameFigure> firstSide = new List<GameFigure>(1);
         List<GameFigure> secondSide = new List<GameFigure>(1);
+        List<Int32> battleFieldMiddleCellsRows = new List<Int32>(1);
 
         public MainWindow()
         {
+            Int32 limit = battleField.GetLength(0) / 2;
+
+            battleFieldMiddleCellsRows.Add(limit);
+            battleFieldMiddleCellsRows.Add(limit + 1);
+
+            whiteTurn = true;
+
             InitializeComponent();
 
             for (int i = 0; i < Math.Pow(battleField.GetLength(1), 2); i++)
@@ -47,13 +56,57 @@ namespace CheckerGame
 
                 Bool side = row <= 3;
 
-                if (row % 2 == 0)
+                if (row % 2 == 0 && !battleFieldMiddleCellsRows.Contains(row))
                 {
                     if (column % 2 == 0)
+                    {
+                        button.ButtonCell.CurrentFigure = new GameFigure(button.ButtonPosition, FigureType.Special, side);
+                        button.ButtonCell.Occupied = true;
+                        button.ButtonCell.DarkColour = true;
+
+                        if (side)
+                        {
+                            firstSide.Add(button.ButtonCell.CurrentFigure);
+                        }
+
+                        else
+                        {
+                            secondSide.Add(button.ButtonCell.CurrentFigure);
+                        }
+
+                        button.Click += UserControl1_Click;
+
+                        button.Content = "Пешка.";
+                    }
+
+                    else
+                    {
+                        button.ButtonCell.CurrentFigure = null;
+                        button.ButtonCell.DarkColour = false;
+                    }
+                }
+
+                else if (!battleFieldMiddleCellsRows.Contains(row))
+                {
+                    if (column % 2 != 0)
                     {
                         button.ButtonCell.CurrentFigure = new GameFigure(button.ButtonPosition, FigureType.Common, side);
                         button.ButtonCell.Occupied = true;
                         button.ButtonCell.DarkColour = true;
+
+                        if (side)
+                        {
+                            firstSide.Add(button.ButtonCell.CurrentFigure);
+                        }
+
+                        else
+                        {
+                            secondSide.Add(button.ButtonCell.CurrentFigure);
+                        }
+
+                        button.Click += UserControl1_Click;
+
+                        button.Content = "Пешка.";
                     }
 
                     else
@@ -65,18 +118,38 @@ namespace CheckerGame
 
                 else
                 {
-                    if (column % 2 != 0)
+                    if (row % 2 == 0)
                     {
-                        button.ButtonCell.CurrentFigure = new GameFigure(button.ButtonPosition, FigureType.Common, side);
-                        button.ButtonCell.Occupied = true;
-                        button.ButtonCell.DarkColour = true;
-                    }
+                        if (column % 2 == 0)
+                        {
+                            button.Click += UserControl1_Click;
 
+                            button.ButtonCell.Occupied = false;
+                            button.ButtonCell.DarkColour = true;
+                        }
+
+                        else
+                        {
+                            button.ButtonCell.CurrentFigure = null;
+                            button.ButtonCell.DarkColour = false;
+                        }
+                    }
 
                     else
                     {
-                        button.ButtonCell.CurrentFigure = null;
-                        button.ButtonCell.DarkColour = false;
+                        if (column % 2 != 0)
+                        {
+                            button.Click += UserControl1_Click;
+
+                            button.ButtonCell.Occupied = false;
+                            button.ButtonCell.DarkColour = true;
+                        }
+
+                        else
+                        {
+                            button.ButtonCell.CurrentFigure = null;
+                            button.ButtonCell.DarkColour = false;
+                        }
                     }
                 }
 
@@ -92,20 +165,69 @@ namespace CheckerGame
                     button.ButtonCell.MainEdge = false;
                 }
             }
+
+            TurnChange (whiteTurn);
         }
 
         private void UserControl1_Click(object sender, RoutedEventArgs e)
         {
             UserControl1 button = (UserControl1)sender;
 
-            if (clickCounter == 0)
+            if (clickCounter == 0 && button.ButtonCell.Occupied &&
+            button.ButtonCell.CurrentFigure.MainSide == whiteTurn)
             {
-                chosedCell = button.ButtonCell;
+                chosedCell = button;
+
+                foreach (UserControl1 cell in PointsPanel.Children)
+                {
+                    if ((!cell.ButtonCell.DarkColour ||
+                    cell.ButtonPosition.Column == chosedCell.ButtonPosition.Column ||
+                    Math.Abs(cell.ButtonPosition.Column - chosedCell.ButtonPosition.Column) > 1 ||
+                    Math.Abs(cell.ButtonPosition.Line - chosedCell.ButtonPosition.Line) > 1 ||
+                    cell.ButtonCell.Occupied) && cell != chosedCell)
+                    {
+                        cell.IsEnabled = false;
+                    }
+                }
+
+                clickCounter++;
+            }
+
+            else if (!button.ButtonCell.Occupied)
+            {
+                clickCounter = 0;
+
+                if (button == chosedCell)
+                {
+
+                }
             }
 
             else
             {
-                clickCounter = 0;
+                if (clickCounter == 1 && button == chosedCell)
+                {
+                    clickCounter = 0;
+
+                    foreach (UserControl1 selectedButton in PointsPanel.Children)
+                    {
+                        selectedButton.IsEnabled = true;
+                    }
+
+                    TurnChange (whiteTurn);
+                }
+            }
+        }
+
+        public void TurnChange (Bool turn)
+        {
+            foreach (UserControl1 button in PointsPanel.Children)
+            {
+                if (button.ButtonCell.CurrentFigure != null &&
+                button.ButtonCell.CurrentFigure.MainSide != turn)
+                {
+                    button.IsEnabled = false;
+                }
             }
         }
     }
@@ -315,7 +437,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="line">Строка, в которой находится ячейка.</param>
         /// <param name="column">Колонна, в которой находится ячейка.</param>
-        public Position (Int32 line, Int32 column)
+        public Position(Int32 line, Int32 column)
         {
             Line = line;
             Column = column;
@@ -399,7 +521,7 @@ namespace CheckerGame
         /// <param name="type">Переменная перечисления Enum, содержащая Тип Фигуры.</param>
         /// <param name="side">Логическая переменная, отвечающая за принадлежность к "Главной"
         /// (Нижней) стороне.</param>
-        public GameFigure (Position location, FigureType type, Bool side)
+        public GameFigure(Position location, FigureType type, Bool side)
         {
             Location = location;
             Type = type;

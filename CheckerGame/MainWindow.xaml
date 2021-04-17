@@ -5,7 +5,7 @@
         xmlns:mc = "http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local = "clr-namespace:CheckerGame"
         mc:Ignorable = "d"
-        Title = "Шашки" Height = "822.5" Width = "1032.25" ResizeMode = "CanMinimize">
+        Title = "Шашки" Height = "822.5" Width = "810.75" ResizeMode = "CanMinimize">
 
     <Grid HorizontalAlignment = "Left" Height = "793" VerticalAlignment = "Bottom" Width = "799"
     Name = "PointsPanel">
@@ -22,195 +22,195 @@
         </Grid.RowDefinitions>
 
         <local:UserControl1 x:Name = "_14" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top"
-        Width = "100" Margin = "300,1,0,-1" Height = "100" Grid.Row = "8" Background = "White" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "300,1,0,-1" Height = "100" Grid.Row = "8" Background = "White"/>
 
         <local:UserControl1 x:Name = "_13" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-        Width = "100" Margin = "200,1,0,-1" Height = "100" Grid.Row = "8" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "200,1,0,-1" Height = "100" Grid.Row = "8" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_11" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top"
-        Width = "100" Margin = "0,1,0,-1" Height = "100" Grid.Row = "8" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "0,1,0,-1" Height = "100" Grid.Row = "8" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_12" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-        Width = "100" Margin = "100,1,0,-1" Height = "100" Grid.Row = "8" Background = "White" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "100,1,0,-1" Height = "100" Grid.Row = "8" Background = "White"/>
 
         <local:UserControl1 x:Name = "_18" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top"
-        Width = "100" Margin = "700,1,-1,-1" Height = "100" Grid.Row = "8" Background = "White" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "700,1,-1,-1" Height = "100" Grid.Row = "8" Background = "White"/>
 
         <local:UserControl1 x:Name = "_17" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-        Width = "100" Margin = "600,1,0,-1" Height = "100" Grid.Row = "8" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "600,1,0,-1" Height = "100" Grid.Row = "8" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_15" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-        Width = "100" Margin = "400,1,0,-1" Height = "100" Grid.Row = "8" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "400,1,0,-1" Height = "100" Grid.Row = "8" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_16" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-        Width = "100" Margin = "500,1,0,-1" Height = "100" Grid.Row = "8" Background = "White" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "500,1,0,-1" Height = "100" Grid.Row = "8" Background = "White"/>
 
         <local:UserControl1 x:Name = "_24" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top"
-        Width = "100" Margin = "300,1,0,0" Height = "100" Grid.Row = "7" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "300,1,0,0" Height = "100" Grid.Row = "7" Grid.RowSpan = "2" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_23" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-        Width = "100" Margin = "200,1,0,0" Height = "100" Grid.Row = "7" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "200,1,0,0" Height = "100" Grid.Row = "7" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_21" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-        Width = "100" Margin = "0,1,0,0" Height = "100" Grid.Row = "7" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "0,1,0,0" Height = "100" Grid.Row = "7" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_22" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-        Width = "100" Margin = "100,1,0,0" Height = "100" Grid.Row = "7" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "100,1,0,0" Height = "100" Grid.Row = "7" Grid.RowSpan = "2" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_28" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-        Width = "100" Margin = "700,1,-1,0" Height = "100" Grid.Row = "7" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "700,1,-1,0" Height = "100" Grid.Row = "7" Grid.RowSpan = "2" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_27" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top"
-        Width = "100" Margin = "600,1,0,0" Height = "100" Grid.Row = "7" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "600,1,0,0" Height = "100" Grid.Row = "7" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_25" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-        Width = "100" Margin = "400,1,0,0" Height = "100" Grid.Row = "7" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "400,1,0,0" Height = "100" Grid.Row = "7" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_26" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top"
-        Width = "100" Margin = "500,1,0,0" Height = "100" Grid.Row = "7" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "500,27,0,0" Height = "110" Grid.Row = "6" Grid.RowSpan = "3" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_34" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-        Width = "100" Margin = "300,1,0,0" Height = "100" Grid.Row = "5" Grid.RowSpan = "3" Background = "White" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "300,1,0,0" Height = "100" Grid.Row = "5" Grid.RowSpan = "3" Background = "White"/>
 
         <local:UserControl1 x:Name = "_33" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-        Width = "100" Margin = "200,1,0,0" Height = "100" Grid.Row = "5" Grid.RowSpan = "3" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "200,1,0,0" Height = "100" Grid.Row = "5" Grid.RowSpan = "3" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_31" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-        Width = "100" Height = "100" Grid.Row = "5" Margin = "0,1,0,0" Grid.RowSpan = "3" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+        Width = "100" Height = "100" Grid.Row = "5" Margin = "0,1,0,0" Grid.RowSpan = "3" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_32" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-        Width = "100" Margin = "100,1,0,0" Height = "100" Grid.Row = "5" Grid.RowSpan = "3" Background = "White" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "100,1,0,0" Height = "100" Grid.Row = "5" Grid.RowSpan = "3" Background = "White"/>
 
         <local:UserControl1 x:Name = "_38" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top"
-        Width = "100" Margin = "700,1,-1,0" Height = "100" Grid.Row = "5" Grid.RowSpan = "3" Background = "White" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "700,1,-1,0" Height = "100" Grid.Row = "5" Grid.RowSpan = "3" Background = "White"/>
 
         <local:UserControl1 x:Name = "_37" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-        Width = "100" Margin = "600,1,0,0" Height = "100" Grid.Row = "5" Grid.RowSpan = "3" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "600,1,0,0" Height = "100" Grid.Row = "5" Grid.RowSpan = "3" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_35" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top"
-        Width = "100" Margin = "400,1,0,0" Height = "100" Grid.Row = "5" Grid.RowSpan = "3" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "400,1,0,0" Height = "100" Grid.Row = "5" Grid.RowSpan = "3" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_36" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Margin = "500,1,0,0" Height = "100" Grid.Row = "5" Grid.RowSpan = "3" Background = "White" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "500,0,0,0" Height = "101" Grid.Row = "5" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_44" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Margin = "300,1,0,0" Height = "100" Grid.Row = "4" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "300,1,0,0" Height = "100" Grid.Row = "4" Grid.RowSpan = "2" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_43" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top"
-         Width = "100" Margin = "200,1,0,0" Height = "100" Grid.Row = "4" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "200,1,0,0" Height = "100" Grid.Row = "4" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_41" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top"
-         Width = "100" Height = "100" Grid.Row = "4" Margin = "0,1,0,0" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+         Width = "100" Height = "100" Grid.Row = "4" Margin = "0,1,0,0" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_42" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Margin = "100,1,0,0" Height = "100" Grid.Row = "4" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "100,1,0,0" Height = "100" Grid.Row = "4" Grid.RowSpan = "2" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_48" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Margin = "700,1,-1,0" Height = "100" Grid.Row = "4" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "700,1,-1,0" Height = "100" Grid.Row = "4" Grid.RowSpan = "2" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_47" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Margin = "600,1,0,0" Height = "100" Grid.Row = "4" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "600,1,0,0" Height = "100" Grid.Row = "4" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_45" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Margin = "400,1,0,0" Height = "100" Grid.Row = "4" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "400,1,0,0" Height = "100" Grid.Row = "4" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_46" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top"
-         Width = "100" Margin = "500,1,0,0" Height = "100" Grid.Row = "4" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "500,1,0,0" Height = "100" Grid.Row = "4" Grid.RowSpan = "2" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_54" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Margin = "300,6,0,0" Height = "100" Grid.Row = "3" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "300,6,0,0" Height = "100" Grid.Row = "3" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_53" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Margin = "200,6,0,0" Height = "100" Grid.Row = "3" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "200,6,0,0" Height = "100" Grid.Row = "3" Grid.RowSpan = "2" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_51" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top"
-         Width = "100" Margin = "0,6,0,0" Height = "100" Grid.Row = "3" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "0,6,0,0" Height = "100" Grid.Row = "3" Grid.RowSpan = "2" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_52" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top"
-         Width = "100" Margin = "100,6,0,0" Height = "100" Grid.Row = "3" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "100,6,0,0" Height = "100" Grid.Row = "3" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_58" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Margin = "700,6,-1,0" Height = "100" Grid.Row = "3" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "700,6,-1,0" Height = "100" Grid.Row = "3" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_57" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top"
-         Width = "100" Margin = "600,6,0,0" Height = "100" Grid.Row = "3" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "600,6,0,0" Height = "100" Grid.Row = "3" Grid.RowSpan = "2" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_55" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Margin = "400,6,0,0" Height = "100" Grid.Row = "3" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "400,6,0,0" Height = "100" Grid.Row = "3" Grid.RowSpan = "2" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_56" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top"
-         Width = "100" Margin = "500,6,0,0" Height = "100" Grid.Row = "3" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "500,6,0,0" Height = "100" Grid.Row = "3" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_64" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Margin = "300,6,0,0" Height = "100" Grid.Row = "2" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "300,6,0,0" Height = "100" Grid.Row = "2" Grid.RowSpan = "2" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_63" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Margin = "200,6,0,0" Height = "100" Grid.Row = "2" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "200,6,0,0" Height = "100" Grid.Row = "2" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_61" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Margin = "0,6,0,0" Height = "100" Grid.Row = "2" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "0,6,0,0" Height = "100" Grid.Row = "2" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_62" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Margin = "100,6,0,0" Height = "100" Grid.Row = "2" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "100,6,0,0" Height = "100" Grid.Row = "2" Grid.RowSpan = "2" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_68" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Margin = "700,6,-1,0" Height = "100" Grid.Row = "2" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "700,6,-1,0" Height = "100" Grid.Row = "2" Grid.RowSpan = "2" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_67" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Margin = "600,6,0,0" Height = "100" Grid.Row = "2" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "600,6,0,0" Height = "100" Grid.Row = "2" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_65" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top"
-         Width = "100" Margin = "400,6,0,0" Height = "100" Grid.Row = "2" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "400,6,0,0" Height = "100" Grid.Row = "2" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_66" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Margin = "500,6,0,0" Height = "100" Grid.Row = "2" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "500,6,0,0" Height = "100" Grid.Row = "2" Grid.RowSpan = "2" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_74" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top"
-         Width = "100" Margin = "300,6,0,0" Height = "100" Grid.Row = "1" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "300,6,0,0" Height = "100" Grid.Row = "1" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_73" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Margin = "200,6,0,0" Height = "100" Grid.Row = "1" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "200,6,0,0" Height = "100" Grid.Row = "1" Grid.RowSpan = "2" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_71" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Height = "100" Grid.Row = "1" Margin = "0,6,0,0" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+         Width = "100" Height = "100" Grid.Row = "1" Margin = "0,6,0,0" Grid.RowSpan = "2" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_72" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Margin = "100,6,0,0" Height = "100" Grid.Row = "1" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "100,6,0,0" Height = "100" Grid.Row = "1" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_78" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Margin = "700,6,-1,0" Height = "100" Grid.Row = "1" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "700,6,-1,0" Height = "100" Grid.Row = "1" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_77" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top"
-         Width = "100" Margin = "600,6,0,0" Height = "100" Grid.Row = "1" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "600,6,0,0" Height = "100" Grid.Row = "1" Grid.RowSpan = "2" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_75" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Margin = "400,6,0,0" Height = "100" Grid.Row = "1" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "400,6,0,0" Height = "100" Grid.Row = "1" Grid.RowSpan = "2" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_76" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top"
-         Width = "100" Margin = "500,6,0,0" Height = "100" Grid.Row = "1" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "500,6,0,0" Height = "100" Grid.Row = "1" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_84" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top"
-         Width = "100" Margin = "300,0,0,0" Height = "100" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "300,0,0,0" Height = "100" Grid.RowSpan = "2" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_83" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Margin = "200,0,0,0" Height = "100" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "200,0,0,0" Height = "100" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_81" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top"
-         Width = "100" Height = "100" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+         Width = "100" Height = "100" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_82" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-         Width = "100" Margin = "100,0,0,0" Height = "100" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+         Width = "100" Margin = "100,0,0,0" Height = "100" Grid.RowSpan = "2" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_88" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top"
-        Width = "100" Margin = "700,0,-1,0" Height = "100" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "700,0,-1,0" Height = "100" Grid.RowSpan = "2" Background = "#FF7E452A"/>
 
         <local:UserControl1 x:Name = "_87" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-        Width = "100" Margin = "600,0,0,0" Height = "100" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "600,0,0,0" Height = "100" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_85" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-        Width = "100" Margin = "400,0,0,0" Height = "100" Grid.RowSpan = "2" Background = "White" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "400,0,0,0" Height = "100" Grid.RowSpan = "2" Background = "White"/>
 
         <local:UserControl1 x:Name = "_86" Content = "" HorizontalAlignment = "Left" VerticalAlignment = "Top" 
-        Width = "100" Margin = "500,0,0,0" Height = "100" Grid.RowSpan = "2" Background = "#FF7E452A" Click = "UserControl1_Click"/>
+        Width = "100" Margin = "500,0,0,0" Height = "100" Grid.RowSpan = "2" Background = "#FF7E452A"/>
     </Grid>
 </Window>
