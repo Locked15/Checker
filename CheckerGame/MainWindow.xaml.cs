@@ -24,14 +24,42 @@ namespace CheckerGame
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Логическое Поле, отвечающее за то, ходят ли сейчас Белая Сторона 
+        /// ("Нижние").
+        /// </summary>
         Bool whiteTurn;
+        /// <summary>
+        /// Поле с целочисленным значением, отвечающее за произведенное количество кликов.
+        /// </summary>
         Int32 clickCounter;
+        /// <summary>
+        /// Поле, содержащее выбранный при первом клике элемент 
+        /// ("Шашка").
+        /// </summary>
         UserControl1 chosedCell;
+        /// <summary>
+        /// Поле, содержащее все ячейки игрового поля.
+        /// </summary>
         Cell[,] battleField = new Cell[8, 8];
+        /// <summary>
+        /// Поле, содержащее все фигуры Главной Стороны
+        /// ("Белые", "Нижние").
+        /// </summary>
         List<GameFigure> firstSide = new List<GameFigure>(1);
+        /// <summary>
+        /// Поле, содержащее все фигуры Вторичной Стороны ("Темные", "Верхние").
+        /// </summary>
         List<GameFigure> secondSide = new List<GameFigure>(1);
+        /// <summary>
+        /// Поле, содержащее все "Средние" линие, находящиеся между 
+        /// "Линиями Фронта".
+        /// </summary>
         List<Int32> battleFieldMiddleCellsRows = new List<Int32>(1);
 
+        /// <summary>
+        /// Точка входа в Приложение с Интерфесом.
+        /// </summary>
         public MainWindow()
         {
             Int32 j = 0;
@@ -195,6 +223,11 @@ namespace CheckerGame
             TurnChange(whiteTurn);
         }
 
+        /// <summary>
+        /// Событие, возникающее при нажатии на какую-либо фигуру.
+        /// </summary>
+        /// <param name="sender">Объект, вызвавший событие.</param>
+        /// <param name="e">Прочие сведения...</param>
         private void UserControl1_Click(object sender, RoutedEventArgs e)
         {
             UserControl1 button = (UserControl1)sender;
@@ -257,7 +290,7 @@ namespace CheckerGame
 
                         catch
                         {
-
+                            continue;
                         }
                     }
 
@@ -284,7 +317,7 @@ namespace CheckerGame
 
                         catch
                         {
-
+                            continue;
                         }
                     }
 
@@ -311,7 +344,7 @@ namespace CheckerGame
 
                         catch
                         {
-
+                            continue;
                         }
                     }
 
@@ -338,7 +371,7 @@ namespace CheckerGame
 
                         catch
                         {
-
+                            continue;
                         }
                     }
                 }
@@ -348,6 +381,7 @@ namespace CheckerGame
 
             else if (!button.ButtonCell.Occupied && clickCounter > 0)
             {
+                whiteTurn = !whiteTurn;
                 clickCounter = 0;
                 Cell tmpCell = chosedCell.ButtonCell;
                 Object tmpContent = chosedCell.Content;
@@ -380,8 +414,6 @@ namespace CheckerGame
                     }
                 }
 
-                whiteTurn = !whiteTurn;
-
                 foreach (UserControl1 cell in PointsPanel.Children)
                 {
                     if (cell.ButtonCell.DarkColour)
@@ -390,7 +422,7 @@ namespace CheckerGame
                     }
                 }
 
-                TurnChange(whiteTurn);
+                TurnChange (whiteTurn);
             }
 
             else if (button.ButtonCell.Occupied)
@@ -404,11 +436,15 @@ namespace CheckerGame
                         selectedButton.IsEnabled = true;
                     }
 
-                    TurnChange(whiteTurn);
+                    TurnChange (whiteTurn);
                 }
             }
         }
 
+        /// <summary>
+        /// Метод для смены активных фигур ("Шашек").
+        /// </summary>
+        /// <param name="turn">Сторона, которая сейчас будет ходить.</param>
         public void TurnChange(Bool turn)
         {
             foreach (UserControl1 button in PointsPanel.Children)
@@ -432,25 +468,21 @@ namespace CheckerGame
         /// главной границей ("верхняя" граница поля).
         /// </summary>
         Bool mainEdge;
-
         /// <summary>
         /// Логическое поле, отвечающее за то, является ли выбранная клетка
         /// вторичной границей ("нижняя" граница поля).
         /// </summary>
         Bool secondEdge;
-
         /// <summary>
         /// Логическое поле, отвечающее за то, является ли выбранная клетка
         /// занятой (присутствует ли на ней фигура).
         /// </summary>
         Bool occupied;
-
         /// <summary>
         /// Логическое поле, отвечающее за то, является ли выбранная клетка
         /// "темной", то есть пригодной для прохождения.
         /// </summary>
         Bool darkColour;
-
         /// <summary>
         /// Поле, содержащее экземпляр класса "GameFigure", который характеризует
         /// фигуру, которая стоит в данной клетке. Если фигуры нет, принимает значение
@@ -474,7 +506,6 @@ namespace CheckerGame
                 mainEdge = value;
             }
         }
-
         ///<summary>
         /// Свойство, отвечающее за то, является ли выбранная клетка
         /// вторичной границей ("нижняя" граница поля).
@@ -491,7 +522,6 @@ namespace CheckerGame
                 secondEdge = value;
             }
         }
-
         /// <summary>
         /// Свойство, отвечающее за то, является ли выбранная клетка
         /// занятой (присутствует ли на ней фигура).
@@ -508,7 +538,6 @@ namespace CheckerGame
                 occupied = value;
             }
         }
-
         /// <summary>
         /// Свойство, отвечающее за то, является ли выбранная клетка
         /// "темной", то есть пригодной для прохождения.
@@ -525,7 +554,6 @@ namespace CheckerGame
                 darkColour = value;
             }
         }
-
         /// <summary>
         /// Свойство, содержащее экземпляр класса "GameFigure", который характеризует
         /// фигуру, которая стоит в данной клетке. Если фигуры нет, принимает значение
@@ -584,7 +612,6 @@ namespace CheckerGame
         /// Поле, содержащее Строку, в которой находится ячейка.
         /// </summary>
         Int32 line;
-
         /// <summary>
         /// Поле, содержащее Колонну, в которой находится ячейка.
         /// </summary>
@@ -605,7 +632,6 @@ namespace CheckerGame
                 line = value;
             }
         }
-
         /// <summary>
         /// Свойство, содержащее Колонну, в которой находится ячейка.
         /// </summary>
@@ -643,12 +669,10 @@ namespace CheckerGame
         /// Поле, содержащее экземпляр класса "Location", с местонахождением данной фигуры.
         /// </summary>
         Position location;
-
         /// <summary>
         /// Поле, содержащее экземпляр перечисления, определяющий Тип Фигуры (Пешка/Дамка).
         /// </summary>
         FigureType type;
-
         /// <summary>
         /// Поле, содержащее логическое значение, отвечающее за принадлежность фигуры к Главной ("Нижней")
         /// стороне.
@@ -670,7 +694,6 @@ namespace CheckerGame
                 location = value;
             }
         }
-
         /// <summary>
         /// Свойство, содержащее экземпляр перечисления, определяющий Тип Фигуры (Пешка/Дамка).
         /// </summary>
@@ -686,7 +709,6 @@ namespace CheckerGame
                 type = value;
             }
         }
-
         /// <summary>
         /// Свойство, содержащее логическое значение, отвечающее за принадлежность фигуры к Главной ("Нижней")
         /// стороне.
@@ -729,7 +751,6 @@ namespace CheckerGame
         /// Значение для Пешек.
         /// </summary>
         Common,
-
         /// <summary>
         /// Значение для Дамок.
         /// </summary>
