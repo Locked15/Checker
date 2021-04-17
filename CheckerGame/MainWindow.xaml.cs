@@ -34,6 +34,9 @@ namespace CheckerGame
 
         public MainWindow()
         {
+            Int32 j = 0;
+            Int32 line = 0;
+            String latestButton = "10";
             Int32 limit = battleField.GetLength(0) / 2;
 
             battleFieldMiddleCellsRows.Add(limit);
@@ -166,7 +169,30 @@ namespace CheckerGame
                 }
             }
 
-            TurnChange (whiteTurn);
+            for (int i = 0; i < 63; i++)
+            {
+                if (latestButton.EndsWith("8"))
+                {
+                    line++;
+                    j = 0;
+                    latestButton = Convert.ToString(Convert.ToInt32(latestButton) + 2);
+                }
+
+                foreach (UserControl1 control in PointsPanel.Children)
+                {
+                    if (Convert.ToInt32(control.Name.Substring(1)) == Convert.ToInt32(latestButton) + 1)
+                    {
+                        battleField[line, j] = control.ButtonCell;
+
+                        latestButton = control.Name.Substring(1);
+                        j++;
+
+                        break;
+                    }
+                }
+            }
+
+            TurnChange(whiteTurn);
         }
 
         private void UserControl1_Click(object sender, RoutedEventArgs e)
@@ -188,22 +214,186 @@ namespace CheckerGame
                     {
                         cell.IsEnabled = false;
                     }
+
+                    if (chosedCell.ButtonCell.CurrentFigure.MainSide)
+                    {
+                        if (cell.ButtonPosition.Line < chosedCell.ButtonPosition.Line)
+                        {
+                            cell.IsEnabled = false;
+                        }
+                    }
+
+                    else
+                    {
+                        if (cell.ButtonPosition.Line > chosedCell.ButtonPosition.Line)
+                        {
+                            cell.IsEnabled = false;
+                        }
+                    }
+                }
+
+                for (int i = 0; i < 4; i++)
+                {
+                    if (i == 0)
+                    {
+                        try
+                        {
+                            Position centerPosition = new Position(Int32.Parse(button.Name[1].ToString()) - 1,
+                            Int32.Parse(button.Name[2].ToString()) - 1);
+
+                            if (battleField[centerPosition.Line + 1, centerPosition.Column + 1].Occupied
+                            && battleField[centerPosition.Line + 1, centerPosition.Column + 1].CurrentFigure.MainSide != whiteTurn)
+                            {
+                                foreach (UserControl1 uc1 in PointsPanel.Children)
+                                {
+                                    if (uc1.ButtonCell == battleField[centerPosition.Line + 2, centerPosition.Column + 2]
+                                    && !battleField[centerPosition.Line + 2, centerPosition.Column + 2].Occupied)
+                                    {
+                                        uc1.IsEnabled = true;
+                                    }
+                                }
+                            }
+                        }
+
+                        catch
+                        {
+
+                        }
+                    }
+
+                    else if (i == 1)
+                    {
+                        try
+                        {
+                            Position centerPosition = new Position(Int32.Parse(button.Name[1].ToString()) - 1,
+                            Int32.Parse(button.Name[2].ToString()) - 1);
+
+                            if (battleField[centerPosition.Line + 1, centerPosition.Column - 1].Occupied
+                            && battleField[centerPosition.Line + 1, centerPosition.Column - 1].CurrentFigure.MainSide != whiteTurn)
+                            {
+                                foreach (UserControl1 uc1 in PointsPanel.Children)
+                                {
+                                    if (uc1.ButtonCell == battleField[centerPosition.Line + 2, centerPosition.Column - 2]
+                                    && !battleField[centerPosition.Line + 2, centerPosition.Column - 2].Occupied)
+                                    {
+                                        uc1.IsEnabled = true;
+                                    }
+                                }
+                            }
+                        }
+
+                        catch
+                        {
+
+                        }
+                    }
+
+                    else if (i == 2)
+                    {
+                        try
+                        {
+                            Position centerPosition = new Position(Int32.Parse(button.Name[1].ToString()) - 1,
+                            Int32.Parse(button.Name[2].ToString()) - 1);
+
+                            if (battleField[centerPosition.Line - 1, centerPosition.Column + 1].Occupied
+                            && battleField[centerPosition.Line - 1, centerPosition.Column + 1].CurrentFigure.MainSide != whiteTurn)
+                            {
+                                foreach (UserControl1 uc1 in PointsPanel.Children)
+                                {
+                                    if (uc1.ButtonCell == battleField[centerPosition.Line - 2, centerPosition.Column + 2]
+                                    && !battleField[centerPosition.Line - 2, centerPosition.Column + 2].Occupied)
+                                    {
+                                        uc1.IsEnabled = true;
+                                    }
+                                }
+                            }
+                        }
+
+                        catch
+                        {
+
+                        }
+                    }
+
+                    else if (i == 3)
+                    {
+                        try
+                        {
+                            Position centerPosition = new Position(Int32.Parse(button.Name[1].ToString()) - 1,
+                            Int32.Parse(button.Name[2].ToString()) - 1);
+
+                            if (battleField[centerPosition.Line - 1, centerPosition.Column - 1].Occupied
+                            && battleField[centerPosition.Line - 1, centerPosition.Column - 1].CurrentFigure.MainSide != whiteTurn)
+                            {
+                                foreach (UserControl1 uc1 in PointsPanel.Children)
+                                {
+                                    if (uc1.ButtonCell == battleField[centerPosition.Line - 2, centerPosition.Column - 2]
+                                    && !battleField[centerPosition.Line - 2, centerPosition.Column - 2].Occupied)
+                                    {
+                                        uc1.IsEnabled = true;
+                                    }
+                                }
+                            }
+                        }
+
+                        catch
+                        {
+
+                        }
+                    }
                 }
 
                 clickCounter++;
             }
 
-            else if (!button.ButtonCell.Occupied)
+            else if (!button.ButtonCell.Occupied && clickCounter > 0)
             {
                 clickCounter = 0;
+                Cell tmpCell = chosedCell.ButtonCell;
+                Object tmpContent = chosedCell.Content;
 
-                if (button == chosedCell)
+                foreach (UserControl1 swapLocation in PointsPanel.Children)
                 {
+                    if (swapLocation.Name == chosedCell.Name)
+                    {
+                        Position position = swapLocation.ButtonPosition;
 
+                        swapLocation.Content = button.Content;
+                        swapLocation.ButtonCell = button.ButtonCell;
+                        swapLocation.ButtonCell.Occupied = false;
+
+                        battleField[position.Line - 1, position.Column - 1] = button.ButtonCell;
+                    }
                 }
+
+                foreach (UserControl1 swapLocation in PointsPanel.Children)
+                {
+                    if (swapLocation.Name == button.Name)
+                    {
+                        Position position = swapLocation.ButtonPosition;
+
+                        swapLocation.Content = tmpContent;
+                        swapLocation.ButtonCell = tmpCell;
+                        swapLocation.ButtonCell.Occupied = true;
+
+                        battleField[position.Line - 1, position.Column - 1] = tmpCell;
+                    }
+                }
+
+                whiteTurn = !whiteTurn;
+
+                foreach (UserControl1 cell in PointsPanel.Children)
+                {
+                    if (cell.ButtonCell.DarkColour)
+                    {
+                        cell.IsEnabled = true;
+                    }
+                }
+
+                TurnChange(whiteTurn);
             }
 
-            else
+            else if (button.ButtonCell.Occupied)
             {
                 if (clickCounter == 1 && button == chosedCell)
                 {
@@ -214,12 +404,12 @@ namespace CheckerGame
                         selectedButton.IsEnabled = true;
                     }
 
-                    TurnChange (whiteTurn);
+                    TurnChange(whiteTurn);
                 }
             }
         }
 
-        public void TurnChange (Bool turn)
+        public void TurnChange(Bool turn)
         {
             foreach (UserControl1 button in PointsPanel.Children)
             {
@@ -276,7 +466,7 @@ namespace CheckerGame
         {
             get
             {
-                return MainEdge;
+                return mainEdge;
             }
 
             set
