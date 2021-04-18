@@ -46,16 +46,58 @@ namespace CheckerGame
         /// Поле, содержащее все фигуры Главной Стороны
         /// ("Белые", "Нижние").
         /// </summary>
-        List<GameFigure> firstSide = new List<GameFigure>(1);
+        static List<GameFigure> firstSide = new List<GameFigure>(1);
         /// <summary>
         /// Поле, содержащее все фигуры Вторичной Стороны ("Темные", "Верхние").
         /// </summary>
-        List<GameFigure> secondSide = new List<GameFigure>(1);
+        static List<GameFigure> secondSide = new List<GameFigure>(1);
         /// <summary>
         /// Поле, содержащее все "Средние" линие, находящиеся между 
         /// "Линиями Фронта".
         /// </summary>
         List<Int32> battleFieldMiddleCellsRows = new List<Int32>(1);
+        /// <summary>
+        /// Список, содержащий кнопки ("Шашки"), которые должен уничтожить игрок в своем ходу.
+        /// </summary>
+        List<UserControl1> enemyTerminateList = new List<UserControl1>(1);
+        /// <summary>
+        /// Список, содержащий поля, куда может прыгнуть игрок, уничтожив фигуру.
+        /// </summary>
+        List<UserControl1> jumpTroughEnemyPlaces = new List<UserControl1>(1);
+
+        /// <summary>
+        /// Свойство, содержащее все фигуры Главной Стороны
+        /// ("Белые", "Нижние").
+        /// </summary>
+        public static List<GameFigure> FirstSide
+        {
+            get
+            {
+                return firstSide;
+            }
+
+            set
+            {
+                firstSide = value;
+            }
+
+        }
+        /// <summary>
+        /// Свойство, содержащее все фигуры Вторичной Стороны
+        /// ("Темные", "Верхние").
+        /// </summary>
+        public static List<GameFigure> SecondSide
+        {
+            get
+            {
+                return secondSide;
+            }
+
+            set
+            {
+                secondSide = value;
+            }
+        }
 
         /// <summary>
         /// Точка входа в Приложение с Интерфесом.
@@ -91,23 +133,27 @@ namespace CheckerGame
                 {
                     if (column % 2 == 0)
                     {
-                        button.ButtonCell.CurrentFigure = new GameFigure(button.ButtonPosition, FigureType.Special, side);
+                        button.ButtonCell.CurrentFigure = new GameFigure(button.ButtonPosition, FigureType.Common, side);
                         button.ButtonCell.Occupied = true;
                         button.ButtonCell.DarkColour = true;
 
                         if (side)
                         {
                             firstSide.Add(button.ButtonCell.CurrentFigure);
+
+                            button.Content = "Белая ";
                         }
 
                         else
                         {
                             secondSide.Add(button.ButtonCell.CurrentFigure);
+
+                            button.Content = "Черная ";
                         }
 
                         button.Click += UserControl1_Click;
 
-                        button.Content = "Пешка.";
+                        button.Content += "Пешка.";
                     }
 
                     else
@@ -128,16 +174,20 @@ namespace CheckerGame
                         if (side)
                         {
                             firstSide.Add(button.ButtonCell.CurrentFigure);
+
+                            button.Content = "Белая ";
                         }
 
                         else
                         {
                             secondSide.Add(button.ButtonCell.CurrentFigure);
+
+                            button.Content = "Черная ";
                         }
 
                         button.Click += UserControl1_Click;
 
-                        button.Content = "Пешка.";
+                        button.Content += "Пешка.";
                     }
 
                     else
@@ -228,7 +278,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender">Объект, вызвавший событие.</param>
         /// <param name="e">Прочие сведения...</param>
-        private void UserControl1_Click(object sender, RoutedEventArgs e)
+        void UserControl1_Click(object sender, RoutedEventArgs e)
         {
             UserControl1 button = (UserControl1)sender;
 
@@ -265,113 +315,19 @@ namespace CheckerGame
                     }
                 }
 
-                for (int i = 0; i < 4; i++)
+                BattleFieldCheck(button, 1, 1);
+                BattleFieldCheck(button, 1, -1);
+                BattleFieldCheck(button, -1, 1);
+                BattleFieldCheck(button, -1, -1);
+
+                if (enemyTerminateList.Count > 0)
                 {
-                    if (i == 0)
+                    foreach (UserControl1 uc1 in PointsPanel.Children)
                     {
-                        try
+                        if (!enemyTerminateList.Contains(uc1) && uc1 != button &&
+                        !jumpTroughEnemyPlaces.Contains(uc1))
                         {
-                            Position centerPosition = new Position(Int32.Parse(button.Name[1].ToString()) - 1,
-                            Int32.Parse(button.Name[2].ToString()) - 1);
-
-                            if (battleField[centerPosition.Line + 1, centerPosition.Column + 1].Occupied
-                            && battleField[centerPosition.Line + 1, centerPosition.Column + 1].CurrentFigure.MainSide != whiteTurn)
-                            {
-                                foreach (UserControl1 uc1 in PointsPanel.Children)
-                                {
-                                    if (uc1.ButtonCell == battleField[centerPosition.Line + 2, centerPosition.Column + 2]
-                                    && !battleField[centerPosition.Line + 2, centerPosition.Column + 2].Occupied)
-                                    {
-                                        uc1.IsEnabled = true;
-                                    }
-                                }
-                            }
-                        }
-
-                        catch
-                        {
-                            continue;
-                        }
-                    }
-
-                    else if (i == 1)
-                    {
-                        try
-                        {
-                            Position centerPosition = new Position(Int32.Parse(button.Name[1].ToString()) - 1,
-                            Int32.Parse(button.Name[2].ToString()) - 1);
-
-                            if (battleField[centerPosition.Line + 1, centerPosition.Column - 1].Occupied
-                            && battleField[centerPosition.Line + 1, centerPosition.Column - 1].CurrentFigure.MainSide != whiteTurn)
-                            {
-                                foreach (UserControl1 uc1 in PointsPanel.Children)
-                                {
-                                    if (uc1.ButtonCell == battleField[centerPosition.Line + 2, centerPosition.Column - 2]
-                                    && !battleField[centerPosition.Line + 2, centerPosition.Column - 2].Occupied)
-                                    {
-                                        uc1.IsEnabled = true;
-                                    }
-                                }
-                            }
-                        }
-
-                        catch
-                        {
-                            continue;
-                        }
-                    }
-
-                    else if (i == 2)
-                    {
-                        try
-                        {
-                            Position centerPosition = new Position(Int32.Parse(button.Name[1].ToString()) - 1,
-                            Int32.Parse(button.Name[2].ToString()) - 1);
-
-                            if (battleField[centerPosition.Line - 1, centerPosition.Column + 1].Occupied
-                            && battleField[centerPosition.Line - 1, centerPosition.Column + 1].CurrentFigure.MainSide != whiteTurn)
-                            {
-                                foreach (UserControl1 uc1 in PointsPanel.Children)
-                                {
-                                    if (uc1.ButtonCell == battleField[centerPosition.Line - 2, centerPosition.Column + 2]
-                                    && !battleField[centerPosition.Line - 2, centerPosition.Column + 2].Occupied)
-                                    {
-                                        uc1.IsEnabled = true;
-                                    }
-                                }
-                            }
-                        }
-
-                        catch
-                        {
-                            continue;
-                        }
-                    }
-
-                    else if (i == 3)
-                    {
-                        try
-                        {
-                            Position centerPosition = new Position(Int32.Parse(button.Name[1].ToString()) - 1,
-                            Int32.Parse(button.Name[2].ToString()) - 1);
-
-                            if (battleField[centerPosition.Line - 1, centerPosition.Column - 1].Occupied
-                            && battleField[centerPosition.Line - 1, centerPosition.Column - 1].CurrentFigure.MainSide != whiteTurn)
-                            {
-                                foreach (UserControl1 uc1 in PointsPanel.Children)
-                                {
-                                    if (uc1.ButtonCell == battleField[centerPosition.Line - 2, centerPosition.Column - 2]
-                                    && !battleField[centerPosition.Line - 2, centerPosition.Column - 2].Occupied)
-                                    {
-                                        uc1.IsEnabled = true;
-                                    }
-                                }
-                            }
-                        }
-
-                        catch
-                        {
-                            continue;
+                            uc1.IsEnabled = false;
                         }
                     }
                 }
@@ -381,10 +337,120 @@ namespace CheckerGame
 
             else if (!button.ButtonCell.Occupied && clickCounter > 0)
             {
-                whiteTurn = !whiteTurn;
+                Int32 rowInd = 0;
+                Int32 colInd = 0;
                 clickCounter = 0;
                 Cell tmpCell = chosedCell.ButtonCell;
                 Object tmpContent = chosedCell.Content;
+
+                if (enemyTerminateList.Count == 0)
+                {
+                    whiteTurn = !whiteTurn;
+                }
+
+                else
+                {
+                    for (int i = 0; i < battleField.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < battleField.GetLength(1); j++)
+                        {
+                            if (button.ButtonCell == battleField[i, j])
+                            {
+                                rowInd = i;
+                                colInd = j;
+
+                                break;
+                            }
+                        }
+                    }
+
+                    foreach (UserControl1 uc1 in enemyTerminateList)
+                    {
+                        if (rowInd > 0)
+                        {
+                            if (colInd > 0)
+                            {
+                                if (uc1.ButtonCell == battleField[rowInd - 1, colInd - 1])
+                                {
+                                    GameFigureClear(uc1);
+
+                                    break;
+                                }
+
+                                else if (uc1.ButtonCell == battleField[rowInd - 1, colInd + 1])
+                                {
+                                    GameFigureClear(uc1);
+
+                                    break;
+                                }
+
+                                else if (uc1.ButtonCell == battleField[rowInd + 1, colInd - 1])
+                                {
+                                    GameFigureClear(uc1);
+
+                                    break;
+                                }
+
+                                else if (uc1.ButtonCell == battleField[rowInd + 1, colInd + 1])
+                                {
+                                    GameFigureClear(uc1);
+
+                                    break;
+                                }
+                            }
+
+                            else
+                            {
+                                if (uc1.ButtonCell == battleField[rowInd - 1, colInd + 1])
+                                {
+                                    GameFigureClear(uc1);
+
+                                    break;
+                                }
+
+                                else if (uc1.ButtonCell == battleField[rowInd + 1, colInd + 1])
+                                {
+                                    GameFigureClear(uc1);
+
+                                    break;
+                                }
+                            }
+                        }
+
+                        else
+                        {
+                            if (colInd > 0)
+                            {
+                                if (uc1.ButtonCell == battleField[rowInd + 1, colInd - 1])
+                                {
+                                    GameFigureClear(uc1);
+
+                                    break;
+                                }
+
+                                else if (uc1.ButtonCell == battleField[rowInd + 1, colInd + 1])
+                                {
+                                    GameFigureClear(uc1);
+
+                                    break;
+                                }
+                            }
+
+                            else
+                            {
+                                if (uc1.ButtonCell == battleField[rowInd + 1, colInd + 1])
+                                {
+                                    GameFigureClear(uc1);
+
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    enemyTerminateList.Clear();
+                    jumpTroughEnemyPlaces.Clear();
+                }
 
                 foreach (UserControl1 swapLocation in PointsPanel.Children)
                 {
@@ -422,7 +488,7 @@ namespace CheckerGame
                     }
                 }
 
-                TurnChange (whiteTurn);
+                TurnChange(whiteTurn);
             }
 
             else if (button.ButtonCell.Occupied)
@@ -436,9 +502,64 @@ namespace CheckerGame
                         selectedButton.IsEnabled = true;
                     }
 
-                    TurnChange (whiteTurn);
+                    TurnChange(whiteTurn);
                 }
             }
+        }
+
+        /// <summary>
+        /// Метод для проверки клеток на возможность "перескочить". Код, вынесенный в отдельный метод.
+        /// </summary>
+        /// <param name="button">Клетка, которая была выбрана.</param>
+        /// <param name="line">Линия. Первое число для прохода по массиву.</param>
+        /// <param name="column">Столбец. Второе число для прохода по массиву.</param>
+        void BattleFieldCheck(UserControl1 button, Int32 line, Int32 column)
+        {
+            try
+            {
+                Position centerPosition = new Position(Int32.Parse(button.Name[1].ToString()) - 1,
+                Int32.Parse(button.Name[2].ToString()) - 1);
+
+                if (battleField[centerPosition.Line + line, centerPosition.Column + column].Occupied
+                && battleField[centerPosition.Line + line, centerPosition.Column + column].CurrentFigure.MainSide != whiteTurn)
+                {
+                    UserControl1 terminate = (UserControl1)FindName($"_{Int32.Parse(button.Name[1].ToString()) + line}" +
+                    $"{Int32.Parse(button.Name[2].ToString()) + column}");
+
+                    line *= 2;
+                    column *= 2;
+
+                    foreach (UserControl1 uc1 in PointsPanel.Children)
+                    {
+                        if (uc1.ButtonCell == battleField[centerPosition.Line + line, centerPosition.Column + column]
+                        && !battleField[centerPosition.Line + line, centerPosition.Column + column].Occupied)
+                        {
+                            enemyTerminateList.Add(terminate);
+
+                            uc1.IsEnabled = true;
+                            jumpTroughEnemyPlaces.Add(uc1);
+                        }
+                    }
+                }
+            }
+
+            catch
+            {
+                return;
+            }
+        }
+
+        /// <summary>
+        /// Метод для комплексного выполнения последовательности методов. Сокращает код.
+        /// </summary>
+        /// <param name="uc1">Ячейка, которую необходимо очистить.</param>
+        void GameFigureClear(UserControl1 uc1)
+        {
+            GameFigure.FigureDestroyed(uc1.ButtonCell.CurrentFigure);
+
+            uc1.ButtonCell = Cell.Destroy(uc1.ButtonCell);
+
+            uc1.Content = "";
         }
 
         /// <summary>
@@ -601,6 +722,19 @@ namespace CheckerGame
             SecondEdge = secondEdge;
             DarkColour = darkColour;
         }
+
+        /// <summary>
+        /// Метод для "Обнуления" ячейки, когда фигура на ней уничтожена.
+        /// </summary>
+        /// <param name="toDestroy">Ячейка, которую необходимо очистить.</param>
+        /// <returns>Очищенная ячейка.</returns>
+        public static Cell Destroy(Cell toDestroy)
+        {
+            toDestroy.CurrentFigure = null;
+            toDestroy.Occupied = false;
+
+            return toDestroy;
+        }
     }
 
     /// <summary>
@@ -738,6 +872,33 @@ namespace CheckerGame
             Location = location;
             Type = type;
             MainSide = side;
+        }
+
+        /// <summary>
+        /// Метод для уничтожения какой-либо фигуры.
+        /// </summary>
+        /// <param name="destroyedFigure">Уничтожаемая фигура.</param>
+        public static void FigureDestroyed(GameFigure destroyedFigure)
+        {
+            if (destroyedFigure.MainSide)
+            {
+                MainWindow.FirstSide.Remove(destroyedFigure);
+
+                if (MainWindow.FirstSide.Count == 0)
+                {
+                    MessageBox.Show("ПЕРВЫЙ ПОБЕДИЛ!");
+                }
+            }
+
+            else
+            {
+                MainWindow.SecondSide.Remove(destroyedFigure);
+
+                if (MainWindow.SecondSide.Count == 0)
+                {
+                    MessageBox.Show("ВТОРОЙ ПОБЕДИЛ!");
+                }
+            }
         }
     }
 
