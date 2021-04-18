@@ -886,7 +886,7 @@ namespace CheckerGame
 
                 if (MainWindow.FirstSide.Count == 0)
                 {
-                    MessageBox.Show("ПЕРВЫЙ ПОБЕДИЛ!");
+                    MessageBox.Show("ВТОРОЙ ПОБЕДИЛ!");
                 }
             }
 
@@ -896,7 +896,7 @@ namespace CheckerGame
 
                 if (MainWindow.SecondSide.Count == 0)
                 {
-                    MessageBox.Show("ВТОРОЙ ПОБЕДИЛ!");
+                    MessageBox.Show("ПЕРВЫЙ ПОБЕДИЛ!");
                 }
             }
         }
