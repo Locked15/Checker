@@ -275,21 +275,25 @@ namespace CheckerGame
             button.ButtonCell.CurrentFigure.MainSide == whiteTurn)
             {
                 chosedCell = button;
+                List<Position> positionsToEnableIfCellIsKing = new List<Position>(1);
+
+                if (chosedCell.ButtonCell.CurrentFigure.Type == FigureType.Special)
+                {
+                    positionsToEnableIfCellIsKing.AddRange(KingFigureScanPositions(chosedCell.ButtonPosition, Direction.RightUp));
+                    positionsToEnableIfCellIsKing.AddRange(KingFigureScanPositions(chosedCell.ButtonPosition, Direction.LeftUp));
+                    positionsToEnableIfCellIsKing.AddRange(KingFigureScanPositions(chosedCell.ButtonPosition, Direction.LeftDown));
+                    positionsToEnableIfCellIsKing.AddRange(KingFigureScanPositions(chosedCell.ButtonPosition, Direction.RightDown));
+                }
 
                 foreach (UserControl1 cell in PointsPanel.Children)
                 {
-                    if ((!cell.ButtonCell.DarkColour ||
-                    cell.ButtonPosition.Column == chosedCell.ButtonPosition.Column ||
-                    Math.Abs(cell.ButtonPosition.Column - chosedCell.ButtonPosition.Column) > 1 ||
-                    Math.Abs(cell.ButtonPosition.Line - chosedCell.ButtonPosition.Line) > 1 ||
-                    cell.ButtonCell.Occupied) && cell != chosedCell)
+                    if (chosedCell.ButtonCell.CurrentFigure.Type == FigureType.Common)
                     {
-                        cell.IsEnabled = false;
-                    }
-
-                    if (chosedCell.ButtonCell.CurrentFigure.MainSide)
-                    {
-                        if (cell.ButtonPosition.Line < chosedCell.ButtonPosition.Line)
+                        if ((!cell.ButtonCell.DarkColour ||
+                        cell.ButtonPosition.Column == chosedCell.ButtonPosition.Column ||
+                        Math.Abs(cell.ButtonPosition.Column - chosedCell.ButtonPosition.Column) > 1 ||
+                        Math.Abs(cell.ButtonPosition.Line - chosedCell.ButtonPosition.Line) > 1 ||
+                        cell.ButtonCell.Occupied) && cell != chosedCell)
                         {
                             cell.IsEnabled = false;
                         }
@@ -297,9 +301,37 @@ namespace CheckerGame
 
                     else
                     {
-                        if (cell.ButtonPosition.Line > chosedCell.ButtonPosition.Line)
+                        if ((!cell.ButtonCell.DarkColour ||
+                        cell.ButtonPosition.Column == chosedCell.ButtonPosition.Column ||
+                        Math.Abs(cell.ButtonPosition.Column - chosedCell.ButtonPosition.Column) > 1 ||
+                        Math.Abs(cell.ButtonPosition.Line - chosedCell.ButtonPosition.Line) > 1 ||
+                        cell.ButtonCell.Occupied) && cell != chosedCell)
                         {
                             cell.IsEnabled = false;
+                        }
+
+                        if (!cell.ButtonCell.Occupied && Position.Contains(positionsToEnableIfCellIsKing, cell.ButtonPosition))
+                        {
+                            cell.IsEnabled = true;
+                        }
+                    }
+
+                    if (chosedCell.ButtonCell.CurrentFigure.Type == FigureType.Common)
+                    {
+                        if (chosedCell.ButtonCell.CurrentFigure.MainSide)
+                        {
+                            if (cell.ButtonPosition.Line < chosedCell.ButtonPosition.Line)
+                            {
+                                cell.IsEnabled = false;
+                            }
+                        }
+
+                        else
+                        {
+                            if (cell.ButtonPosition.Line > chosedCell.ButtonPosition.Line)
+                            {
+                                cell.IsEnabled = false;
+                            }
                         }
                     }
                 }
@@ -421,7 +453,7 @@ namespace CheckerGame
                         Position position = swapLocation.ButtonPosition;
 
                         if (swapLocation.ButtonCell.CurrentFigure.MainSide)
-                        { 
+                        {
                             if (button.ButtonPosition.Line == 8)
                             {
                                 swapLocation.ButtonCell.CurrentFigure.Type = FigureType.Special;
@@ -548,6 +580,65 @@ namespace CheckerGame
             uc1.ButtonCell = Cell.Destroy(uc1.ButtonCell);
 
             uc1.Content = "";
+        }
+
+        /// <summary>
+        /// Метод для сканирования ячеек, в которые может переместиться Дамка.
+        /// </summary>
+        /// <param name="startPosition">Стартовая позиция, с которой надо начать сканирование.</param>
+        /// <param name="dir">Направление, по которому необходимо провести сканирование.</param>
+        /// <returns>Список с доступными позициями.</returns>
+        List<Position> KingFigureScanPositions(Position startPosition, Direction dir)
+        {
+            Int32 startLine = startPosition.Line;
+            Int32 startColumn = startPosition.Column;
+            List<Position> enablePositions = new List<Position>(1);
+
+            if (dir == Direction.RightUp)
+            {
+                while (startColumn <= battleField.GetLength(1) && startLine > 0)
+                {
+                    enablePositions.Add(new Position(startLine, startColumn));
+
+                    startLine--;
+                    startColumn++;
+                }
+            }
+
+            else if (dir == Direction.LeftUp)
+            {
+                while (startColumn > 0 && startLine > 0)
+                {
+                    enablePositions.Add(new Position(startLine, startColumn));
+
+                    startLine--;
+                    startColumn--;
+                }
+            }
+
+            else if (dir == Direction.LeftDown)
+            {
+                while (startLine <= battleField.GetLength(0) && startColumn > 0)
+                {
+                    enablePositions.Add(new Position(startLine, startColumn));
+
+                    startLine++;
+                    startColumn--;
+                }
+            }
+
+            else
+            {
+                while (startColumn <= battleField.GetLength(1) && startLine <= battleField.GetLength(0))
+                {
+                    enablePositions.Add(new Position(startLine, startColumn));
+
+                    startLine++;
+                    startColumn++;
+                }
+            }
+
+            return enablePositions;
         }
 
         /// <summary>
@@ -780,6 +871,25 @@ namespace CheckerGame
             Line = line;
             Column = column;
         }
+
+        /// <summary>
+        /// Метод для определения содержания какого-либо элемента в списке.
+        /// </summary>
+        /// <param name="pos">Список, который необходимо проверить.</param>
+        /// <param name="toFind">Элемент, который необходимо найти.</param>
+        /// <returns>Логическая переменная, отвечающая за то, содержится ли элемент в списке или нет.</returns>
+        public static Bool Contains(List<Position> pos, Position toFind)
+        {
+            for (int i = 0; i < pos.Count; i++)
+            {
+                if (pos[i].Column == toFind.Column && pos[i].Line == toFind.Line)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 
     /// <summary>
@@ -904,5 +1014,32 @@ namespace CheckerGame
         /// Значение для Дамок.
         /// </summary>
         Special
+    }
+
+    /// <summary>
+    /// Перечисление типа "Enum" для определения движения сканирования позиций 
+    /// для перемещения Дамки.
+    /// </summary>
+    public enum Direction
+    {
+        /// <summary>
+        /// Сканирование будет произведено вправо вверх.
+        /// </summary>
+        RightUp,
+
+        /// <summary>
+        /// Сканирование будет произведено влево вверх.
+        /// </summary>
+        LeftUp,
+
+        /// <summary>
+        /// Сканирование будет произведено влево вниз.
+        /// </summary>
+        LeftDown,
+
+        /// <summary>
+        /// Сканирование будет произведено вправо вниз.
+        /// </summary>
+        RightDown
     }
 }
