@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Navigation;
 using System.Collections.Generic;
-using System.Windows.Media.Imaging;
 using Bool = System.Boolean;
 
 /// <summary>
@@ -366,86 +355,57 @@ namespace CheckerGame
 
                     foreach (UserControl1 uc1 in enemyTerminateList)
                     {
-                        if (rowInd > 0)
+                        try
                         {
-                            if (colInd > 0)
+                            if (uc1.ButtonCell == battleField[rowInd - 1, colInd - 1])
                             {
-                                if (uc1.ButtonCell == battleField[rowInd - 1, colInd - 1])
-                                {
-                                    GameFigureClear(uc1);
+                                GameFigureClear(uc1);
 
-                                    break;
-                                }
-
-                                else if (uc1.ButtonCell == battleField[rowInd - 1, colInd + 1])
-                                {
-                                    GameFigureClear(uc1);
-
-                                    break;
-                                }
-
-                                else if (uc1.ButtonCell == battleField[rowInd + 1, colInd - 1])
-                                {
-                                    GameFigureClear(uc1);
-
-                                    break;
-                                }
-
-                                else if (uc1.ButtonCell == battleField[rowInd + 1, colInd + 1])
-                                {
-                                    GameFigureClear(uc1);
-
-                                    break;
-                                }
-                            }
-
-                            else
-                            {
-                                if (uc1.ButtonCell == battleField[rowInd - 1, colInd + 1])
-                                {
-                                    GameFigureClear(uc1);
-
-                                    break;
-                                }
-
-                                else if (uc1.ButtonCell == battleField[rowInd + 1, colInd + 1])
-                                {
-                                    GameFigureClear(uc1);
-
-                                    break;
-                                }
+                                break;
                             }
                         }
 
-                        else
+                        catch
+                        { }
+
+                        try
                         {
-                            if (colInd > 0)
+                            if (uc1.ButtonCell == battleField[rowInd - 1, colInd + 1])
                             {
-                                if (uc1.ButtonCell == battleField[rowInd + 1, colInd - 1])
-                                {
-                                    GameFigureClear(uc1);
+                                GameFigureClear(uc1);
 
-                                    break;
-                                }
-
-                                else if (uc1.ButtonCell == battleField[rowInd + 1, colInd + 1])
-                                {
-                                    GameFigureClear(uc1);
-
-                                    break;
-                                }
-                            }
-
-                            else
-                            {
-                                if (uc1.ButtonCell == battleField[rowInd + 1, colInd + 1])
-                                {
-                                    GameFigureClear(uc1);
-
-                                    break;
-                                }
+                                break;
                             }
                         }
+
+                        catch
+                        { }
+
+                        try
+                        {
+                            if (uc1.ButtonCell == battleField[rowInd + 1, colInd - 1])
+                            {
+                                GameFigureClear(uc1);
+
+                                break;
+                            }
+                        }
+
+                        catch
+                        { }
+
+                        try
+                        {
+                            if (uc1.ButtonCell == battleField[rowInd + 1, colInd + 1])
+                            {
+                                GameFigureClear(uc1);
+
+                                break;
+                            }
+                        }
+
+                        catch
+                        { }
                     }
 
                     enemyTerminateList.Clear();
@@ -454,9 +414,35 @@ namespace CheckerGame
 
                 foreach (UserControl1 swapLocation in PointsPanel.Children)
                 {
+                    //Зачистка старой ячейки.
+
                     if (swapLocation.Name == chosedCell.Name)
                     {
                         Position position = swapLocation.ButtonPosition;
+
+                        if (swapLocation.ButtonCell.CurrentFigure.MainSide)
+                        { 
+                            if (button.ButtonPosition.Line == 8)
+                            {
+                                swapLocation.ButtonCell.CurrentFigure.Type = FigureType.Special;
+
+                                swapLocation.Content = "Белая Дамка.";
+
+                                tmpContent = "Белая Дамка.";
+                            }
+                        }
+
+                        else
+                        {
+                            if (button.ButtonPosition.Line == 1)
+                            {
+                                swapLocation.ButtonCell.CurrentFigure.Type = FigureType.Special;
+
+                                swapLocation.Content = "Черная Дамка.";
+
+                                tmpContent = "Черная Дамка.";
+                            }
+                        }
 
                         swapLocation.Content = button.Content;
                         swapLocation.ButtonCell = button.ButtonCell;
@@ -468,6 +454,8 @@ namespace CheckerGame
 
                 foreach (UserControl1 swapLocation in PointsPanel.Children)
                 {
+                    //Перемещение в новую ячейку.
+
                     if (swapLocation.Name == button.Name)
                     {
                         Position position = swapLocation.ButtonPosition;
