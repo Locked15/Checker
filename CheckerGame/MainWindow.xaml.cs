@@ -514,209 +514,228 @@ namespace CheckerGame
 
             else if (!button.ButtonCell.Occupied && clickCounter > 0)
             {
-                /*Поле battleMode нужно для переопределения логики, согласно которой производится ...
-                ... отбор ячеек, на которые может прыгнуть фигура, ставшая Дамкой.*/
-
-                Int32 rowInd = 0;
-                Int32 colInd = 0;
-                clickCounter = 0;
-                Cell tmpCell = chosedCell.ButtonCell;
-                Object tmpContent = chosedCell.Content;
-
-                if (enemyTerminateList.Count == 0 && !battleMode)
+                try
                 {
-                    whiteTurn = !whiteTurn;
-                }
+                    /*Поле battleMode нужно для переопределения логики, согласно которой производится ...
+                    ... отбор ячеек, на которые может прыгнуть фигура, ставшая Дамкой.*/
 
-                else
-                {
-                    if (chosedCell.ButtonCell.CurrentFigure.Type == FigureType.Common)
+                    Int32 rowInd = 0;
+                    Int32 colInd = 0;
+                    clickCounter = 0;
+                    Cell tmpCell = chosedCell.ButtonCell;
+                    Object tmpContent = chosedCell.Content;
+
+                    if (enemyTerminateList.Count == 0 && !battleMode)
                     {
-                        for (int i = 0; i < battleField.GetLength(0); i++)
-                        {
-                            for (int j = 0; j < battleField.GetLength(1); j++)
-                            {
-                                if (button.ButtonCell == battleField[i, j])
-                                {
-                                    rowInd = i;
-                                    colInd = j;
-
-                                    break;
-                                }
-                            }
-                        }
-
-                        foreach (UserControl1 uc1 in enemyTerminateList)
-                        {
-                            try
-                            {
-                                if (uc1.ButtonCell == battleField[rowInd - 1, colInd - 1])
-                                {
-                                    GameFigureClear(uc1);
-
-                                    break;
-                                }
-                            }
-
-                            catch
-                            { }
-
-                            try
-                            {
-                                if (uc1.ButtonCell == battleField[rowInd - 1, colInd + 1])
-                                {
-                                    GameFigureClear(uc1);
-
-                                    break;
-                                }
-                            }
-
-                            catch
-                            { }
-
-                            try
-                            {
-                                if (uc1.ButtonCell == battleField[rowInd + 1, colInd - 1])
-                                {
-                                    GameFigureClear(uc1);
-
-                                    break;
-                                }
-                            }
-
-                            catch
-                            { }
-
-                            try
-                            {
-                                if (uc1.ButtonCell == battleField[rowInd + 1, colInd + 1])
-                                {
-                                    GameFigureClear(uc1);
-
-                                    break;
-                                }
-                            }
-
-                            catch
-                            { }
-                        }
-
-                        enemyTerminateList.Clear();
-                        jumpTroughEnemyPlaces.Clear();
+                        whiteTurn = !whiteTurn;
                     }
 
                     else
                     {
-                        Direction attackDirection = DirectionDefinition(chosedCell.ButtonPosition, button.ButtonPosition);
-
-                        if (attackDirection == Direction.RightUp)
+                        if (chosedCell.ButtonCell.CurrentFigure.Type == FigureType.Common)
                         {
-                            for (int i = 0; i < figuresToDestroyForTheKingUR.Count - 1; i++)
+                            for (int i = 0; i < battleField.GetLength(0); i++)
                             {
-                                UserControl1 cellToInvoke = (UserControl1)FindName(figuresToDestroyForTheKingUR[i].Name);
+                                for (int j = 0; j < battleField.GetLength(1); j++)
+                                {
+                                    if (button.ButtonCell == battleField[i, j])
+                                    {
+                                        rowInd = i;
+                                        colInd = j;
 
-                                GameFigureClear(cellToInvoke);
+                                        break;
+                                    }
+                                }
                             }
-                        }
 
-                        else if (attackDirection == Direction.LeftUp)
-                        {
-                            for (int i = 0; i < figuresToDestroyForTheKingUL.Count - 1; i++)
+                            foreach (UserControl1 uc1 in enemyTerminateList)
                             {
-                                UserControl1 cellToInvoke = (UserControl1)FindName(figuresToDestroyForTheKingUL[i].Name);
+                                try
+                                {
+                                    if (uc1.ButtonCell == battleField[rowInd - 1, colInd - 1])
+                                    {
+                                        GameFigureClear(uc1);
 
-                                GameFigureClear(cellToInvoke);
+                                        break;
+                                    }
+                                }
+
+                                catch
+                                { }
+
+                                try
+                                {
+                                    if (uc1.ButtonCell == battleField[rowInd - 1, colInd + 1])
+                                    {
+                                        GameFigureClear(uc1);
+
+                                        break;
+                                    }
+                                }
+
+                                catch
+                                { }
+
+                                try
+                                {
+                                    if (uc1.ButtonCell == battleField[rowInd + 1, colInd - 1])
+                                    {
+                                        GameFigureClear(uc1);
+
+                                        break;
+                                    }
+                                }
+
+                                catch
+                                { }
+
+                                try
+                                {
+                                    if (uc1.ButtonCell == battleField[rowInd + 1, colInd + 1])
+                                    {
+                                        GameFigureClear(uc1);
+
+                                        break;
+                                    }
+                                }
+
+                                catch
+                                { }
                             }
-                        }
 
-                        else if (attackDirection == Direction.LeftDown)
-                        {
-                            for (int i = 0; i < figuresToDestroyForTheKingDL.Count - 1; i++)
-                            {
-                                UserControl1 cellToInvoke = (UserControl1)FindName(figuresToDestroyForTheKingDL[i].Name);
-
-                                GameFigureClear(cellToInvoke);
-                            }
-                        }
-
-                        else //Right Down
-                        {
-                            for (int i = 0; i < figuresToDestroyForTheKingDR.Count - 1; i++)
-                            {
-                                UserControl1 cellToInvoke = (UserControl1)FindName(figuresToDestroyForTheKingDR[i].Name);
-
-                                GameFigureClear(cellToInvoke);
-                            }
-                        }
-                    }
-                }
-
-                foreach (UserControl1 swapLocation in PointsPanel.Children)
-                {
-                    //Зачистка старой ячейки.
-
-                    if (swapLocation.Name == chosedCell.Name)
-                    {
-                        Position position = swapLocation.ButtonPosition;
-
-                        if (swapLocation.ButtonCell.CurrentFigure.MainSide)
-                        {
-                            if (button.ButtonPosition.Line == 8)
-                            {
-                                swapLocation.ButtonCell.CurrentFigure.Type = FigureType.Special;
-
-                                swapLocation.Content = "Белая Дамка.";
-
-                                tmpContent = "Белая Дамка.";
-                            }
+                            enemyTerminateList.Clear();
+                            jumpTroughEnemyPlaces.Clear();
                         }
 
                         else
                         {
-                            if (button.ButtonPosition.Line == 1)
+                            Direction attackDirection = DirectionDefinition(chosedCell.ButtonPosition, button.ButtonPosition);
+
+                            if (attackDirection == Direction.RightUp)
                             {
-                                swapLocation.ButtonCell.CurrentFigure.Type = FigureType.Special;
+                                for (int i = 0; i < figuresToDestroyForTheKingUR.Count - 1; i++)
+                                {
+                                    UserControl1 cellToInvoke = (UserControl1)FindName(figuresToDestroyForTheKingUR[i].Name);
 
-                                swapLocation.Content = "Черная Дамка.";
+                                    GameFigureClear(cellToInvoke);
+                                }
+                            }
 
-                                tmpContent = "Черная Дамка.";
+                            else if (attackDirection == Direction.LeftUp)
+                            {
+                                for (int i = 0; i < figuresToDestroyForTheKingUL.Count - 1; i++)
+                                {
+                                    UserControl1 cellToInvoke = (UserControl1)FindName(figuresToDestroyForTheKingUL[i].Name);
+
+                                    GameFigureClear(cellToInvoke);
+                                }
+                            }
+
+                            else if (attackDirection == Direction.LeftDown)
+                            {
+                                for (int i = 0; i < figuresToDestroyForTheKingDL.Count - 1; i++)
+                                {
+                                    UserControl1 cellToInvoke = (UserControl1)FindName(figuresToDestroyForTheKingDL[i].Name);
+
+                                    GameFigureClear(cellToInvoke);
+                                }
+                            }
+
+                            else //Right Down
+                            {
+                                for (int i = 0; i < figuresToDestroyForTheKingDR.Count - 1; i++)
+                                {
+                                    UserControl1 cellToInvoke = (UserControl1)FindName(figuresToDestroyForTheKingDR[i].Name);
+
+                                    GameFigureClear(cellToInvoke);
+                                }
                             }
                         }
-
-                        swapLocation.Content = button.Content;
-                        swapLocation.ButtonCell = button.ButtonCell;
-                        swapLocation.ButtonCell.Occupied = false;
-
-                        battleField[position.Line - 1, position.Column - 1] = button.ButtonCell;
                     }
-                }
 
-                foreach (UserControl1 swapLocation in PointsPanel.Children)
-                {
-                    //Перемещение в новую ячейку.
-
-                    if (swapLocation.Name == button.Name)
+                    foreach (UserControl1 swapLocation in PointsPanel.Children)
                     {
-                        Position position = swapLocation.ButtonPosition;
+                        //Зачистка старой ячейки.
 
-                        swapLocation.Content = tmpContent;
-                        swapLocation.ButtonCell = tmpCell;
-                        swapLocation.ButtonCell.Occupied = true;
+                        if (swapLocation.Name == chosedCell.Name)
+                        {
+                            Position position = swapLocation.ButtonPosition;
 
-                        battleField[position.Line - 1, position.Column - 1] = tmpCell;
+                            if (swapLocation.ButtonCell.CurrentFigure.MainSide)
+                            {
+                                if (button.ButtonPosition.Line == 8)
+                                {
+                                    swapLocation.ButtonCell.CurrentFigure.Type = FigureType.Special;
+
+                                    swapLocation.Content = "Белая Дамка.";
+
+                                    tmpContent = "Белая Дамка.";
+                                }
+                            }
+
+                            else
+                            {
+                                if (button.ButtonPosition.Line == 1)
+                                {
+                                    swapLocation.ButtonCell.CurrentFigure.Type = FigureType.Special;
+
+                                    swapLocation.Content = "Черная Дамка.";
+
+                                    tmpContent = "Черная Дамка.";
+                                }
+                            }
+
+                            swapLocation.Content = button.Content;
+                            swapLocation.ButtonCell = button.ButtonCell;
+                            swapLocation.ButtonCell.Occupied = false;
+
+                            battleField[position.Line - 1, position.Column - 1] = button.ButtonCell;
+                        }
                     }
-                }
 
-                foreach (UserControl1 cell in PointsPanel.Children)
-                {
-                    if (cell.ButtonCell.DarkColour)
+                    foreach (UserControl1 swapLocation in PointsPanel.Children)
                     {
-                        cell.IsEnabled = true;
+                        //Перемещение в новую ячейку.
+
+                        if (swapLocation.Name == button.Name)
+                        {
+                            Position position = swapLocation.ButtonPosition;
+
+                            swapLocation.Content = tmpContent;
+                            swapLocation.ButtonCell = tmpCell;
+                            swapLocation.ButtonCell.Occupied = true;
+
+                            battleField[position.Line - 1, position.Column - 1] = tmpCell;
+                        }
                     }
+
+                    foreach (UserControl1 cell in PointsPanel.Children)
+                    {
+                        if (cell.ButtonCell.DarkColour)
+                        {
+                            cell.IsEnabled = true;
+                        }
+                    }
+
+                    positionsToEnableIfCellIsKing.Clear();
+                    TurnChange(whiteTurn);
                 }
 
-                positionsToEnableIfCellIsKing.Clear();
-                TurnChange(whiteTurn);
+                catch (NullReferenceException)
+                {
+                    MessageBox.Show($"Обнаружен баг.\nОдна из ссылок дала Null.\nРабота будет завершена.",
+                    "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    Close();
+                }
+
+                catch (ArgumentNullException)
+                {
+                    MessageBox.Show($"Обнаружен баг.\nПри вызове какого-то метода в качестве аргумента был передан Null." +
+                    $"\nРабота будет завершена.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    Close();
+                }
             }
 
             else if (button.ButtonCell.Occupied)
