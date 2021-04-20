@@ -1,5 +1,4 @@
 # Checker
-Test.
-This Is A Test Repository.
+New Branch!
 
-With Unfinished Project.
+Trying To Add "Kings" Movement Feature.
