@@ -14,45 +14,88 @@ namespace CheckerGame
     public partial class MainWindow : Window
     {
         /// <summary>
+        /// Логическое Поле, отвечающее за то, в "боевом" ли режиме сейчас Дамка или нет. 
+        /// (Подробнее в UserControl1_Click -> 2 Блок if...else if...else).
+        /// </summary>
+        Bool battleMode;
+
+        /// <summary>
         /// Логическое Поле, отвечающее за то, ходят ли сейчас Белая Сторона 
         /// ("Нижние").
         /// </summary>
         Bool whiteTurn;
+
         /// <summary>
         /// Поле с целочисленным значением, отвечающее за произведенное количество кликов.
         /// </summary>
         Int32 clickCounter;
+
         /// <summary>
         /// Поле, содержащее выбранный при первом клике элемент 
         /// ("Шашка").
         /// </summary>
         UserControl1 chosedCell;
+
         /// <summary>
         /// Поле, содержащее все ячейки игрового поля.
         /// </summary>
         Cell[,] battleField = new Cell[8, 8];
+
         /// <summary>
         /// Поле, содержащее все фигуры Главной Стороны
         /// ("Белые", "Нижние").
         /// </summary>
         static List<GameFigure> firstSide = new List<GameFigure>(1);
+
         /// <summary>
         /// Поле, содержащее все фигуры Вторичной Стороны ("Темные", "Верхние").
         /// </summary>
         static List<GameFigure> secondSide = new List<GameFigure>(1);
+
         /// <summary>
         /// Поле, содержащее все "Средние" линие, находящиеся между 
         /// "Линиями Фронта".
         /// </summary>
         List<Int32> battleFieldMiddleCellsRows = new List<Int32>(1);
+
         /// <summary>
         /// Список, содержащий кнопки ("Шашки"), которые должен уничтожить игрок в своем ходу.
         /// </summary>
         List<UserControl1> enemyTerminateList = new List<UserControl1>(1);
+
         /// <summary>
         /// Список, содержащий поля, куда может прыгнуть игрок, уничтожив фигуру.
         /// </summary>
         List<UserControl1> jumpTroughEnemyPlaces = new List<UserControl1>(1);
+
+        /// <summary>
+        /// Список, содержащий поля, куда в принципе может переместиться Дамка.
+        /// </summary>
+        List<Position> positionsToEnableIfCellIsKing = new List<Position>(1);
+
+        /// <summary>
+        /// Список, содержащий клетки, которые может уничтожить Дамка. Содержит значения для направления: Влево-Вниз. 
+        /// Последний элемент, если список не пуст, содержит ячейку, куда Дамка может (и должна) переместиться.
+        /// </summary>
+        List<UserControl1> figuresToDestroyForTheKingDL = new List<UserControl1>(1);
+
+        /// <summary>
+        /// Список, содержащий клетки, которые может уничтожить Дамка. Содержит значения для направления: Вправо-Вниз. 
+        /// Последний элемент, если список не пуст, содержит ячейку, куда Дамка может (и должна) переместиться.
+        /// </summary>
+        List<UserControl1> figuresToDestroyForTheKingDR = new List<UserControl1>(1);
+
+        /// <summary>
+        /// Список, содержащий клетки, которые может уничтожить Дамка. Содержит значения для направления: Вверх-Влево. 
+        /// Последний элемент, если список не пуст, содержит ячейку, куда Дамка может (и должна) переместиться.
+        /// </summary>
+        List<UserControl1> figuresToDestroyForTheKingUL = new List<UserControl1>(1);
+
+        /// <summary>
+        /// Список, содержащий клетки, которые может уничтожить Дамка. Содержит значения для направления: Вправо-Вверх. 
+        /// Последний элемент, если список не пуст, содержит ячейку, куда Дамка может (и должна) переместиться.
+        /// </summary>
+        List<UserControl1> figuresToDestroyForTheKingUR = new List<UserControl1>(1);
 
         /// <summary>
         /// Свойство, содержащее все фигуры Главной Стороны
@@ -71,6 +114,7 @@ namespace CheckerGame
             }
 
         }
+
         /// <summary>
         /// Свойство, содержащее все фигуры Вторичной Стороны
         /// ("Темные", "Верхние").
@@ -267,18 +311,26 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender">Объект, вызвавший событие.</param>
         /// <param name="e">Прочие сведения...</param>
-        void UserControl1_Click(object sender, RoutedEventArgs e)
+        void UserControl1_Click (object sender, RoutedEventArgs e)
         {
             UserControl1 button = (UserControl1)sender;
 
             if (clickCounter == 0 && button.ButtonCell.Occupied &&
             button.ButtonCell.CurrentFigure.MainSide == whiteTurn)
             {
+                battleMode = false;
                 chosedCell = button;
-                List<Position> positionsToEnableIfCellIsKing = new List<Position>(1);
 
                 if (chosedCell.ButtonCell.CurrentFigure.Type == FigureType.Special)
                 {
+                    figuresToDestroyForTheKingUL = BattleFieldKingCheck(chosedCell.ButtonPosition, Direction.LeftUp);
+                    figuresToDestroyForTheKingUR = BattleFieldKingCheck(chosedCell.ButtonPosition, Direction.RightUp);
+                    figuresToDestroyForTheKingDL = BattleFieldKingCheck(chosedCell.ButtonPosition, Direction.LeftDown);
+                    figuresToDestroyForTheKingDR = BattleFieldKingCheck(chosedCell.ButtonPosition, Direction.RightDown);
+
+                    battleMode = figuresToDestroyForTheKingDL.Count + figuresToDestroyForTheKingDR.Count +
+                    figuresToDestroyForTheKingUL.Count + figuresToDestroyForTheKingUR.Count != 0;
+
                     positionsToEnableIfCellIsKing.AddRange(KingFigureScanPositions(chosedCell.ButtonPosition, Direction.RightUp));
                     positionsToEnableIfCellIsKing.AddRange(KingFigureScanPositions(chosedCell.ButtonPosition, Direction.LeftUp));
                     positionsToEnableIfCellIsKing.AddRange(KingFigureScanPositions(chosedCell.ButtonPosition, Direction.LeftDown));
@@ -301,18 +353,119 @@ namespace CheckerGame
 
                     else
                     {
-                        if ((!cell.ButtonCell.DarkColour ||
-                        cell.ButtonPosition.Column == chosedCell.ButtonPosition.Column ||
-                        Math.Abs(cell.ButtonPosition.Column - chosedCell.ButtonPosition.Column) > 1 ||
-                        Math.Abs(cell.ButtonPosition.Line - chosedCell.ButtonPosition.Line) > 1 ||
-                        cell.ButtonCell.Occupied) && cell != chosedCell)
+                        if (!battleMode)
                         {
-                            cell.IsEnabled = false;
+                            if ((!cell.ButtonCell.DarkColour ||
+                            cell.ButtonPosition.Column == chosedCell.ButtonPosition.Column ||
+                            Math.Abs(cell.ButtonPosition.Column - chosedCell.ButtonPosition.Column) > 1 ||
+                            Math.Abs(cell.ButtonPosition.Line - chosedCell.ButtonPosition.Line) > 1 ||
+                            cell.ButtonCell.Occupied) && cell != chosedCell)
+                            {
+                                cell.IsEnabled = false;
+                            }
+
+                            if (!cell.ButtonCell.Occupied && Position.Contains(positionsToEnableIfCellIsKing, cell.ButtonPosition))
+                            {
+                                cell.IsEnabled = true;
+                            }
                         }
 
-                        if (!cell.ButtonCell.Occupied && Position.Contains(positionsToEnableIfCellIsKing, cell.ButtonPosition))
+                        else
                         {
-                            cell.IsEnabled = true;
+                            if (cell.ButtonCell.DarkColour && cell != chosedCell)
+                            {
+                                //Проверка на ячейку по направлению: Вправо-Вверх:
+                                try
+                                {
+                                    Int32 index = figuresToDestroyForTheKingUR.Count - 1;
+
+                                    if (cell != figuresToDestroyForTheKingUR[index])
+                                    {
+                                        cell.IsEnabled = false;
+                                    }
+
+                                    else
+                                    {
+                                        cell.IsEnabled = true;
+
+                                        continue;
+                                    }
+                                }
+
+                                catch
+                                {
+
+                                }
+
+                                //Проверка на ячейку по направлению: Влево-Вверх:
+                                try
+                                {
+                                    Int32 index = figuresToDestroyForTheKingUL.Count - 1;
+
+                                    if (cell != figuresToDestroyForTheKingUL[index])
+                                    {
+                                        cell.IsEnabled = false;
+                                    }
+
+                                    else
+                                    {
+                                        cell.IsEnabled = true;
+
+                                        continue;
+                                    }
+                                }
+
+                                catch
+                                {
+
+                                }
+
+                                //Проверка на ячейку по направлению: Влево-Вниз:
+                                try
+                                {
+                                    Int32 index = figuresToDestroyForTheKingDL.Count - 1;
+
+                                    if (cell != figuresToDestroyForTheKingDL[index])
+                                    {
+                                        cell.IsEnabled = false;
+                                    }
+
+                                    else
+                                    {
+                                        cell.IsEnabled = true;
+
+                                        continue;
+                                    }
+                                }
+
+                                catch
+                                {
+
+                                }
+
+                                //Проверка на ячейку по направлению: Вправо-Вниз:
+                                try
+                                {
+                                    Int32 index = figuresToDestroyForTheKingDR.Count - 1;
+
+                                    if (cell != figuresToDestroyForTheKingDR[index])
+                                    {
+                                        cell.IsEnabled = false;
+                                    }
+
+                                    else
+                                    {
+                                        cell.IsEnabled = true;
+
+                                        continue;
+                                    }
+                                }
+
+                                catch
+                                {
+
+                                }
+                            }
                         }
                     }
 
@@ -336,10 +489,13 @@ namespace CheckerGame
                     }
                 }
 
-                BattleFieldCheck(button, 1, 1);
-                BattleFieldCheck(button, 1, -1);
-                BattleFieldCheck(button, -1, 1);
-                BattleFieldCheck(button, -1, -1);
+                if (chosedCell.ButtonCell.CurrentFigure.Type == FigureType.Common)
+                {
+                    BattleFieldCheck(button, 1, 1);
+                    BattleFieldCheck(button, 1, -1);
+                    BattleFieldCheck(button, -1, 1);
+                    BattleFieldCheck(button, -1, -1);
+                }
 
                 if (enemyTerminateList.Count > 0)
                 {
@@ -358,90 +514,141 @@ namespace CheckerGame
 
             else if (!button.ButtonCell.Occupied && clickCounter > 0)
             {
+                /*Поле battleMode нужно для переопределения логики, согласно которой производится ...
+                ... отбор ячеек, на которые может прыгнуть фигура, ставшая Дамкой.*/
+
                 Int32 rowInd = 0;
                 Int32 colInd = 0;
                 clickCounter = 0;
                 Cell tmpCell = chosedCell.ButtonCell;
                 Object tmpContent = chosedCell.Content;
 
-                if (enemyTerminateList.Count == 0)
+                if (enemyTerminateList.Count == 0 && !battleMode)
                 {
                     whiteTurn = !whiteTurn;
                 }
 
                 else
                 {
-                    for (int i = 0; i < battleField.GetLength(0); i++)
+                    if (chosedCell.ButtonCell.CurrentFigure.Type == FigureType.Common)
                     {
-                        for (int j = 0; j < battleField.GetLength(1); j++)
+                        for (int i = 0; i < battleField.GetLength(0); i++)
                         {
-                            if (button.ButtonCell == battleField[i, j])
+                            for (int j = 0; j < battleField.GetLength(1); j++)
                             {
-                                rowInd = i;
-                                colInd = j;
+                                if (button.ButtonCell == battleField[i, j])
+                                {
+                                    rowInd = i;
+                                    colInd = j;
 
-                                break;
+                                    break;
+                                }
+                            }
+                        }
+
+                        foreach (UserControl1 uc1 in enemyTerminateList)
+                        {
+                            try
+                            {
+                                if (uc1.ButtonCell == battleField[rowInd - 1, colInd - 1])
+                                {
+                                    GameFigureClear(uc1);
+
+                                    break;
+                                }
+                            }
+
+                            catch
+                            { }
+
+                            try
+                            {
+                                if (uc1.ButtonCell == battleField[rowInd - 1, colInd + 1])
+                                {
+                                    GameFigureClear(uc1);
+
+                                    break;
+                                }
+                            }
+
+                            catch
+                            { }
+
+                            try
+                            {
+                                if (uc1.ButtonCell == battleField[rowInd + 1, colInd - 1])
+                                {
+                                    GameFigureClear(uc1);
+
+                                    break;
+                                }
+                            }
+
+                            catch
+                            { }
+
+                            try
+                            {
+                                if (uc1.ButtonCell == battleField[rowInd + 1, colInd + 1])
+                                {
+                                    GameFigureClear(uc1);
+
+                                    break;
+                                }
+                            }
+
+                            catch
+                            { }
+                        }
+
+                        enemyTerminateList.Clear();
+                        jumpTroughEnemyPlaces.Clear();
+                    }
+
+                    else
+                    {
+                        Direction attackDirection = DirectionDefinition(chosedCell.ButtonPosition, button.ButtonPosition);
+
+                        if (attackDirection == Direction.RightUp)
+                        {
+                            for (int i = 0; i < figuresToDestroyForTheKingUR.Count - 1; i++)
+                            {
+                                UserControl1 cellToInvoke = (UserControl1)FindName(figuresToDestroyForTheKingUR[i].Name);
+
+                                GameFigureClear(cellToInvoke);
+                            }
+                        }
+
+                        else if (attackDirection == Direction.LeftUp)
+                        {
+                            for (int i = 0; i < figuresToDestroyForTheKingUL.Count - 1; i++)
+                            {
+                                UserControl1 cellToInvoke = (UserControl1)FindName(figuresToDestroyForTheKingUL[i].Name);
+
+                                GameFigureClear(cellToInvoke);
+                            }
+                        }
+
+                        else if (attackDirection == Direction.LeftDown)
+                        {
+                            for (int i = 0; i < figuresToDestroyForTheKingDL.Count - 1; i++)
+                            {
+                                UserControl1 cellToInvoke = (UserControl1)FindName(figuresToDestroyForTheKingDL[i].Name);
+
+                                GameFigureClear(cellToInvoke);
+                            }
+                        }
+
+                        else //Right Down
+                        {
+                            for (int i = 0; i < figuresToDestroyForTheKingDR.Count - 1; i++)
+                            {
+                                UserControl1 cellToInvoke = (UserControl1)FindName(figuresToDestroyForTheKingDR[i].Name);
+
+                                GameFigureClear(cellToInvoke);
                             }
                         }
                     }
-
-                    foreach (UserControl1 uc1 in enemyTerminateList)
-                    {
-                        try
-                        {
-                            if (uc1.ButtonCell == battleField[rowInd - 1, colInd - 1])
-                            {
-                                GameFigureClear(uc1);
-
-                                break;
-                            }
-                        }
-
-                        catch
-                        { }
-
-                        try
-                        {
-                            if (uc1.ButtonCell == battleField[rowInd - 1, colInd + 1])
-                            {
-                                GameFigureClear(uc1);
-
-                                break;
-                            }
-                        }
-
-                        catch
-                        { }
-
-                        try
-                        {
-                            if (uc1.ButtonCell == battleField[rowInd + 1, colInd - 1])
-                            {
-                                GameFigureClear(uc1);
-
-                                break;
-                            }
-                        }
-
-                        catch
-                        { }
-
-                        try
-                        {
-                            if (uc1.ButtonCell == battleField[rowInd + 1, colInd + 1])
-                            {
-                                GameFigureClear(uc1);
-
-                                break;
-                            }
-                        }
-
-                        catch
-                        { }
-                    }
-
-                    enemyTerminateList.Clear();
-                    jumpTroughEnemyPlaces.Clear();
                 }
 
                 foreach (UserControl1 swapLocation in PointsPanel.Children)
@@ -508,6 +715,7 @@ namespace CheckerGame
                     }
                 }
 
+                positionsToEnableIfCellIsKing.Clear();
                 TurnChange(whiteTurn);
             }
 
@@ -516,6 +724,7 @@ namespace CheckerGame
                 if (clickCounter == 1 && button == chosedCell)
                 {
                     clickCounter = 0;
+                    positionsToEnableIfCellIsKing.Clear();
 
                     foreach (UserControl1 selectedButton in PointsPanel.Children)
                     {
@@ -570,10 +779,144 @@ namespace CheckerGame
         }
 
         /// <summary>
-        /// Метод для комплексного выполнения последовательности методов. Сокращает код.
+        /// Метод для сканирования клеток на возможность "перескочить", если ходит Дамка. 
+        /// </summary>
+        /// <param name="startToScanPosition">Стартовая позиция сканирования. Именно здесь находится Дамка, которая ходит.</param>
+        /// <param name="dir">Направление, в котором необходимо провести сканирование.</param>
+        /// <returns>Список типа "UserControl1", содержащий элементы, которые Дамка уничтожит. 
+        /// Последний элемент списка указывает на свободную позицию, куда может прыгнуть Дамка.</returns>
+        List<UserControl1> BattleFieldKingCheck(Position startToScanPosition, Direction dir)
+        {
+            Bool enemyFinded = false;
+            List<UserControl1> terminateList = new List<UserControl1>(1);
+
+            if (dir == Direction.RightUp)
+            {
+                //Так как метод сканирования определен "коряво", то здесь используются другие направления...
+                List<Position> ablePoses = KingFigureScanPositions(startToScanPosition, Direction.RightDown);
+                UserControl1 uc1;
+
+                foreach (Position able in ablePoses)
+                {
+                    uc1 = (UserControl1)FindName($"_{able.Line}{able.Column}");
+
+                    if (uc1.ButtonCell.Occupied && uc1.ButtonCell.CurrentFigure.MainSide != whiteTurn)
+                    {
+                        terminateList.Add(uc1);
+
+                        enemyFinded = true;
+                    }
+
+                    else if (!uc1.ButtonCell.Occupied && enemyFinded)
+                    {
+                        UserControl1 toEnable = (UserControl1)FindName(uc1.Name);
+                        toEnable.IsEnabled = true;
+
+                        terminateList.Add(uc1);
+
+                        return terminateList;
+                    }
+                }
+            }
+
+            else if (dir == Direction.RightDown)
+            {
+                //Так как метод сканирования определен "коряво", то здесь используются другие направления...
+                List<Position> ablePoses = KingFigureScanPositions(startToScanPosition, Direction.RightUp);
+                UserControl1 uc1;
+
+                foreach (Position able in ablePoses)
+                {
+                    uc1 = (UserControl1)FindName($"_{able.Line}{able.Column}");
+
+                    if (uc1.ButtonCell.Occupied && uc1.ButtonCell.CurrentFigure.MainSide != whiteTurn)
+                    {
+                        terminateList.Add(uc1);
+
+                        enemyFinded = true;
+                    }
+
+                    else if (!uc1.ButtonCell.Occupied && enemyFinded)
+                    {
+                        UserControl1 toEnable = (UserControl1)FindName(uc1.Name);
+                        toEnable.IsEnabled = true;
+
+                        terminateList.Add(uc1);
+
+                        return terminateList;
+                    }
+                }
+            }
+
+            else if (dir == Direction.LeftUp)
+            {
+                //Так как метод сканирования определен "коряво", то здесь используются другие направления...
+                List<Position> ablePoses = KingFigureScanPositions(startToScanPosition, Direction.LeftDown);
+                UserControl1 uc1;
+
+                foreach (Position able in ablePoses)
+                {
+                    uc1 = (UserControl1)FindName($"_{able.Line}{able.Column}");
+
+                    if (uc1.ButtonCell.Occupied && uc1.ButtonCell.CurrentFigure.MainSide != whiteTurn)
+                    {
+                        terminateList.Add(uc1);
+
+                        enemyFinded = true;
+                    }
+
+                    else if (!uc1.ButtonCell.Occupied && enemyFinded)
+                    {
+                        UserControl1 toEnable = (UserControl1)FindName(uc1.Name);
+                        toEnable.IsEnabled = true;
+
+                        terminateList.Add(uc1);
+
+                        return terminateList;
+                    }
+                }
+            }
+
+            else //LeftDown
+            {
+                //Так как метод сканирования определен "коряво", то здесь используются другие направления...
+                List<Position> ablePoses = KingFigureScanPositions(startToScanPosition, Direction.LeftUp);
+                UserControl1 uc1;
+
+                foreach (Position able in ablePoses)
+                {
+                    uc1 = (UserControl1)FindName($"_{able.Line}{able.Column}");
+
+                    if (uc1.ButtonCell.Occupied && uc1.ButtonCell.CurrentFigure.MainSide != whiteTurn)
+                    {
+                        terminateList.Add(uc1);
+
+                        enemyFinded = true;
+                    }
+
+                    else if (!uc1.ButtonCell.Occupied && enemyFinded)
+                    {
+                        UserControl1 toEnable = (UserControl1)FindName(uc1.Name);
+                        toEnable.IsEnabled = true;
+
+                        terminateList.Add(uc1);
+
+                        return terminateList;
+                    }
+
+                    uc1 = (UserControl1)FindName($"_{able.Line}{able.Column}");
+                }
+            }
+
+            terminateList.Clear();
+            return terminateList;
+        }
+
+        /// <summary>
+        /// Метод для комплексного выполнения последовательности методов по очистке ячейки. Сокращает код.
         /// </summary>
         /// <param name="uc1">Ячейка, которую необходимо очистить.</param>
-        void GameFigureClear(UserControl1 uc1)
+        void GameFigureClear (UserControl1 uc1)
         {
             GameFigure.FigureDestroyed(uc1.ButtonCell.CurrentFigure);
 
@@ -588,7 +931,7 @@ namespace CheckerGame
         /// <param name="startPosition">Стартовая позиция, с которой надо начать сканирование.</param>
         /// <param name="dir">Направление, по которому необходимо провести сканирование.</param>
         /// <returns>Список с доступными позициями.</returns>
-        List<Position> KingFigureScanPositions(Position startPosition, Direction dir)
+        List<Position> KingFigureScanPositions (Position startPosition, Direction dir)
         {
             Int32 startLine = startPosition.Line;
             Int32 startColumn = startPosition.Column;
@@ -642,10 +985,41 @@ namespace CheckerGame
         }
 
         /// <summary>
+        /// Метод для определения направления по двум заданным координатам.
+        /// </summary>
+        /// <param name="buttonPosition">Стартовая позиция.</param>
+        /// <param name="pos">Конечная позиция.</param>
+        /// <returns>Направление, в котором расположены точки.</returns>
+        public static Direction DirectionDefinition (Position buttonPosition, Position pos)
+        {
+            Position toDefDirection = buttonPosition - pos;
+
+            if (toDefDirection.Line > 0 && toDefDirection.Column > 0)
+            {
+                return Direction.LeftDown;
+            }
+
+            else if (toDefDirection.Line < 0 && toDefDirection.Column > 0)
+            {
+                return Direction.LeftUp;
+            }
+
+            else if (toDefDirection.Line < 0 && toDefDirection.Column < 0)
+            {
+                return Direction.RightUp;
+            }
+
+            else
+            {
+                return Direction.RightDown;
+            }
+        }
+
+        /// <summary>
         /// Метод для смены активных фигур ("Шашек").
         /// </summary>
         /// <param name="turn">Сторона, которая сейчас будет ходить.</param>
-        public void TurnChange(Bool turn)
+        public void TurnChange (Bool turn)
         {
             foreach (UserControl1 button in PointsPanel.Children)
             {
@@ -668,21 +1042,25 @@ namespace CheckerGame
         /// главной границей ("верхняя" граница поля).
         /// </summary>
         Bool mainEdge;
+
         /// <summary>
         /// Логическое поле, отвечающее за то, является ли выбранная клетка
         /// вторичной границей ("нижняя" граница поля).
         /// </summary>
         Bool secondEdge;
+
         /// <summary>
         /// Логическое поле, отвечающее за то, является ли выбранная клетка
         /// занятой (присутствует ли на ней фигура).
         /// </summary>
         Bool occupied;
+
         /// <summary>
         /// Логическое поле, отвечающее за то, является ли выбранная клетка
         /// "темной", то есть пригодной для прохождения.
         /// </summary>
         Bool darkColour;
+
         /// <summary>
         /// Поле, содержащее экземпляр класса "GameFigure", который характеризует
         /// фигуру, которая стоит в данной клетке. Если фигуры нет, принимает значение
@@ -706,6 +1084,7 @@ namespace CheckerGame
                 mainEdge = value;
             }
         }
+
         ///<summary>
         /// Свойство, отвечающее за то, является ли выбранная клетка
         /// вторичной границей ("нижняя" граница поля).
@@ -722,6 +1101,7 @@ namespace CheckerGame
                 secondEdge = value;
             }
         }
+
         /// <summary>
         /// Свойство, отвечающее за то, является ли выбранная клетка
         /// занятой (присутствует ли на ней фигура).
@@ -738,6 +1118,7 @@ namespace CheckerGame
                 occupied = value;
             }
         }
+
         /// <summary>
         /// Свойство, отвечающее за то, является ли выбранная клетка
         /// "темной", то есть пригодной для прохождения.
@@ -754,6 +1135,7 @@ namespace CheckerGame
                 darkColour = value;
             }
         }
+
         /// <summary>
         /// Свойство, содержащее экземпляр класса "GameFigure", который характеризует
         /// фигуру, которая стоит в данной клетке. Если фигуры нет, принимает значение
@@ -793,7 +1175,7 @@ namespace CheckerGame
         /// у "нижней" границы игровой области.</param>
         /// <param name="darkColour">Логическая переменная, отвечающая за тип ячейки: 
         /// Темная или Светлая.</param>
-        public Cell(Bool occupied, Bool edge, GameFigure currentFigure, Bool secondEdge, Bool darkColour)
+        public Cell (Bool occupied, Bool edge, GameFigure currentFigure, Bool secondEdge, Bool darkColour)
         {
             Occupied = occupied;
             MainEdge = edge;
@@ -807,7 +1189,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="toDestroy">Ячейка, которую необходимо очистить.</param>
         /// <returns>Очищенная ячейка.</returns>
-        public static Cell Destroy(Cell toDestroy)
+        public static Cell Destroy (Cell toDestroy)
         {
             toDestroy.CurrentFigure = null;
             toDestroy.Occupied = false;
@@ -825,6 +1207,7 @@ namespace CheckerGame
         /// Поле, содержащее Строку, в которой находится ячейка.
         /// </summary>
         Int32 line;
+
         /// <summary>
         /// Поле, содержащее Колонну, в которой находится ячейка.
         /// </summary>
@@ -845,6 +1228,7 @@ namespace CheckerGame
                 line = value;
             }
         }
+
         /// <summary>
         /// Свойство, содержащее Колонну, в которой находится ячейка.
         /// </summary>
@@ -866,7 +1250,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="line">Строка, в которой находится ячейка.</param>
         /// <param name="column">Колонна, в которой находится ячейка.</param>
-        public Position(Int32 line, Int32 column)
+        public Position (Int32 line, Int32 column)
         {
             Line = line;
             Column = column;
@@ -878,7 +1262,7 @@ namespace CheckerGame
         /// <param name="pos">Список, который необходимо проверить.</param>
         /// <param name="toFind">Элемент, который необходимо найти.</param>
         /// <returns>Логическая переменная, отвечающая за то, содержится ли элемент в списке или нет.</returns>
-        public static Bool Contains(List<Position> pos, Position toFind)
+        public static Bool Contains (List<Position> pos, Position toFind)
         {
             for (int i = 0; i < pos.Count; i++)
             {
@@ -889,6 +1273,17 @@ namespace CheckerGame
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Перегрузка оператора '-' (Вычитание).
+        /// </summary>
+        /// <param name="posOne">Позиция, от которой нужно отнимать.</param>
+        /// <param name="posTwo">Позиция, которую нужно отнять.</param>
+        /// <returns>Новая позиция.</returns>
+        public static Position operator - (Position posOne, Position posTwo)
+        {
+            return new Position(posOne.Line - posTwo.Line, posOne.Column - posTwo.Column);
         }
     }
 
@@ -901,10 +1296,12 @@ namespace CheckerGame
         /// Поле, содержащее экземпляр класса "Location", с местонахождением данной фигуры.
         /// </summary>
         Position location;
+
         /// <summary>
         /// Поле, содержащее экземпляр перечисления, определяющий Тип Фигуры (Пешка/Дамка).
         /// </summary>
         FigureType type;
+
         /// <summary>
         /// Поле, содержащее логическое значение, отвечающее за принадлежность фигуры к Главной ("Нижней")
         /// стороне.
@@ -926,6 +1323,7 @@ namespace CheckerGame
                 location = value;
             }
         }
+
         /// <summary>
         /// Свойство, содержащее экземпляр перечисления, определяющий Тип Фигуры (Пешка/Дамка).
         /// </summary>
@@ -941,6 +1339,7 @@ namespace CheckerGame
                 type = value;
             }
         }
+
         /// <summary>
         /// Свойство, содержащее логическое значение, отвечающее за принадлежность фигуры к Главной ("Нижней")
         /// стороне.
@@ -965,7 +1364,7 @@ namespace CheckerGame
         /// <param name="type">Переменная перечисления Enum, содержащая Тип Фигуры.</param>
         /// <param name="side">Логическая переменная, отвечающая за принадлежность к "Главной"
         /// (Нижней) стороне.</param>
-        public GameFigure(Position location, FigureType type, Bool side)
+        public GameFigure (Position location, FigureType type, Bool side)
         {
             Location = location;
             Type = type;
@@ -976,7 +1375,7 @@ namespace CheckerGame
         /// Метод для уничтожения какой-либо фигуры.
         /// </summary>
         /// <param name="destroyedFigure">Уничтожаемая фигура.</param>
-        public static void FigureDestroyed(GameFigure destroyedFigure)
+        public static void FigureDestroyed (GameFigure destroyedFigure)
         {
             if (destroyedFigure.MainSide)
             {
@@ -1010,6 +1409,7 @@ namespace CheckerGame
         /// Значение для Пешек.
         /// </summary>
         Common,
+
         /// <summary>
         /// Значение для Дамок.
         /// </summary>
