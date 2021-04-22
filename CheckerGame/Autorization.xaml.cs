@@ -23,5 +23,21 @@ namespace CheckerGame
         {
             InitializeComponent();
         }
+
+        private void NewUserButton_Click(object sender, RoutedEventArgs e)
+        {
+            Registration register = new Registration();
+
+            register.Show();
+            Close();
+        }
+
+        private void EnterInExistingAccountButton_Click(object sender, RoutedEventArgs e)
+        {
+            Entering enter = new Entering();
+
+            enter.Show();
+            Close();
+        }
     }
 }
