@@ -1,0 +1,26 @@
+[
+  {
+    "Wins": 0,
+    "Name": "Hello",
+    "AllGames": 0,
+    "Password": "IAmThere",
+    "Gender": 0,
+    "BirthTime": "2021-04-20T00:00:00"
+  },
+  {
+    "Wins": 0,
+    "Name": "Heh",
+    "AllGames": 0,
+    "Password": "NotOnlyHere",
+    "Gender": 0,
+    "BirthTime": "2021-04-12T00:00:00"
+  },
+  {
+    "Wins": 0,
+    "Name": "HelloThere",
+    "AllGames": 0,
+    "Password": "There",
+    "Gender": 0,
+    "BirthTime": "2021-04-13T00:00:00"
+  }
+]

@@ -23,5 +23,20 @@ namespace CheckerGame
         {
             InitializeComponent();
         }
+
+        private void BeginEnterButton_Click(object sender, RoutedEventArgs e)
+        {
+            UserProfile profile = UserProfile.CheckAccount(UserNameInputBox.Text, PasswordInputBox.Text);
+
+            if (profile == null)
+            {
+                MessageBox.Show("Аккаунт не найден.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            else
+            {
+                
+            }
+        }
     }
 }

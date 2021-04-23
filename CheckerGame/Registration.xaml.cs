@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace CheckerGame
 {
@@ -20,7 +19,7 @@ namespace CheckerGame
 
         private void CreateNewUserButton_Click(object sender, RoutedEventArgs e)
         {
-            if (String.IsNullOrEmpty(NameInputBox.Text) || BirthChose.SelectedDate == null ||
+            if (String.IsNullOrEmpty(NameInputBox.Text) || !BirthChose.SelectedDate.HasValue ||
             GenderChoseBox.SelectedItem == null || String.IsNullOrEmpty(PasswordInputBox.Text))
             {
                 MessageBox.Show("Какое-либо поле не было заполнено.", "Ошибка!", 
@@ -29,15 +28,41 @@ namespace CheckerGame
 
             else
             {
+                UserGender gender;
+
+                if (GenderChoseBox.SelectedItem.ToString() == "Мужской")
+                {
+                    gender = UserGender.Male;
+                }
+
+                else if (GenderChoseBox.SelectedItem.ToString() == "Женский")
+                {
+                    gender = UserGender.Female;
+                }
+
+                else
+                {
+                    gender = UserGender.Alternative;
+                }
+
+                UserProfile newUser = new UserProfile(NameInputBox.Text, PasswordInputBox.Text, gender, (DateTime)BirthChose.SelectedDate);
+
                 if (PasswordInputBox.Text.Length < 5)
                 {
                     MessageBox.Show("Пароль слишком короткий.", "Ошибка!",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
+                else if (UserProfile.CheckAccountName(newUser))
+                {
+                    MessageBox.Show("Пользователь с таким именем уже определен.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
                 else
                 {
+                    UserProfile.AddAccount(newUser);
 
+                    Close();
                 }
             }
         }

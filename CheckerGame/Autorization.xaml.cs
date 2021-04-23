@@ -22,6 +22,8 @@ namespace CheckerGame
         public Autorization()
         {
             InitializeComponent();
+
+            UserProfile.RefreshAccounts();
         }
 
         private void NewUserButton_Click(object sender, RoutedEventArgs e)
