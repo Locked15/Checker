@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
 namespace CheckerGame
 {
@@ -19,6 +7,9 @@ namespace CheckerGame
     /// </summary>
     public partial class Autorization : Window
     {
+        /// <summary>
+        /// Конструктор класса. Необходим для работы окна.
+        /// </summary>
         public Autorization()
         {
             InitializeComponent();
@@ -26,6 +17,11 @@ namespace CheckerGame
             UserProfile.RefreshAccounts();
         }
 
+        /// <summary>
+        /// Событие, возникающее при нажатии на кнопку "NewUserButton". Открывает окно регистрации нового пользователя. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void NewUserButton_Click(object sender, RoutedEventArgs e)
         {
             Registration register = new Registration();
@@ -34,6 +30,11 @@ namespace CheckerGame
             Close();
         }
 
+        /// <summary>
+        /// Событие, возникающее при нажатии на кнопку "EnterInExistingAccountButton". Открывает окно для входа в существующий аккаунт.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EnterInExistingAccountButton_Click(object sender, RoutedEventArgs e)
         {
             Entering enter = new Entering();

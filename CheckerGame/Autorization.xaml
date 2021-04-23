@@ -18,10 +18,10 @@
         <TextBlock Name = "WelcomeUserLabel" Text = "Прежде чем начать работу с приложением, Вам следует войти в свой аккаунт." FontFamily = "Comic Sans MS" 
         Grid.Row = "0" Grid.Column = "0" TextWrapping = "Wrap" TextAlignment = "Center" VerticalAlignment = "Center" Foreground = "#FF741818" FontSize = "18"/>
 
-        <Button Name = "NewUserButton" Content = "Зарегистрироваться." Grid.Row = "1" FontFamily = "Comic Sans MS" FontSize = "14" 
+        <Button Name = "NewUserButton" Content = "Зарегистрироваться." Grid.Row = "1" FontFamily = "Comic Sans MS" FontSize = "22" 
         Foreground = "#FF762A2A" Background = "#FFE4AFAF" Click = "NewUserButton_Click"/>
 
-        <Button Name = "EnterInExistingAccountButton" Content = "Войти." Grid.Row = "2" FontFamily = "Comic Sans MS" FontSize = "14" 
+        <Button Name = "EnterInExistingAccountButton" Content = "Войти." Grid.Row = "2" FontFamily = "Comic Sans MS" FontSize = "22" 
         Foreground = "#FF762A2A" Background = "#FFE4AFAF" Click = "EnterInExistingAccountButton_Click"/>
     </Grid>
 </Window>

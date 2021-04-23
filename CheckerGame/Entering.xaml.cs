@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using Bool = System.Boolean;
 
 namespace CheckerGame
 {
@@ -19,12 +8,41 @@ namespace CheckerGame
     /// </summary>
     public partial class Entering : Window
     {
-        public Entering()
+        /// <summary>
+        /// Статическое поле, отвечающее за то, что сейчас входит второй пользователь.
+        /// </summary>
+        static Bool secondUser = false;
+
+        /// <summary>
+        /// Статическое свойство, отвечающее за то, что сейчас входит второй пользователь.
+        /// </summary>
+        public static Bool SecondUser
+        {
+            get
+            {
+                return secondUser;
+            }
+
+            set
+            {
+                secondUser = value;
+            }
+        }
+
+        /// <summary>
+        /// Конструктор класса. Необходим для работы окна.
+        /// </summary>
+        public Entering ()
         {
             InitializeComponent();
         }
 
-        private void BeginEnterButton_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Событие, возникающее при нажатии на кнопку "BeginEnterButton". Входит в аккаунт пользователя.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BeginEnterButton_Click (object sender, RoutedEventArgs e)
         {
             UserProfile profile = UserProfile.CheckAccount(UserNameInputBox.Text, PasswordInputBox.Text);
 
@@ -35,7 +53,30 @@ namespace CheckerGame
 
             else
             {
+                if (SecondUser)
+                {
+                    if (profile != Hub.FirstUser)
+                    {
+                        Hub.SecondUser = profile;
+
+                        Close();
+                    }
+
+                    else
+                    {
+                        MessageBox.Show("Этот пользователь сейчас в Сети.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
                 
+                else
+                {
+                    Hub.FirstUser = profile;
+
+                    Hub hub = new Hub();
+                    hub.Show();
+
+                    Close();
+                }
             }
         }
     }

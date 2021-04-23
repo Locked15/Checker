@@ -2,7 +2,7 @@
   {
     "Wins": 0,
     "Name": "Hello",
-    "AllGames": 0,
+    "AllGames": 1,
     "Password": "IAmThere",
     "Gender": 0,
     "BirthTime": "2021-04-20T00:00:00"
@@ -22,5 +22,21 @@
     "Password": "There",
     "Gender": 0,
     "BirthTime": "2021-04-13T00:00:00"
+  },
+  {
+    "Wins": 0,
+    "Name": "Protecc",
+    "AllGames": 0,
+    "Password": "HeAtacc",
+    "Gender": 0,
+    "BirthTime": "2021-04-05T00:00:00"
+  },
+  {
+    "Wins": 1,
+    "Name": "Rosed",
+    "AllGames": 1,
+    "Password": "Yesterday",
+    "Gender": 0,
+    "BirthTime": "2021-03-11T00:00:00"
   }
 ]

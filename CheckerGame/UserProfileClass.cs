@@ -9,7 +9,7 @@ namespace CheckerGame
     /// <summary>
     /// Класс для профилей пользователей.
     /// </summary>
-    class UserProfile
+    public class UserProfile
     {
         /// <summary>
         /// Поле, содержащее количество побед конкретного игрока.
@@ -35,6 +35,10 @@ namespace CheckerGame
         /// Поле, содержащее дату рождения данного игрока.
         /// </summary>
         DateTime birthTime;
+        /// <summary>
+        /// Статическое поле, отвечающее за разрешение на перезапись файла. Нужно для предохранения от записи в файл пустого списка пользователей. 
+        /// </summary>
+        static Bool ableToRefreshFile = false;
         /// <summary>
         /// Статическое поле, содержащее всех активных игроков на данный момент.
         /// </summary>
@@ -175,14 +179,16 @@ namespace CheckerGame
         /// <param name="password">Пароль пользователя.</param>
         /// <param name="gender">Пол пользователя.</param>
         /// <param name="birthTime">Дата рождения пользователя.</param>
-        public UserProfile(String name, String password, UserGender gender, DateTime birthTime)
+        /// <param name="wins">Количество побед данного пользователя. Данный аргумент конструктора нужен для корректной работы Сериализатора.</param>
+        /// <param name="allGames">Количество игр у данного пользователя. Данный аргумент конструктора нужен для корректной работы Сериализатора.</param>
+        public UserProfile(String name, String password, UserGender gender, DateTime birthTime, Int32 wins, Int32 allGames)
         {
             this.name = name;
             this.password = password;
             this.gender = gender;
             this.birthTime = birthTime;
-            wins = 0;
-            allGames = 0;
+            this.wins = wins;
+            this.allGames = allGames;
         }
 
         /// <summary>
@@ -197,6 +203,8 @@ namespace CheckerGame
                     String allText = sr1.ReadToEnd();
 
                     ActualProfiles = JsonSerializer.Deserialize<List<UserProfile>>(allText, options);
+
+                    ableToRefreshFile = true;
                 }
             }
         }
@@ -206,9 +214,12 @@ namespace CheckerGame
         /// </summary>
         public static void RefreshFile()
         {
-            using (StreamWriter sw1 = new StreamWriter(ProjectAbsPath + "\\Other\\Profiles.txt", false, System.Text.Encoding.Default))
+            if (ableToRefreshFile)
             {
-                sw1.Write(JsonSerializer.Serialize<List<UserProfile>>(ActualProfiles, options));
+                using (StreamWriter sw1 = new StreamWriter(ProjectAbsPath + "\\Other\\Profiles.txt", false, System.Text.Encoding.Default))
+                {
+                    sw1.Write(JsonSerializer.Serialize<List<UserProfile>>(ActualProfiles, options));
+                }
             }
         }
 
@@ -221,6 +232,24 @@ namespace CheckerGame
             ActualProfiles.Add(account);
 
             RefreshFile();
+        }
+
+        /// <summary>
+        /// Метод для получения пользователя по имени его аккаунта.
+        /// </summary>
+        /// <param name="profileName">Имя аккаунта, по которому необходимо получить пользователя.</param>
+        /// <returns>Аккаунт с указанным именем.</returns>
+        public static UserProfile GetFromName(String profileName)
+        {
+            foreach (UserProfile profile in ActualProfiles)
+            {
+                if (profile.Name == profileName)
+                {
+                    return profile;
+                }
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -270,6 +299,9 @@ namespace CheckerGame
 
             ActualProfiles[winnerIndex].Wins += 1;
             ActualProfiles[winnerIndex].AllGames += 1;
+
+            RefreshFile();
+            RefreshAccounts();
         }
 
         /// <summary>
@@ -281,6 +313,8 @@ namespace CheckerGame
             Int32 playerIndex = ActualProfiles.IndexOf(player);
 
             ActualProfiles[playerIndex].AllGames += 1;
+
+            RefreshFile();
         }
     }
 

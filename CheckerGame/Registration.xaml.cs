@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Bool = System.Boolean;
 
 namespace CheckerGame
 {
@@ -8,6 +9,30 @@ namespace CheckerGame
     /// </summary>
     public partial class Registration : Window
     {
+        /// <summary>
+        /// Статическое поле, отвечающее за то, что сейчас регистрируется второй пользователь.
+        /// </summary>
+        static Bool secondUser = false;
+
+        /// <summary>
+        /// Статическое свойство, отвечающее за то, что сейчас регистрируется второй пользователь.
+        /// </summary>
+        public static Bool SecondUser
+        {
+            get
+            {
+                return secondUser;
+            }
+
+            set
+            {
+                secondUser = value;
+            }
+        }
+
+        /// <summary>
+        /// Конструктор класса. Нужен для работы данного окна.
+        /// </summary>
         public Registration()
         {
             InitializeComponent();
@@ -17,12 +42,17 @@ namespace CheckerGame
             GenderChoseBox.Items.Add("Альтернативный");
         }
 
+        /// <summary>
+        /// Событие, возникающее при нажатии кнопки "CreateNewUserButton".
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CreateNewUserButton_Click(object sender, RoutedEventArgs e)
         {
             if (String.IsNullOrEmpty(NameInputBox.Text) || !BirthChose.SelectedDate.HasValue ||
             GenderChoseBox.SelectedItem == null || String.IsNullOrEmpty(PasswordInputBox.Text))
             {
-                MessageBox.Show("Какое-либо поле не было заполнено.", "Ошибка!", 
+                MessageBox.Show("Какое-либо поле не было заполнено.", "Ошибка!",
                 MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
@@ -45,7 +75,7 @@ namespace CheckerGame
                     gender = UserGender.Alternative;
                 }
 
-                UserProfile newUser = new UserProfile(NameInputBox.Text, PasswordInputBox.Text, gender, (DateTime)BirthChose.SelectedDate);
+                UserProfile newUser = new UserProfile(NameInputBox.Text, PasswordInputBox.Text, gender, (DateTime)BirthChose.SelectedDate, 0, 0);
 
                 if (PasswordInputBox.Text.Length < 5)
                 {
@@ -62,7 +92,21 @@ namespace CheckerGame
                 {
                     UserProfile.AddAccount(newUser);
 
-                    Close();
+                    if (SecondUser)
+                    {
+                        Hub.SecondUser = newUser;
+
+                        Close();
+                    }
+
+                    else
+                    {
+                        Hub.FirstUser = newUser;
+
+                        Hub hub = new Hub();
+                        hub.Show();
+                        Close();
+                    }
                 }
             }
         }
