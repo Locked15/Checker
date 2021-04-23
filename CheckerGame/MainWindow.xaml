@@ -6,7 +6,8 @@
         xmlns:local = "clr-namespace:CheckerGame"
         mc:Ignorable = "d"
         Title = "Шашки" Height = "822.5" Width = "810.75"
-        ResizeMode = "CanResize" MinHeight = "750" MinWidth = "750">
+        ResizeMode = "CanResize" MinHeight = "750" MinWidth = "750"
+        Closed = "GameWindow_Closed">
 
     <Grid Name = "PointsPanel">
         <Grid.RowDefinitions>

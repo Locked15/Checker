@@ -46,7 +46,7 @@ namespace CheckerGame
         /// <summary>
         /// Статическое поле, содержащее абсолютный путь к проекту.
         /// </summary>
-        static String projectAbsPath = "C:\\Users\\Земфира\\source\\repos\\CheckerGame\\CheckerGame";
+        static String projectAbsPath = "";
 
         /// <summary>
         /// Свойство, содержащее количество побед данного игрока.

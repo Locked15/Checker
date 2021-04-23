@@ -14,6 +14,11 @@ namespace CheckerGame
     public partial class MainWindow : Window
     {
         /// <summary>
+        /// Поле, содержащее экземпляр класса "Hub", необходимого для возвращения на предыдущую страницу.
+        /// </summary>
+        Hub hub;
+
+        /// <summary>
         /// Логическое Поле, отвечающее за то, в "боевом" ли режиме сейчас Дамка или нет. 
         /// (Подробнее в UserControl1_Click -> 2 Блок if...else if...else).
         /// </summary>
@@ -135,8 +140,10 @@ namespace CheckerGame
         /// <summary>
         /// Точка входа в Приложение с Интерфесом.
         /// </summary>
-        public MainWindow()
+        public MainWindow(Hub hub)
         {
+            this.hub = hub;
+
             Int32 j = 0;
             Int32 line = 0;
             String latestButton = "10";
@@ -723,18 +730,14 @@ namespace CheckerGame
 
                 catch (NullReferenceException)
                 {
-                    MessageBox.Show($"Обнаружен баг.\nОдна из ссылок дала Null.\nРабота будет завершена.",
+                    MessageBox.Show($"Обнаружен баг.\nОдна из ссылок дала Null.",
                     "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
-
-                    Close();
                 }
 
                 catch (ArgumentNullException)
                 {
-                    MessageBox.Show($"Обнаружен баг.\nПри вызове какого-то метода в качестве аргумента был передан Null." +
-                    $"\nРабота будет завершена.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
-
-                    Close();
+                    MessageBox.Show($"Обнаружен баг.\nПри вызове какого-то метода в качестве аргумента был передан Null.", 
+                    "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
 
@@ -937,7 +940,7 @@ namespace CheckerGame
         /// <param name="uc1">Ячейка, которую необходимо очистить.</param>
         void GameFigureClear (UserControl1 uc1)
         {
-            GameFigure.FigureDestroyed(uc1.ButtonCell.CurrentFigure);
+            GameFigure.FigureDestroyed(uc1.ButtonCell.CurrentFigure, this, hub);
 
             uc1.ButtonCell = Cell.Destroy(uc1.ButtonCell);
 
@@ -1047,6 +1050,19 @@ namespace CheckerGame
                 {
                     button.IsEnabled = false;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Событие, возникающее при закрытии формы. Нужно для закрытия окна-хаба, если игровой процесс был прерван.
+        /// </summary>
+        /// <param name="sender">Элемент, вызвавший событие.</param>
+        /// <param name="e">Аргументы события.</param>
+        void GameWindow_Closed(object sender, EventArgs e)
+        {
+            if (FirstSide.Count > 0 && SecondSide.Count > 0)
+            {
+                hub.Close();
             }
         }
     }
@@ -1394,7 +1410,9 @@ namespace CheckerGame
         /// Метод для уничтожения какой-либо фигуры.
         /// </summary>
         /// <param name="destroyedFigure">Уничтожаемая фигура.</param>
-        public static void FigureDestroyed (GameFigure destroyedFigure)
+        /// <param name="windowToCloseIfFigureIsLast">Экземпляр основного окна, необходимый для его закрытия, если фигура окажется последней.</param>
+        /// <param name="hubToShowIfFigureIsLast">Экземпляр окна "Hub" для открытия, если фигура окажется последней.</param>
+        public static void FigureDestroyed (GameFigure destroyedFigure, MainWindow windowToCloseIfFigureIsLast, Hub hubToShowIfFigureIsLast)
         {
             if (destroyedFigure.MainSide)
             {
@@ -1402,7 +1420,13 @@ namespace CheckerGame
 
                 if (MainWindow.FirstSide.Count == 0)
                 {
-                    MessageBox.Show("ВТОРОЙ ПОБЕДИЛ!");
+                    Hub.FirstUser.AddGame(Hub.FirstUser);
+                    Hub.SecondUser.AddWin(Hub.SecondUser);
+
+                    hubToShowIfFigureIsLast.RefreshInformation();
+
+                    windowToCloseIfFigureIsLast.Close();
+                    hubToShowIfFigureIsLast.Show();
                 }
             }
 
@@ -1412,7 +1436,13 @@ namespace CheckerGame
 
                 if (MainWindow.SecondSide.Count == 0)
                 {
-                    MessageBox.Show("ПЕРВЫЙ ПОБЕДИЛ!");
+                    Hub.FirstUser.AddWin(Hub.FirstUser);
+                    Hub.SecondUser.AddGame(Hub.SecondUser);
+
+                    hubToShowIfFigureIsLast.RefreshInformation();
+
+                    windowToCloseIfFigureIsLast.Close();
+                    hubToShowIfFigureIsLast.Show();
                 }
             }
         }
