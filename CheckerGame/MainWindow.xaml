@@ -32,196 +32,196 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <local:UserControl1 x:Name = "_11" Content = ""
+        <local:UserControl1 x:Name = "_11" Content = "&#11044;" FontSize = "60"
         Grid.Row = "7" Grid.Column = "0" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_12" Content = ""
+        <local:UserControl1 x:Name = "_12" Content = "&#9711;"  FontSize = "60"
         Grid.Row = "7" Grid.Column = "1" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_13" Content = "" 
+        <local:UserControl1 x:Name = "_13" Content = ""  FontSize = "60" 
         Grid.Row = "7" Grid.Column = "2" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_14" Content = ""
+        <local:UserControl1 x:Name = "_14" Content = ""  FontSize = "60"
         Grid.Row = "7" Grid.Column = "3" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_15" Content = ""
+        <local:UserControl1 x:Name = "_15" Content = ""  FontSize = "60"
         Grid.Row = "7" Grid.Column= "4" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_16" Content = ""
+        <local:UserControl1 x:Name = "_16" Content = ""  FontSize = "60"
         Grid.Row = "7" Grid.Column = "5" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_17" Content = ""
+        <local:UserControl1 x:Name = "_17" Content = ""  FontSize = "60"
         Grid.Row = "7" Grid.Column = "6" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_18" Content = ""
+        <local:UserControl1 x:Name = "_18" Content = ""  FontSize = "60"
         Grid.Row = "7" Grid.Column = "7" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_21" Content = ""
+        <local:UserControl1 x:Name = "_21" Content = ""  FontSize = "60"
         Grid.Row = "6" Grid.Column = "0" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_22" Content = ""
+        <local:UserControl1 x:Name = "_22" Content = ""  FontSize = "60"
         Grid.Row = "6" Grid.Column = "1" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_23" Content = ""
+        <local:UserControl1 x:Name = "_23" Content = ""  FontSize = "60"
         Grid.Row = "6" Grid.Column = "2" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_24" Content = ""
+        <local:UserControl1 x:Name = "_24" Content = ""  FontSize = "60"
         Grid.Row = "6" Grid.Column = "3" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_25" Content = ""
+        <local:UserControl1 x:Name = "_25" Content = ""  FontSize = "60"
         Grid.Row = "6" Grid.Column = "4" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_26" Content = ""
+        <local:UserControl1 x:Name = "_26" Content = ""  FontSize = "60"
         Grid.Row = "6" Grid.Column = "5" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_27" Content = ""
+        <local:UserControl1 x:Name = "_27" Content = ""  FontSize = "60"
         Grid.Row = "6" Grid.Column = "6" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_28" Content = ""
+        <local:UserControl1 x:Name = "_28" Content = ""  FontSize = "60"
         Grid.Row = "6" Grid.Column = "7" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_31" Content = ""
+        <local:UserControl1 x:Name = "_31" Content = ""  FontSize = "60"
         Grid.Row = "5" Grid.Column = "0" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_32" Content = ""
+        <local:UserControl1 x:Name = "_32" Content = ""  FontSize = "60"
         Grid.Row = "5" Grid.Column = "1" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_33" Content = ""
+        <local:UserControl1 x:Name = "_33" Content = ""  FontSize = "60"
         Grid.Row = "5" Grid.Column = "2" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_34" Content = ""
+        <local:UserControl1 x:Name = "_34" Content = ""  FontSize = "60"
         Grid.Row = "5" Grid.Column = "3" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_35" Content = ""
+        <local:UserControl1 x:Name = "_35" Content = ""  FontSize = "60"
         Grid.Row = "5" Grid.Column = "4" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_36" Content = ""
+        <local:UserControl1 x:Name = "_36" Content = ""  FontSize = "60"
         Grid.Row = "5" Grid.Column = "5" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_37" Content = ""
+        <local:UserControl1 x:Name = "_37" Content = ""  FontSize = "60"
         Grid.Row = "5" Grid.Column = "6" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_38" Content = ""
+        <local:UserControl1 x:Name = "_38" Content = ""  FontSize = "60"
         Grid.Row = "5" Grid.Column = "7" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_41" Content = ""
+        <local:UserControl1 x:Name = "_41" Content = ""  FontSize = "60"
         Grid.Row = "4" Grid.Column = "0" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_42" Content = "" 
+        <local:UserControl1 x:Name = "_42" Content = ""  FontSize = "60" 
         Grid.Row = "4" Grid.Column = "1" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_43" Content = ""
+        <local:UserControl1 x:Name = "_43" Content = ""  FontSize = "60"
         Grid.Row = "4" Grid.Column = "2" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_44" Content = "" 
+        <local:UserControl1 x:Name = "_44" Content = ""  FontSize = "60" 
         Grid.Row = "4" Grid.Column = "3" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_45" Content = "" 
+        <local:UserControl1 x:Name = "_45" Content = ""  FontSize = "60" 
         Grid.Row = "4" Grid.Column = "4" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_46" Content = ""
+        <local:UserControl1 x:Name = "_46" Content = ""  FontSize = "60"
         Grid.Row = "4" Grid.Column = "5" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_47" Content = "" 
+        <local:UserControl1 x:Name = "_47" Content = ""  FontSize = "60" 
         Grid.Row = "4" Grid.Column = "6" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_48" Content = "" 
+        <local:UserControl1 x:Name = "_48" Content = ""  FontSize = "60" 
         Grid.Row = "4" Grid.Column = "7" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_51" Content = ""
+        <local:UserControl1 x:Name = "_51" Content = ""  FontSize = "60"
         Grid.Row = "3" Grid.Column = "0" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_52" Content = ""
+        <local:UserControl1 x:Name = "_52" Content = ""  FontSize = "60"
         Grid.Row = "3" Grid.Column = "1" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_53" Content = "" 
+        <local:UserControl1 x:Name = "_53" Content = ""  FontSize = "60" 
         Grid.Row = "3" Grid.Column = "2" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_54" Content = ""
+        <local:UserControl1 x:Name = "_54" Content = ""  FontSize = "60"
         Grid.Row = "3" Grid.Column = "3" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_55" Content = "" 
+        <local:UserControl1 x:Name = "_55" Content = ""  FontSize = "60" 
         Grid.Row = "3" Grid.Column = "4" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_56" Content = ""
+        <local:UserControl1 x:Name = "_56" Content = ""  FontSize = "60"
         Grid.Row = "3" Grid.Column = "5" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_57" Content = ""
+        <local:UserControl1 x:Name = "_57" Content = ""  FontSize = "60"
         Grid.Row = "3" Grid.Column = "6" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_58" Content = ""
+        <local:UserControl1 x:Name = "_58" Content = ""  FontSize = "60"
         Grid.Row = "3" Grid.Column = "7" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_61" Content = "" 
+        <local:UserControl1 x:Name = "_61" Content = ""  FontSize = "60" 
         Grid.Row = "2" Grid.Column = "2" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_62" Content = ""
+        <local:UserControl1 x:Name = "_62" Content = ""  FontSize = "60"
         Grid.Row = "2" Grid.Column = "1" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_63" Content = ""
+        <local:UserControl1 x:Name = "_63" Content = ""  FontSize = "60"
         Grid.Row = "2" Grid.Column = "2" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_64" Content = "" 
+        <local:UserControl1 x:Name = "_64" Content = ""  FontSize = "60" 
         Grid.Row = "2" Grid.Column = "3" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_65" Content = ""
+        <local:UserControl1 x:Name = "_65" Content = ""  FontSize = "60"
         Grid.Row = "2" Grid.Column = "4" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_66" Content = "" 
+        <local:UserControl1 x:Name = "_66" Content = ""  FontSize = "60" 
         Grid.Row = "2" Grid.Column = "5" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_67" Content = "" 
+        <local:UserControl1 x:Name = "_67" Content = ""  FontSize = "60" 
         Grid.Row = "2" Grid.Column = "6" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_68" Content = "" 
+        <local:UserControl1 x:Name = "_68" Content = ""  FontSize = "60" 
         Grid.Row = "2" Grid.Column = "7" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_71" Content = "" 
+        <local:UserControl1 x:Name = "_71" Content = ""  FontSize = "60" 
         Grid.Row = "1" Grid.Column = "0" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_72" Content = "" 
+        <local:UserControl1 x:Name = "_72" Content = ""  FontSize = "60" 
         Grid.Row = "1" Grid.Column = "1" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_73" Content = "" 
+        <local:UserControl1 x:Name = "_73" Content = ""  FontSize = "60" 
         Grid.Row = "1" Grid.Column = "2" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_74" Content = ""
+        <local:UserControl1 x:Name = "_74" Content = ""  FontSize = "60"
         Grid.Row = "1" Grid.Column = "3" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_75" Content = "" 
+        <local:UserControl1 x:Name = "_75" Content = ""  FontSize = "60" 
         Grid.Row = "1" Grid.Column = "4" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_76" Content = ""
+        <local:UserControl1 x:Name = "_76" Content = ""  FontSize = "60"
         Grid.Row = "1" Grid.Column = "5" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_77" Content = ""
+        <local:UserControl1 x:Name = "_77" Content = ""  FontSize = "60"
         Grid.Row = "1" Grid.Column = "6" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_78" Content = "" 
+        <local:UserControl1 x:Name = "_78" Content = ""  FontSize = "60" 
         Grid.Row = "1" Grid.Column = "7" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_81" Content = ""
+        <local:UserControl1 x:Name = "_81" Content = ""  FontSize = "60"
         Grid.Row = "0" Grid.Column = "0" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_82" Content = "" 
+        <local:UserControl1 x:Name = "_82" Content = ""  FontSize = "60" 
         Grid.Row = "0" Grid.Column = "1" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_83" Content = "" 
+        <local:UserControl1 x:Name = "_83" Content = ""  FontSize = "60" 
         Grid.Row = "0" Grid.Column = "2" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_84" Content = ""
+        <local:UserControl1 x:Name = "_84" Content = ""  FontSize = "60"
         Grid.Row = "0" Grid.Column = "3" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_85" Content = "" 
+        <local:UserControl1 x:Name = "_85" Content = ""  FontSize = "60" 
         Grid.Row = "0" Grid.Column = "4" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_86" Content = "" 
+        <local:UserControl1 x:Name = "_86" Content = ""  FontSize = "60" 
         Grid.Row = "0" Grid.Column = "5" Background = "#FF7E452A"/>
 
-        <local:UserControl1 x:Name = "_87" Content = "" 
+        <local:UserControl1 x:Name = "_87" Content = ""  FontSize = "60" 
         Grid.Row = "0" Grid.Column = "6" Background = "White"/>
 
-        <local:UserControl1 x:Name = "_88" Content = ""
+        <local:UserControl1 x:Name = "_88" Content = ""  FontSize = "60"
         Grid.Row = "0" Grid.Column = "7" Background = "#FF7E452A"/>
     </Grid>
 </Window>

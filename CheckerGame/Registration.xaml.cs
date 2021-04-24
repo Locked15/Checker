@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using Bool = System.Boolean;
 
 namespace CheckerGame
@@ -9,6 +10,11 @@ namespace CheckerGame
     /// </summary>
     public partial class Registration : Window
     {
+        /// <summary>
+        /// Внутреннее поле, содержащее подсказку, содержащую пароль пользователя.
+        /// </summary>
+        ToolTip passwordTool = new ToolTip();
+
         /// <summary>
         /// Статическое поле, отвечающее за то, что сейчас регистрируется второй пользователь.
         /// </summary>
@@ -33,7 +39,7 @@ namespace CheckerGame
         /// <summary>
         /// Конструктор класса. Нужен для работы данного окна.
         /// </summary>
-        public Registration()
+        public Registration ()
         {
             InitializeComponent();
 
@@ -47,10 +53,10 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void CreateNewUserButton_Click(object sender, RoutedEventArgs e)
+        private void CreateNewUserButton_Click (object sender, RoutedEventArgs e)
         {
             if (String.IsNullOrEmpty(NameInputBox.Text) || !BirthChose.SelectedDate.HasValue ||
-            GenderChoseBox.SelectedItem == null || String.IsNullOrEmpty(PasswordInputBox.Text))
+            GenderChoseBox.SelectedItem == null || String.IsNullOrEmpty(PasswordInputBox.Password))
             {
                 MessageBox.Show("Какое-либо поле не было заполнено.", "Ошибка!",
                 MessageBoxButton.OK, MessageBoxImage.Error);
@@ -75,9 +81,9 @@ namespace CheckerGame
                     gender = UserGender.Alternative;
                 }
 
-                UserProfile newUser = new UserProfile(NameInputBox.Text, PasswordInputBox.Text, gender, (DateTime)BirthChose.SelectedDate, 0, 0);
+                UserProfile newUser = new UserProfile(NameInputBox.Text, PasswordInputBox.Password, gender, (DateTime)BirthChose.SelectedDate, 0, 0);
 
-                if (PasswordInputBox.Text.Length < 5)
+                if (PasswordInputBox.Password.Length < 5)
                 {
                     MessageBox.Show("Пароль слишком короткий.", "Ошибка!",
                     MessageBoxButton.OK, MessageBoxImage.Error);
@@ -109,6 +115,28 @@ namespace CheckerGame
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Событие, возникающее при включении опции "Отобразить пароль".
+        /// </summary>
+        /// <param name="sender">Объект, вызвавший событие.</param>
+        /// <param name="e">Аргументы события.</param>
+        private void SeeTheUnseen_Checked(object sender, RoutedEventArgs e)
+        {
+            passwordTool.Content = PasswordInputBox.Password;
+
+            PasswordInputBox.ToolTip = passwordTool;
+        }
+
+        /// <summary>
+        /// Событие, возникающее при отключении опции "Отобразить пароль".
+        /// </summary>
+        /// <param name="sender">Объект, вызвавший событие.</param>
+        /// <param name="e">Аргументы события.</param>
+        private void SeeTheUnseen_Unchecked(object sender, RoutedEventArgs e)
+        {
+            PasswordInputBox.ToolTip = null;
         }
     }
 }

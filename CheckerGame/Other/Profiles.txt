@@ -2,7 +2,7 @@
   {
     "Wins": 0,
     "Name": "Hello",
-    "AllGames": 1,
+    "AllGames": 2,
     "Password": "IAmThere",
     "Gender": 0,
     "BirthTime": "2021-04-20T00:00:00"
@@ -34,7 +34,7 @@
   {
     "Wins": 1,
     "Name": "Rosed",
-    "AllGames": 1,
+    "AllGames": 2,
     "Password": "Yesterday",
     "Gender": 0,
     "BirthTime": "2021-03-11T00:00:00"

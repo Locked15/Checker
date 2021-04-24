@@ -1,3 +1,4 @@
 # Checker
+New Branch!
 
-Project Is Mostly Ready.
+Trying To Add "Kings" Movement Feature.

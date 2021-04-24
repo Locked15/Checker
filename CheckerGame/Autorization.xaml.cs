@@ -10,7 +10,7 @@ namespace CheckerGame
         /// <summary>
         /// Конструктор класса. Необходим для работы окна.
         /// </summary>
-        public Autorization()
+        public Autorization ()
         {
             InitializeComponent();
 
@@ -22,7 +22,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void NewUserButton_Click(object sender, RoutedEventArgs e)
+        private void NewUserButton_Click (object sender, RoutedEventArgs e)
         {
             Registration register = new Registration();
 
@@ -35,7 +35,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void EnterInExistingAccountButton_Click(object sender, RoutedEventArgs e)
+        private void EnterInExistingAccountButton_Click (object sender, RoutedEventArgs e)
         {
             Entering enter = new Entering();
 

@@ -51,7 +51,7 @@ namespace CheckerGame
         /// <summary>
         /// Конструктор класса. Необходим для работы окна.
         /// </summary>
-        public Hub()
+        public Hub ()
         {
             InitializeComponent();
         }
@@ -61,13 +61,13 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void HubWindow_Loaded(object sender, RoutedEventArgs e)
+        private void HubWindow_Loaded (object sender, RoutedEventArgs e)
         {
             Double winRate;
 
             try
             {
-                winRate = Math.Round(Convert.ToDouble(FirstUser.Wins / FirstUser.AllGames), 2);
+                winRate = Math.Round(Convert.ToDouble(FirstUser.Wins * 1.0 / (FirstUser.AllGames * 1.0)), 2);
             }
 
             catch (DivideByZeroException)
@@ -90,7 +90,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender">Объект, который вызвал событие.</param>
         /// <param name="e">Аргументы события.</param>
-        private void EnterSecondButton_Click(object sender, RoutedEventArgs e)
+        private void EnterSecondButton_Click (object sender, RoutedEventArgs e)
         {
             Entering secondEnter = new Entering();
             secondEnter.ShowDialog();
@@ -108,7 +108,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender">Объект, который вызвал событие.</param>
         /// <param name="e">Аргументы события.</param>
-        private void RegisterSecondButton_Click(object sender, RoutedEventArgs e)
+        private void RegisterSecondButton_Click (object sender, RoutedEventArgs e)
         {
             Registration registerSecond = new Registration();
             registerSecond.ShowDialog();
@@ -126,7 +126,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender">Объект, который вызвал событие.</param>
         /// <param name="e">Аргументы события.</param>
-        private void QuitSecondButton_Click(object sender, RoutedEventArgs e)
+        private void QuitSecondButton_Click (object sender, RoutedEventArgs e)
         {
             SecondUserDes.Text = "Второй Пользователь:";
 
@@ -139,7 +139,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender">Объект, который вызвал событие.</param>
         /// <param name="e">Аргументы события.</param>
-        private void StartCheckerMatch_Click(object sender, RoutedEventArgs e)
+        private void StartCheckerMatch_Click (object sender, RoutedEventArgs e)
         {
             if (SecondUser == null)
             {
@@ -158,13 +158,13 @@ namespace CheckerGame
         /// <summary>
         /// Метод для обновления элементов управления при подключении Второго Пользователя.
         /// </summary>
-        private void SecondUserConnected()
+        private void SecondUserConnected ()
         {
             Double winRate;
 
             try
             {
-                winRate = SecondUser.Wins / SecondUser.AllGames;
+                winRate = Math.Round(SecondUser.Wins * 1.0 / (SecondUser.AllGames * 1.0), 2);
             }
 
             catch (DivideByZeroException)
@@ -184,7 +184,7 @@ namespace CheckerGame
         /// <summary>
         /// Метод для обновления элементов управления при подключении Второго Пользователя.
         /// </summary>
-        private void SecondUserDisconnected()
+        private void SecondUserDisconnected ()
         {
             SecondUserWinsDes.Visibility = Visibility.Hidden;
             SecondUserAllGamesDes.Visibility = Visibility.Hidden;
@@ -198,7 +198,7 @@ namespace CheckerGame
         /// <summary>
         /// Метод для обновления свойств с Пользователями при завершении игры в Шашки.
         /// </summary>
-        public void RefreshInformation()
+        public void RefreshInformation ()
         {
             UserProfile.RefreshAccounts();
 

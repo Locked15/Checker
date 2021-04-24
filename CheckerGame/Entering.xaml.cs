@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using Bool = System.Boolean;
 
 namespace CheckerGame
@@ -8,6 +9,11 @@ namespace CheckerGame
     /// </summary>
     public partial class Entering : Window
     {
+        /// <summary>
+        /// Внутреннее поле, содержащее подсказку, содержащую пароль пользователя.
+        /// </summary>
+        ToolTip passwordTool = new ToolTip();
+
         /// <summary>
         /// Статическое поле, отвечающее за то, что сейчас входит второй пользователь.
         /// </summary>
@@ -32,7 +38,7 @@ namespace CheckerGame
         /// <summary>
         /// Конструктор класса. Необходим для работы окна.
         /// </summary>
-        public Entering ()
+        public Entering()
         {
             InitializeComponent();
         }
@@ -42,12 +48,12 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void BeginEnterButton_Click (object sender, RoutedEventArgs e)
+        private void BeginEnterButton_Click(object sender, RoutedEventArgs e)
         {
-            UserProfile profile = UserProfile.CheckAccount(UserNameInputBox.Text, PasswordInputBox.Text);
+            UserProfile profile = UserProfile.CheckAccount(UserNameInputBox.Text, PasswordInputTextBox.Password);
 
             if (profile == null)
-            {
+            { 
                 MessageBox.Show("Аккаунт не найден.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
@@ -67,7 +73,7 @@ namespace CheckerGame
                         MessageBox.Show("Этот пользователь сейчас в Сети.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
-                
+
                 else
                 {
                     Hub.FirstUser = profile;
@@ -78,6 +84,28 @@ namespace CheckerGame
                     Close();
                 }
             }
+        }
+
+        /// <summary>
+        /// Событие, возникающее при включении опции "Отобразить пароль".
+        /// </summary>
+        /// <param name="sender">Объект, вызвавший событие.</param>
+        /// <param name="e">Аргументы события.</param>
+        private void SeeTheUnseenBox_Checked(object sender, RoutedEventArgs e)
+        {
+            passwordTool.Content = PasswordInputTextBox.Password;
+
+            PasswordInputTextBox.ToolTip = passwordTool;
+        }
+
+        /// <summary>
+        /// Событие, возникающее при выключении опции "Отобразить пароль".
+        /// </summary>
+        /// <param name="sender">Объект, вызвавший событие.</param>
+        /// <param name="e">Аргументы события.</param>
+        private void SeeTheUnseenBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            PasswordInputTextBox.ToolTip = null;
         }
     }
 }

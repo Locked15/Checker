@@ -46,7 +46,7 @@ namespace CheckerGame
         /// <summary>
         /// Статическое поле, содержащее абсолютный путь к проекту.
         /// </summary>
-        static String projectAbsPath = "";
+        static String projectAbsPath = @"C:\Users\Земфира\source\repos\Checker\Checker-Profiles\CheckerGame\";
 
         /// <summary>
         /// Свойство, содержащее количество побед данного игрока.
@@ -181,7 +181,7 @@ namespace CheckerGame
         /// <param name="birthTime">Дата рождения пользователя.</param>
         /// <param name="wins">Количество побед данного пользователя. Данный аргумент конструктора нужен для корректной работы Сериализатора.</param>
         /// <param name="allGames">Количество игр у данного пользователя. Данный аргумент конструктора нужен для корректной работы Сериализатора.</param>
-        public UserProfile(String name, String password, UserGender gender, DateTime birthTime, Int32 wins, Int32 allGames)
+        public UserProfile (String name, String password, UserGender gender, DateTime birthTime, Int32 wins, Int32 allGames)
         {
             this.name = name;
             this.password = password;
@@ -194,7 +194,7 @@ namespace CheckerGame
         /// <summary>
         /// Статический метод для обновления списка аккаунтов.
         /// </summary>
-        public static void RefreshAccounts()
+        public static void RefreshAccounts ()
         {
             if (File.Exists(ProjectAbsPath + "\\Other\\Profiles.txt"))
             {
@@ -212,7 +212,7 @@ namespace CheckerGame
         /// <summary>
         /// Статический метод для обновления файла со всеми аккаунтами.
         /// </summary>
-        public static void RefreshFile()
+        public static void RefreshFile ()
         {
             if (ableToRefreshFile)
             {
@@ -227,7 +227,7 @@ namespace CheckerGame
         /// Статический метод для добавления нового аккаунта.
         /// </summary>
         /// <param name="account">Аккаунт пользователя, который надо добавить.</param>
-        public static void AddAccount(UserProfile account)
+        public static void AddAccount (UserProfile account)
         {
             ActualProfiles.Add(account);
 
@@ -239,7 +239,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="profileName">Имя аккаунта, по которому необходимо получить пользователя.</param>
         /// <returns>Аккаунт с указанным именем.</returns>
-        public static UserProfile GetFromName(String profileName)
+        public static UserProfile GetFromName (String profileName)
         {
             foreach (UserProfile profile in ActualProfiles)
             {
@@ -258,7 +258,7 @@ namespace CheckerGame
         /// <param name="name">Имя которое необходимо проверить.</param>
         /// <param name="password">Пароль, который необходимо проверить.</param>
         /// <returns>Аккаунт, который соответствует данному паролю и имени.</returns>
-        public static UserProfile CheckAccount(String name, String password)
+        public static UserProfile CheckAccount (String name, String password)
         {
             foreach (UserProfile profile in ActualProfiles)
             {
@@ -276,7 +276,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="account">Аккаунт, имя которого необходимо проверить.</param>
         /// <returns>Логическое значение, содержащее существование или нет аккаунта с таким именем.</returns>
-        public static Bool CheckAccountName(UserProfile account)
+        public static Bool CheckAccountName (UserProfile account)
         {
             foreach (UserProfile up in ActualProfiles)
             {
@@ -293,7 +293,7 @@ namespace CheckerGame
         /// Метод для добавления победы какому-либо пользователю.
         /// </summary>
         /// <param name="winner">Пользователь, которому надо добавить победу.</param>
-        public void AddWin(UserProfile winner)
+        public void AddWin (UserProfile winner)
         {
             Int32 winnerIndex = ActualProfiles.IndexOf(winner);
 
@@ -308,7 +308,7 @@ namespace CheckerGame
         /// Метод для увеличения счетчика игр у какого-либо пользователя.
         /// </summary>
         /// <param name="player">Пользователь, которому надо дополнить счетчик игр.</param>
-        public void AddGame(UserProfile player)
+        public void AddGame (UserProfile player)
         {
             Int32 playerIndex = ActualProfiles.IndexOf(player);
 

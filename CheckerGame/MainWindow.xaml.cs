@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Media;
 using System.Collections.Generic;
 using Bool = System.Boolean;
+using Colour = System.Windows.Media.Color;
 
 /// <summary>
 /// Основное Пространство Имен проекта.
@@ -140,7 +142,7 @@ namespace CheckerGame
         /// <summary>
         /// Точка входа в Приложение с Интерфесом.
         /// </summary>
-        public MainWindow(Hub hub)
+        public MainWindow (Hub hub)
         {
             this.hub = hub;
 
@@ -155,6 +157,11 @@ namespace CheckerGame
             whiteTurn = true;
 
             InitializeComponent();
+
+            GameFigure.CommonFigure = Convert.ToChar(Convert.ToString(_11.Content));
+            GameFigure.KingFigure = Convert.ToChar(Convert.ToString(_12.Content));
+
+            _12.Content = null;
 
             for (int i = 0; i < Math.Pow(battleField.GetLength(1), 2); i++)
             {
@@ -181,19 +188,19 @@ namespace CheckerGame
                         {
                             firstSide.Add(button.ButtonCell.CurrentFigure);
 
-                            button.Content = "Белая ";
+                            button.Foreground = new SolidColorBrush(Colour.FromRgb(255, 255, 255));
                         }
 
                         else
                         {
                             secondSide.Add(button.ButtonCell.CurrentFigure);
 
-                            button.Content = "Черная ";
+                            button.Foreground = new SolidColorBrush(Colour.FromRgb(0, 0, 0));
                         }
 
                         button.Click += UserControl1_Click;
 
-                        button.Content += "Пешка.";
+                        button.Content = GameFigure.CommonFigure;
                     }
 
                     else
@@ -215,19 +222,19 @@ namespace CheckerGame
                         {
                             firstSide.Add(button.ButtonCell.CurrentFigure);
 
-                            button.Content = "Белая ";
+                            button.Foreground = new SolidColorBrush(Colour.FromRgb(255, 255, 255));
                         }
 
                         else
                         {
                             secondSide.Add(button.ButtonCell.CurrentFigure);
 
-                            button.Content = "Черная ";
+                            button.Foreground = new SolidColorBrush(Colour.FromRgb(0, 0, 0));
                         }
 
                         button.Click += UserControl1_Click;
 
-                        button.Content += "Пешка.";
+                        button.Content = GameFigure.CommonFigure;
                     }
 
                     else
@@ -674,9 +681,7 @@ namespace CheckerGame
                                 {
                                     swapLocation.ButtonCell.CurrentFigure.Type = FigureType.Special;
 
-                                    swapLocation.Content = "Белая Дамка.";
-
-                                    tmpContent = "Белая Дамка.";
+                                    swapLocation.Content = GameFigure.KingFigure;
                                 }
                             }
 
@@ -686,9 +691,7 @@ namespace CheckerGame
                                 {
                                     swapLocation.ButtonCell.CurrentFigure.Type = FigureType.Special;
 
-                                    swapLocation.Content = "Черная Дамка.";
-
-                                    tmpContent = "Черная Дамка.";
+                                    swapLocation.Content = GameFigure.KingFigure;
                                 }
                             }
 
@@ -725,6 +728,7 @@ namespace CheckerGame
                     }
 
                     positionsToEnableIfCellIsKing.Clear();
+                    RefreshColours();
                     TurnChange(whiteTurn);
                 }
 
@@ -736,7 +740,7 @@ namespace CheckerGame
 
                 catch (ArgumentNullException)
                 {
-                    MessageBox.Show($"Обнаружен баг.\nПри вызове какого-то метода в качестве аргумента был передан Null.", 
+                    MessageBox.Show($"Обнаружен баг.\nПри вызове какого-то метода в качестве аргумента был передан Null.",
                     "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
@@ -764,7 +768,7 @@ namespace CheckerGame
         /// <param name="button">Клетка, которая была выбрана.</param>
         /// <param name="line">Линия. Первое число для прохода по массиву.</param>
         /// <param name="column">Столбец. Второе число для прохода по массиву.</param>
-        void BattleFieldCheck(UserControl1 button, Int32 line, Int32 column)
+        void BattleFieldCheck (UserControl1 button, Int32 line, Int32 column)
         {
             try
             {
@@ -807,7 +811,7 @@ namespace CheckerGame
         /// <param name="dir">Направление, в котором необходимо провести сканирование.</param>
         /// <returns>Список типа "UserControl1", содержащий элементы, которые Дамка уничтожит. 
         /// Последний элемент списка указывает на свободную позицию, куда может прыгнуть Дамка.</returns>
-        List<UserControl1> BattleFieldKingCheck(Position startToScanPosition, Direction dir)
+        List<UserControl1> BattleFieldKingCheck (Position startToScanPosition, Direction dir)
         {
             Bool enemyFinded = false;
             List<UserControl1> terminateList = new List<UserControl1>(1);
@@ -1054,14 +1058,39 @@ namespace CheckerGame
         }
 
         /// <summary>
+        /// Метод для обновления цветов у игровых фигур.
+        /// </summary>
+        public void RefreshColours ()
+        {
+            foreach (UserControl1 uc1 in PointsPanel.Children)
+            {
+                if (uc1.ButtonCell.Occupied)
+                {
+                    if (uc1.ButtonCell.CurrentFigure.MainSide)
+                    {
+                        uc1.Foreground = new SolidColorBrush(Colour.FromRgb(255, 255, 255));
+                    }
+
+                    else
+                    {
+                        uc1.Foreground = new SolidColorBrush(Colour.FromRgb(0, 0, 0));
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Событие, возникающее при закрытии формы. Нужно для закрытия окна-хаба, если игровой процесс был прерван.
         /// </summary>
         /// <param name="sender">Элемент, вызвавший событие.</param>
         /// <param name="e">Аргументы события.</param>
-        void GameWindow_Closed(object sender, EventArgs e)
+        void GameWindow_Closed (object sender, EventArgs e)
         {
             if (FirstSide.Count > 0 && SecondSide.Count > 0)
             {
+                Hub.FirstUser.AddGame(Hub.FirstUser);
+                Hub.SecondUser.AddGame(Hub.SecondUser);
+
                 hub.Close();
             }
         }
@@ -1193,7 +1222,7 @@ namespace CheckerGame
         /// Явно прописанный конструктор Класса "Cell". Нужен для создания 
         /// "пустых" экземпляров и их дальнейшего наполнения через Инициализатор.
         /// </summary>
-        public Cell()
+        public Cell ()
         {
 
         }
@@ -1344,6 +1373,16 @@ namespace CheckerGame
         Bool mainSide;
 
         /// <summary>
+        /// Поле, содержащее символ простой фигуры.
+        /// </summary>
+        static Char commonFigure;
+
+        /// <summary>
+        /// Поле, содержащее символ Дамки.
+        /// </summary>
+        static Char kingFigure;
+
+        /// <summary>
         /// Свойство, содержащее экземпляр класса "Location", с местонахождением данной фигуры.
         /// </summary>
         public Position Location
@@ -1389,6 +1428,38 @@ namespace CheckerGame
             set
             {
                 mainSide = value;
+            }
+        }
+
+        /// <summary>
+        /// Свойство, содержащее символ простой фигуры.
+        /// </summary>
+        public static Char CommonFigure
+        {
+            get
+            {
+                return commonFigure;
+            }
+
+            set
+            {
+                commonFigure = value;
+            }
+        }
+
+        /// <summary>
+        /// Свойство, содержащее символ Дамки.
+        /// </summary>
+        public static Char KingFigure
+        {
+            get
+            {
+                return kingFigure;
+            }
+
+            set
+            {
+                kingFigure = value;
             }
         }
 
