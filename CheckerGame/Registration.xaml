@@ -74,7 +74,7 @@
 
         <PasswordBox Name = "PasswordInputBox" FontFamily = "Comic Sans MS" FontSize = "12" Grid.Row = "11" Grid.Column = "2" Foreground = "Black" 
         BorderThickness = "2" BorderBrush = "AntiqueWhite" Background = "Transparent" VerticalContentAlignment = "Center"
-        HorizontalContentAlignment = "Center" Grid.ColumnSpan="3" PasswordChar = "*"/>
+        HorizontalContentAlignment = "Center" Grid.ColumnSpan="3" PasswordChar = "*" PasswordChanged = "PasswordInputBox_PasswordChanged"/>
 
         <CheckBox Name = "SeeTheUnseen" Content = "Отобразить пароль?" FontFamily = "Comic Sans MS" FontSize="8" Foreground = "AntiqueWhite"
         Grid.Row = "13" Grid.Column = "2" Grid.ColumnSpan = "3" HorizontalContentAlignment = "Center" VerticalContentAlignment = "Center"

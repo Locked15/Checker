@@ -107,5 +107,18 @@ namespace CheckerGame
         {
             PasswordInputTextBox.ToolTip = null;
         }
+
+        /// <summary>
+        /// Событие, возникающее при изменении введенного пароля.
+        /// </summary>
+        /// <param name="sender">Объект, вызвавший событие.</param>
+        /// <param name="e">Аргументы события.</param>
+        private void PasswordInputTextBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if ((Bool)SeeTheUnseenBox.IsChecked)
+            {
+                passwordTool.Content = PasswordInputTextBox.Password;
+            }
+        }
     }
 }

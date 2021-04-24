@@ -18,25 +18,25 @@
 
     <Grid Name = "MainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height = "69*"/>
+            <RowDefinition Height = "70*"/>
             <RowDefinition Height = "20*"/>
             <RowDefinition Height = "40*"/>
             <RowDefinition Height = "40*"/>
             <RowDefinition Height = "60*"/>
             <RowDefinition Height = "10*"/>
-            <RowDefinition Height="22*"/>
-            <RowDefinition Height="18*"/>
+            <RowDefinition Height = "20*"/>
+            <RowDefinition Height = "20*"/>
             <RowDefinition Height = "70*"/>
             <RowDefinition Height = "30*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width = "33*"/>
-            <ColumnDefinition Width = "76*"/>
-            <ColumnDefinition Width = "54*"/>
-            <ColumnDefinition Width = "16*"/>
-            <ColumnDefinition Width="22*"/>
-            <ColumnDefinition Width="93*"/>
-            <ColumnDefinition Width = "33*"/>
+            <ColumnDefinition Width = "30*"/>
+            <ColumnDefinition Width = "80*"/>
+            <ColumnDefinition Width = "50*"/>
+            <ColumnDefinition Width = "20*"/>
+            <ColumnDefinition Width = "20*"/>
+            <ColumnDefinition Width = "90*"/>
+            <ColumnDefinition Width = "30*"/>
         </Grid.ColumnDefinitions>
 
         <TextBlock Name = "EnterDes" Text = "Чтобы войти, введите Имя пользователя и Пароль." VerticalAlignment = "Center" Grid.Row = "0" Grid.Column = "1"
@@ -54,7 +54,7 @@
 
         <PasswordBox Name = "PasswordInputTextBox" VerticalContentAlignment = "Center" HorizontalContentAlignment = "Center" Grid.Row = "4" Grid.Column = "3"
         Foreground = "AntiqueWhite" Background = "Transparent" BorderThickness = "2" BorderBrush = "AntiqueWhite" Grid.ColumnSpan="3"
-        PasswordChar = "*"/>
+        PasswordChar = "*" PasswordChanged = "PasswordInputTextBox_PasswordChanged"/>
 
         <CheckBox Name = "SeeTheUnseenBox" Grid.Row = "6" Grid.Column = "4" Background = "#FF833F3F" Checked = "SeeTheUnseenBox_Checked"
         Grid.ColumnSpan = "2" Content = "Отобразить пароль?" FontSize = "9" HorizontalContentAlignment = "Center" VerticalContentAlignment = "Center"
