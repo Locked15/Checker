@@ -46,7 +46,8 @@ namespace CheckerGame
         /// <summary>
         /// Статическое поле, содержащее абсолютный путь к проекту.
         /// </summary>
-        static String projectAbsPath = @"NULL";
+        static String projectAbsPath = Environment.CurrentDirectory.Substring(0, Environment.CurrentDirectory.LastIndexOf("CheckerGame")
+        + "CheckerGame".Length);
 
         /// <summary>
         /// Свойство, содержащее количество побед данного игрока.

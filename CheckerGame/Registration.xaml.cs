@@ -46,6 +46,8 @@ namespace CheckerGame
             GenderChoseBox.Items.Add("Мужской");
             GenderChoseBox.Items.Add("Женский");
             GenderChoseBox.Items.Add("Альтернативный");
+
+            BirthChose.DisplayDateEnd = DateTime.UtcNow;
         }
 
         /// <summary>
@@ -66,6 +68,7 @@ namespace CheckerGame
             {
                 UserGender gender;
 
+                //Определение пола пользователя:
                 if (GenderChoseBox.SelectedItem.ToString() == "Мужской")
                 {
                     gender = UserGender.Male;
@@ -81,19 +84,29 @@ namespace CheckerGame
                     gender = UserGender.Alternative;
                 }
 
+                //Создание экземпляра класса 'UserProfile':
                 UserProfile newUser = new UserProfile(NameInputBox.Text, PasswordInputBox.Password, gender, (DateTime)BirthChose.SelectedDate, 0, 0);
 
+                //Проверка на длину пароля:
                 if (PasswordInputBox.Password.Length < 5)
                 {
                     MessageBox.Show("Пароль слишком короткий.", "Ошибка!",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
+                //Проверка на существование в системе пользователя с таким именем:
                 else if (UserProfile.CheckAccountName(newUser))
                 {
                     MessageBox.Show("Пользователь с таким именем уже определен.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
+                //Проверка на возраст пользователя:
+                else if (DateTime.UtcNow.Year - newUser.BirthTime.Year < 12)
+                {
+                    MessageBox.Show("Ваш возраст слишком мал, чтобы зарегистрироваться в данном приложении.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+
+                //Если аккаунт полностью соответствует условиям, он добавляется в систему:
                 else
                 {
                     UserProfile.AddAccount(newUser);

@@ -153,7 +153,7 @@
         Grid.Row = "3" Grid.Column = "7" Background = "White"/>
 
         <local:UserControl1 x:Name = "_61" Content = ""  FontSize = "60" 
-        Grid.Row = "2" Grid.Column = "2" Background = "White"/>
+        Grid.Row = "2" Grid.Column = "0" Background = "White"/>
 
         <local:UserControl1 x:Name = "_62" Content = ""  FontSize = "60"
         Grid.Row = "2" Grid.Column = "1" Background = "#FF7E452A"/>

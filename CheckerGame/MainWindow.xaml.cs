@@ -828,8 +828,7 @@ namespace CheckerGame
 
             if (dir == Direction.RightUp)
             {
-                //Так как метод сканирования определен "коряво", то здесь используются другие направления...
-                List<Position> ablePoses = KingFigureScanPositions(startToScanPosition, Direction.RightDown);
+                List<Position> ablePoses = KingFigureScanPositions(startToScanPosition, Direction.RightUp);
                 UserControl1 uc1;
 
                 foreach (Position able in ablePoses)
@@ -857,8 +856,7 @@ namespace CheckerGame
 
             else if (dir == Direction.RightDown)
             {
-                //Так как метод сканирования определен "коряво", то здесь используются другие направления...
-                List<Position> ablePoses = KingFigureScanPositions(startToScanPosition, Direction.RightUp);
+                List<Position> ablePoses = KingFigureScanPositions(startToScanPosition, Direction.RightDown);
                 UserControl1 uc1;
 
                 foreach (Position able in ablePoses)
@@ -886,8 +884,7 @@ namespace CheckerGame
 
             else if (dir == Direction.LeftUp)
             {
-                //Так как метод сканирования определен "коряво", то здесь используются другие направления...
-                List<Position> ablePoses = KingFigureScanPositions(startToScanPosition, Direction.LeftDown);
+                List<Position> ablePoses = KingFigureScanPositions(startToScanPosition, Direction.LeftUp);
                 UserControl1 uc1;
 
                 foreach (Position able in ablePoses)
@@ -915,8 +912,7 @@ namespace CheckerGame
 
             else //LeftDown
             {
-                //Так как метод сканирования определен "коряво", то здесь используются другие направления...
-                List<Position> ablePoses = KingFigureScanPositions(startToScanPosition, Direction.LeftUp);
+                List<Position> ablePoses = KingFigureScanPositions(startToScanPosition, Direction.LeftDown);
                 UserControl1 uc1;
 
                 foreach (Position able in ablePoses)
@@ -975,27 +971,16 @@ namespace CheckerGame
 
             if (dir == Direction.RightUp)
             {
-                while (startColumn <= battleField.GetLength(1) && startLine > 0)
+                while (startLine <= battleField.GetLength(0) && startColumn <= battleField.GetLength(1))
                 {
                     enablePositions.Add(new Position(startLine, startColumn));
 
-                    startLine--;
+                    startLine++;
                     startColumn++;
                 }
             }
 
             else if (dir == Direction.LeftUp)
-            {
-                while (startColumn > 0 && startLine > 0)
-                {
-                    enablePositions.Add(new Position(startLine, startColumn));
-
-                    startLine--;
-                    startColumn--;
-                }
-            }
-
-            else if (dir == Direction.LeftDown)
             {
                 while (startLine <= battleField.GetLength(0) && startColumn > 0)
                 {
@@ -1006,13 +991,24 @@ namespace CheckerGame
                 }
             }
 
-            else
+            else if (dir == Direction.LeftDown)
             {
-                while (startColumn <= battleField.GetLength(1) && startLine <= battleField.GetLength(0))
+                while (startLine > 0 && startColumn > 0)
                 {
                     enablePositions.Add(new Position(startLine, startColumn));
 
-                    startLine++;
+                    startLine--;
+                    startColumn--;
+                }
+            }
+
+            else
+            {
+                while (startLine > 0 && startColumn <= battleField.GetLength(1))
+                {
+                    enablePositions.Add(new Position(startLine, startColumn));
+
+                    startLine--;
                     startColumn++;
                 }
             }
