@@ -142,7 +142,7 @@ namespace CheckerGame
         /// <summary>
         /// Точка входа в Приложение с Интерфесом.
         /// </summary>
-        public MainWindow (Hub hub)
+        public MainWindow(Hub hub)
         {
             this.hub = hub;
 
@@ -325,7 +325,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender">Объект, вызвавший событие.</param>
         /// <param name="e">Прочие сведения...</param>
-        void UserControl1_Click (object sender, RoutedEventArgs e)
+        void UserControl1_Click(object sender, RoutedEventArgs e)
         {
             UserControl1 button = (UserControl1)sender;
 
@@ -533,8 +533,8 @@ namespace CheckerGame
                     /*Поле battleMode нужно для переопределения логики, согласно которой производится ...
                     ... отбор ячеек, на которые может прыгнуть фигура, ставшая Дамкой.*/
 
-                    Int32 rowInd = 0;
-                    Int32 colInd = 0;
+                    Int32 rowPos = 0;
+                    Int32 colPos = 0;
                     clickCounter = 0;
                     Cell tmpCell = chosedCell.ButtonCell;
                     Object tmpContent = chosedCell.Content;
@@ -554,8 +554,8 @@ namespace CheckerGame
                                 {
                                     if (button.ButtonCell == battleField[i, j])
                                     {
-                                        rowInd = i;
-                                        colInd = j;
+                                        rowPos = button.ButtonPosition.Line;
+                                        colPos = button.ButtonPosition.Column;
 
                                         break;
                                     }
@@ -566,11 +566,14 @@ namespace CheckerGame
                             {
                                 try
                                 {
-                                    if (uc1.ButtonCell == battleField[rowInd - 1, colInd - 1])
+                                    Position checkPos = new Position(rowPos + 1, colPos + 1);
+
+                                    if (uc1.ButtonPosition.Line == checkPos.Line && uc1.ButtonPosition.Column == checkPos.Column)
                                     {
                                         GameFigureClear(uc1);
 
-                                        break;
+                                        battleField[rowPos - 1, colPos - 1].CurrentFigure = null;
+                                        battleField[rowPos - 1, colPos - 1].Occupied = false;
                                     }
                                 }
 
@@ -579,11 +582,14 @@ namespace CheckerGame
 
                                 try
                                 {
-                                    if (uc1.ButtonCell == battleField[rowInd - 1, colInd + 1])
+                                    Position checkPos = new Position(rowPos + 1, colPos - 1);
+
+                                    if (uc1.ButtonPosition.Line == checkPos.Line && uc1.ButtonPosition.Column == checkPos.Column)
                                     {
                                         GameFigureClear(uc1);
 
-                                        break;
+                                        battleField[rowPos - 1, colPos - 1].CurrentFigure = null;
+                                        battleField[rowPos - 1, colPos - 1].Occupied = false;
                                     }
                                 }
 
@@ -592,11 +598,14 @@ namespace CheckerGame
 
                                 try
                                 {
-                                    if (uc1.ButtonCell == battleField[rowInd + 1, colInd - 1])
+                                    Position checkPos = new Position(rowPos - 1, colPos - 1);
+
+                                    if (uc1.ButtonPosition.Line == checkPos.Line && uc1.ButtonPosition.Column == checkPos.Column)
                                     {
                                         GameFigureClear(uc1);
 
-                                        break;
+                                        battleField[rowPos - 1, colPos - 1].CurrentFigure = null;
+                                        battleField[rowPos - 1, colPos - 1].Occupied = false;
                                     }
                                 }
 
@@ -605,11 +614,14 @@ namespace CheckerGame
 
                                 try
                                 {
-                                    if (uc1.ButtonCell == battleField[rowInd + 1, colInd + 1])
+                                    Position checkPos = new Position(rowPos - 1, colPos + 1);
+
+                                    if (uc1.ButtonPosition.Line == checkPos.Line && uc1.ButtonPosition.Column == checkPos.Column)
                                     {
                                         GameFigureClear(uc1);
 
-                                        break;
+                                        battleField[rowPos - 1, colPos - 1].CurrentFigure = null;
+                                        battleField[rowPos - 1, colPos - 1].Occupied = false;
                                     }
                                 }
 
@@ -680,8 +692,6 @@ namespace CheckerGame
                                 if (button.ButtonPosition.Line == 8)
                                 {
                                     swapLocation.ButtonCell.CurrentFigure.Type = FigureType.Special;
-
-                                    swapLocation.Content = GameFigure.KingFigure;
                                 }
                             }
 
@@ -690,8 +700,6 @@ namespace CheckerGame
                                 if (button.ButtonPosition.Line == 1)
                                 {
                                     swapLocation.ButtonCell.CurrentFigure.Type = FigureType.Special;
-
-                                    swapLocation.Content = GameFigure.KingFigure;
                                 }
                             }
 
@@ -728,7 +736,6 @@ namespace CheckerGame
                     }
 
                     positionsToEnableIfCellIsKing.Clear();
-                    RefreshColours();
                     TurnChange(whiteTurn);
                 }
 
@@ -760,6 +767,9 @@ namespace CheckerGame
                     TurnChange(whiteTurn);
                 }
             }
+
+            RefreshColours();
+            RefreshSymbols();
         }
 
         /// <summary>
@@ -768,7 +778,7 @@ namespace CheckerGame
         /// <param name="button">Клетка, которая была выбрана.</param>
         /// <param name="line">Линия. Первое число для прохода по массиву.</param>
         /// <param name="column">Столбец. Второе число для прохода по массиву.</param>
-        void BattleFieldCheck (UserControl1 button, Int32 line, Int32 column)
+        void BattleFieldCheck(UserControl1 button, Int32 line, Int32 column)
         {
             try
             {
@@ -811,7 +821,7 @@ namespace CheckerGame
         /// <param name="dir">Направление, в котором необходимо провести сканирование.</param>
         /// <returns>Список типа "UserControl1", содержащий элементы, которые Дамка уничтожит. 
         /// Последний элемент списка указывает на свободную позицию, куда может прыгнуть Дамка.</returns>
-        List<UserControl1> BattleFieldKingCheck (Position startToScanPosition, Direction dir)
+        List<UserControl1> BattleFieldKingCheck(Position startToScanPosition, Direction dir)
         {
             Bool enemyFinded = false;
             List<UserControl1> terminateList = new List<UserControl1>(1);
@@ -942,7 +952,7 @@ namespace CheckerGame
         /// Метод для комплексного выполнения последовательности методов по очистке ячейки. Сокращает код.
         /// </summary>
         /// <param name="uc1">Ячейка, которую необходимо очистить.</param>
-        void GameFigureClear (UserControl1 uc1)
+        void GameFigureClear(UserControl1 uc1)
         {
             GameFigure.FigureDestroyed(uc1.ButtonCell.CurrentFigure, this, hub);
 
@@ -957,7 +967,7 @@ namespace CheckerGame
         /// <param name="startPosition">Стартовая позиция, с которой надо начать сканирование.</param>
         /// <param name="dir">Направление, по которому необходимо провести сканирование.</param>
         /// <returns>Список с доступными позициями.</returns>
-        List<Position> KingFigureScanPositions (Position startPosition, Direction dir)
+        List<Position> KingFigureScanPositions(Position startPosition, Direction dir)
         {
             Int32 startLine = startPosition.Line;
             Int32 startColumn = startPosition.Column;
@@ -1016,7 +1026,7 @@ namespace CheckerGame
         /// <param name="buttonPosition">Стартовая позиция.</param>
         /// <param name="pos">Конечная позиция.</param>
         /// <returns>Направление, в котором расположены точки.</returns>
-        public static Direction DirectionDefinition (Position buttonPosition, Position pos)
+        public static Direction DirectionDefinition(Position buttonPosition, Position pos)
         {
             Position toDefDirection = buttonPosition - pos;
 
@@ -1045,7 +1055,7 @@ namespace CheckerGame
         /// Метод для смены активных фигур ("Шашек").
         /// </summary>
         /// <param name="turn">Сторона, которая сейчас будет ходить.</param>
-        public void TurnChange (Bool turn)
+        public void TurnChange(Bool turn)
         {
             foreach (UserControl1 button in PointsPanel.Children)
             {
@@ -1060,7 +1070,7 @@ namespace CheckerGame
         /// <summary>
         /// Метод для обновления цветов у игровых фигур.
         /// </summary>
-        public void RefreshColours ()
+        public void RefreshColours()
         {
             foreach (UserControl1 uc1 in PointsPanel.Children)
             {
@@ -1080,11 +1090,25 @@ namespace CheckerGame
         }
 
         /// <summary>
+        /// Метод для обновления внешнего вида у игровых фигур.
+        /// </summary>
+        public void RefreshSymbols()
+        {
+            foreach (UserControl1 uc in PointsPanel.Children)
+            {
+                if (uc.ButtonCell.Occupied && uc.ButtonCell.CurrentFigure.Type == FigureType.Special)
+                {
+                    uc.Content = GameFigure.KingFigure;
+                }
+            }
+        }
+
+        /// <summary>
         /// Событие, возникающее при закрытии формы. Нужно для закрытия окна-хаба, если игровой процесс был прерван.
         /// </summary>
         /// <param name="sender">Элемент, вызвавший событие.</param>
         /// <param name="e">Аргументы события.</param>
-        void GameWindow_Closed (object sender, EventArgs e)
+        void GameWindow_Closed(object sender, EventArgs e)
         {
             if (FirstSide.Count > 0 && SecondSide.Count > 0)
             {
@@ -1222,7 +1246,7 @@ namespace CheckerGame
         /// Явно прописанный конструктор Класса "Cell". Нужен для создания 
         /// "пустых" экземпляров и их дальнейшего наполнения через Инициализатор.
         /// </summary>
-        public Cell ()
+        public Cell()
         {
 
         }
@@ -1239,7 +1263,7 @@ namespace CheckerGame
         /// у "нижней" границы игровой области.</param>
         /// <param name="darkColour">Логическая переменная, отвечающая за тип ячейки: 
         /// Темная или Светлая.</param>
-        public Cell (Bool occupied, Bool edge, GameFigure currentFigure, Bool secondEdge, Bool darkColour)
+        public Cell(Bool occupied, Bool edge, GameFigure currentFigure, Bool secondEdge, Bool darkColour)
         {
             Occupied = occupied;
             MainEdge = edge;
@@ -1253,7 +1277,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="toDestroy">Ячейка, которую необходимо очистить.</param>
         /// <returns>Очищенная ячейка.</returns>
-        public static Cell Destroy (Cell toDestroy)
+        public static Cell Destroy(Cell toDestroy)
         {
             toDestroy.CurrentFigure = null;
             toDestroy.Occupied = false;
@@ -1314,7 +1338,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="line">Строка, в которой находится ячейка.</param>
         /// <param name="column">Колонна, в которой находится ячейка.</param>
-        public Position (Int32 line, Int32 column)
+        public Position(Int32 line, Int32 column)
         {
             Line = line;
             Column = column;
@@ -1326,7 +1350,7 @@ namespace CheckerGame
         /// <param name="pos">Список, который необходимо проверить.</param>
         /// <param name="toFind">Элемент, который необходимо найти.</param>
         /// <returns>Логическая переменная, отвечающая за то, содержится ли элемент в списке или нет.</returns>
-        public static Bool Contains (List<Position> pos, Position toFind)
+        public static Bool Contains(List<Position> pos, Position toFind)
         {
             for (int i = 0; i < pos.Count; i++)
             {
@@ -1345,7 +1369,7 @@ namespace CheckerGame
         /// <param name="posOne">Позиция, от которой нужно отнимать.</param>
         /// <param name="posTwo">Позиция, которую нужно отнять.</param>
         /// <returns>Новая позиция.</returns>
-        public static Position operator - (Position posOne, Position posTwo)
+        public static Position operator -(Position posOne, Position posTwo)
         {
             return new Position(posOne.Line - posTwo.Line, posOne.Column - posTwo.Column);
         }
@@ -1470,7 +1494,7 @@ namespace CheckerGame
         /// <param name="type">Переменная перечисления Enum, содержащая Тип Фигуры.</param>
         /// <param name="side">Логическая переменная, отвечающая за принадлежность к "Главной"
         /// (Нижней) стороне.</param>
-        public GameFigure (Position location, FigureType type, Bool side)
+        public GameFigure(Position location, FigureType type, Bool side)
         {
             Location = location;
             Type = type;
@@ -1483,7 +1507,7 @@ namespace CheckerGame
         /// <param name="destroyedFigure">Уничтожаемая фигура.</param>
         /// <param name="windowToCloseIfFigureIsLast">Экземпляр основного окна, необходимый для его закрытия, если фигура окажется последней.</param>
         /// <param name="hubToShowIfFigureIsLast">Экземпляр окна "Hub" для открытия, если фигура окажется последней.</param>
-        public static void FigureDestroyed (GameFigure destroyedFigure, MainWindow windowToCloseIfFigureIsLast, Hub hubToShowIfFigureIsLast)
+        public static void FigureDestroyed(GameFigure destroyedFigure, MainWindow windowToCloseIfFigureIsLast, Hub hubToShowIfFigureIsLast)
         {
             if (destroyedFigure.MainSide)
             {

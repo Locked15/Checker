@@ -1,8 +1,8 @@
 [
   {
-    "Wins": 0,
+    "Wins": 1,
     "Name": "Hello",
-    "AllGames": 2,
+    "AllGames": 3,
     "Password": "IAmThere",
     "Gender": 0,
     "BirthTime": "2021-04-20T00:00:00"
@@ -32,9 +32,9 @@
     "BirthTime": "2021-04-05T00:00:00"
   },
   {
-    "Wins": 1,
+    "Wins": 3,
     "Name": "Rosed",
-    "AllGames": 2,
+    "AllGames": 5,
     "Password": "Yesterday",
     "Gender": 0,
     "BirthTime": "2021-03-11T00:00:00"
