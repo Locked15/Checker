@@ -85,7 +85,7 @@ namespace CheckerGame
                 }
 
                 //Создание экземпляра класса 'UserProfile':
-                UserProfile newUser = new UserProfile(NameInputBox.Text, PasswordInputBox.Password, gender, (DateTime)BirthChose.SelectedDate, 0, 0);
+                UserProfile newUser = new UserProfile(NameInputBox.Text, PasswordInputBox.Password, gender, (DateTime)BirthChose.SelectedDate, 0, 0, 0);
 
                 //Проверка на длину пароля:
                 if (PasswordInputBox.Password.Length < 5)

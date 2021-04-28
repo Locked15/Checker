@@ -1108,9 +1108,19 @@ namespace CheckerGame
         {
             if (FirstSide.Count > 0 && SecondSide.Count > 0)
             {
-                Hub.FirstUser.AddGame(Hub.FirstUser);
-                Hub.SecondUser.AddGame(Hub.SecondUser);
+                //Если выход был произведен во время хода первого пользователя (Белые Фигуры), то побег засчитывается ему:
+                if (whiteTurn)
+                {
+                    Hub.FirstUser.AddLeave(Hub.FirstUser);
+                }
 
+                //В ином случае побег засчитывается другому пользователю:
+                else
+                {
+                    Hub.SecondUser.AddLeave(Hub.SecondUser);
+                }
+
+                //Закрытие Хаба, чтобы приложение было полностью остановлено:
                 hub.Close();
             }
         }

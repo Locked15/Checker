@@ -15,34 +15,47 @@ namespace CheckerGame
         /// Поле, содержащее количество побед конкретного игрока.
         /// </summary>
         Int32 wins;
+
+        /// <summary>
+        /// Поле, содержащее количество побегов с матчей.
+        /// </summary>
+        Int32 leaves;
+
         /// <summary>
         /// Поле, содержащее имя конкретного игрока.
         /// </summary>
         String name;
+
         /// <summary>
         /// Поле, содержащее количество всех игр данного игрока.
         /// </summary>
         Int32 allGames;
+
         /// <summary>
         /// Поле, содержащее пароль данного игрока.
         /// </summary>
         String password;
+
         /// <summary>
         /// Поле, содержащее пол данного игрока. Для определения используется перечисление "Enum".
         /// </summary>
         UserGender gender;
+
         /// <summary>
         /// Поле, содержащее дату рождения данного игрока.
         /// </summary>
         DateTime birthTime;
+
         /// <summary>
         /// Статическое поле, отвечающее за разрешение на перезапись файла. Нужно для предохранения от записи в файл пустого списка пользователей. 
         /// </summary>
         static Bool ableToRefreshFile = false;
+
         /// <summary>
         /// Статическое поле, содержащее всех активных игроков на данный момент.
         /// </summary>
         static List<UserProfile> actualProfiles = new List<UserProfile>(1);
+
         /// <summary>
         /// Статическое поле, содержащее абсолютный путь к проекту.
         /// </summary>
@@ -64,6 +77,23 @@ namespace CheckerGame
                 wins = value;
             }
         }
+
+        /// <summary>
+        /// Свойство, содержащее количество побегов игрока с матчей.
+        /// </summary>
+        public Int32 Leaves
+        {
+            get
+            {
+                return leaves;
+            }
+
+            private set
+            {
+                leaves = value;
+            }
+        }
+
         /// <summary>
         /// Свойство, содержащее имя конкретного игрока.
         /// </summary>
@@ -79,6 +109,7 @@ namespace CheckerGame
                 name = value;
             }
         }
+
         /// <summary>
         /// Свойство, содержащее количество всех игр данного игрока.
         /// </summary>
@@ -94,6 +125,7 @@ namespace CheckerGame
                 allGames = value;
             }
         }
+
         /// <summary>
         /// Свойство, содержащее пароль данного игрока.
         /// </summary>
@@ -109,6 +141,7 @@ namespace CheckerGame
                 password = value;
             }
         }
+
         /// <summary>
         /// Свойство, содержащее пол данного игрока. Для определения используется перечисление "Enum".
         /// </summary>
@@ -124,6 +157,7 @@ namespace CheckerGame
                 gender = value;
             }
         }
+
         /// <summary>
         /// Свойство, содержащее дату рождения данного игрока.
         /// </summary>
@@ -139,6 +173,7 @@ namespace CheckerGame
                 birthTime = value;
             }
         }
+
         /// <summary>
         /// Статическое свойство, содержащее абсолютный путь к проекту.
         /// </summary>
@@ -149,6 +184,7 @@ namespace CheckerGame
                 return projectAbsPath;
             }
         }
+
         /// <summary>
         /// Статическое свойство, содержащее всех активных игроков на данный момент.
         /// </summary>
@@ -182,7 +218,8 @@ namespace CheckerGame
         /// <param name="birthTime">Дата рождения пользователя.</param>
         /// <param name="wins">Количество побед данного пользователя. Данный аргумент конструктора нужен для корректной работы Сериализатора.</param>
         /// <param name="allGames">Количество игр у данного пользователя. Данный аргумент конструктора нужен для корректной работы Сериализатора.</param>
-        public UserProfile (String name, String password, UserGender gender, DateTime birthTime, Int32 wins, Int32 allGames)
+        /// <param name="leaves">Количество побегов у данного пользователя. Данный аргумент конструктора нужен для корректной работы Сериализатора.</param>>
+        public UserProfile (String name, String password, UserGender gender, DateTime birthTime, Int32 wins, Int32 allGames, Int32 leaves)
         {
             this.name = name;
             this.password = password;
@@ -190,6 +227,7 @@ namespace CheckerGame
             this.birthTime = birthTime;
             this.wins = wins;
             this.allGames = allGames;
+            this.leaves = leaves;
         }
 
         /// <summary>
@@ -204,10 +242,10 @@ namespace CheckerGame
                     String allText = sr1.ReadToEnd();
 
                     ActualProfiles = JsonSerializer.Deserialize<List<UserProfile>>(allText, options);
-
-                    ableToRefreshFile = true;
                 }
             }
+
+            ableToRefreshFile = true;
         }
 
         /// <summary>
@@ -296,10 +334,8 @@ namespace CheckerGame
         /// <param name="winner">Пользователь, которому надо добавить победу.</param>
         public void AddWin (UserProfile winner)
         {
-            Int32 winnerIndex = ActualProfiles.IndexOf(winner);
-
-            ActualProfiles[winnerIndex].Wins += 1;
-            ActualProfiles[winnerIndex].AllGames += 1;
+            ActualProfiles.Find(profile => profile == winner).Wins += 1;
+            ActualProfiles.Find(profile => profile == winner).AllGames += 1;
 
             RefreshFile();
             RefreshAccounts();
@@ -311,9 +347,29 @@ namespace CheckerGame
         /// <param name="player">Пользователь, которому надо дополнить счетчик игр.</param>
         public void AddGame (UserProfile player)
         {
-            Int32 playerIndex = ActualProfiles.IndexOf(player);
+            ActualProfiles.Find(profile => profile == player).Leaves += 1;
 
-            ActualProfiles[playerIndex].AllGames += 1;
+            RefreshFile();
+        }
+
+        /// <summary>
+        /// Метод для увеличения счетчика побегов с матчей у какого-либо пользователя.
+        /// </summary>
+        /// <param name="player">Пользователь, которому надо дополнить счетчик побегов.</param>
+        public void AddLeave (UserProfile player)
+        {
+            ActualProfiles.Find(profile => profile == player).Leaves += 1;
+
+            RefreshFile();
+        }
+
+        /// <summary>
+        /// Метод для удаления аккаунта пользователя.
+        /// </summary>
+        /// <param name="profile">Аккаунт, который необходимо удалить.</param>
+        public void DeleteUser(UserProfile profile)
+        {
+            ActualProfiles.Remove(profile);
 
             RefreshFile();
         }

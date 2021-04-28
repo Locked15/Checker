@@ -76,12 +76,37 @@ namespace CheckerGame
 
             FirstUserDes.Text += '\n' + FirstUser.Name;
 
-            FirstUserWins.Text = FirstUser.Wins.ToString();
-            FirstUserAllGames.Text = FirstUser.AllGames.ToString();
-            FirstUserWinsProcent.Text = (winRate * 100).ToString() + '%';
+            FirstUserWins.Text = FirstUser.Wins.ToString() + ';';
+            FirstUserAllGames.Text = FirstUser.AllGames.ToString() + ';';
+            FirstUserWinsProcent.Text = (winRate * 100).ToString() + "%;";
+            FirstUserLeaves.Text = FirstUser.Leaves.ToString() + '.';
 
             Entering.SecondUser = true;
             Registration.SecondUser = true;
+        }
+
+        /// <summary>
+        /// Событие, возникающее при нажатии на кнопку "DeleteUser". Удаляет аккаунт первого пользователя и закрывает текущую сессию игры.
+        /// </summary>
+        /// <param name="sender">Объект, вызвавший событие.</param>
+        /// <param name="e">Аргументы события.</param>
+        private void DeleteUser_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Вы ТОЧНО уверены?\nАккаунт будет удален безвозвратно!", "Внимание!", MessageBoxButton.YesNo, MessageBoxImage.Warning)
+                == MessageBoxResult.Yes)
+            {
+                FirstUser.DeleteUser(FirstUser);
+
+                if (SecondUser != null)
+                {
+                    QuitSecondButton_Click(sender, new RoutedEventArgs());
+                }
+
+                Autorization newWindow = new Autorization();
+
+                newWindow.Show();
+                Close();
+            }
         }
 
         /// <summary>
@@ -173,24 +198,28 @@ namespace CheckerGame
             SecondUserWinsDes.Visibility = Visibility.Visible;
             SecondUserAllGamesDes.Visibility = Visibility.Visible;
             SecondUserWinsProcentDes.Visibility = Visibility.Visible;
+            SecondUserLeavesDes.Visibility = Visibility.Visible;
 
-            SecondUserWins.Text = " " + SecondUser.Wins.ToString();
-            SecondUserAllGames.Text = " " + SecondUser.AllGames.ToString();
-            SecondUserWinsProcent.Text = " " + (winRate * 100).ToString() + '%';
+            SecondUserWins.Text = " " + SecondUser.Wins.ToString() + ';';
+            SecondUserAllGames.Text = " " + SecondUser.AllGames.ToString() + ';';
+            SecondUserWinsProcent.Text = " " + (winRate * 100).ToString() + '%' + ';';
+            SecondUserLeaves.Text = SecondUser.Leaves.ToString() + '.';
         }
 
         /// <summary>
-        /// Метод для обновления элементов управления при подключении Второго Пользователя.
+        /// Метод для обновления элементов управления при отключении Второго Пользователя.
         /// </summary>
         private void SecondUserDisconnected()
         {
             SecondUserWinsDes.Visibility = Visibility.Hidden;
             SecondUserAllGamesDes.Visibility = Visibility.Hidden;
             SecondUserWinsProcentDes.Visibility = Visibility.Hidden;
+            SecondUserLeavesDes.Visibility = Visibility.Hidden;
 
             SecondUserWins.Text = "";
             SecondUserAllGames.Text = "";
             SecondUserWinsProcent.Text = "";
+            SecondUserLeaves.Text = "";
         }
 
         /// <summary>
