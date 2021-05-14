@@ -172,10 +172,18 @@ namespace CheckerGame
 
             else
             {
-                MainWindow game = new MainWindow(this);
-                game.Show();
+                SizeDialog dialog = new SizeDialog();
+                dialog.ShowDialog();
 
-                Hide();
+                if (dialog.Size.HasValue)
+                {
+                    MainWindow game = new MainWindow(this, dialog.Size.Value);
+                    game.Show();
+
+                    Hide();
+
+                    dialog.Dispose();
+                }
             }
         }
 

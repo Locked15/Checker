@@ -1,0 +1,57 @@
+﻿<Window x:Name = "DialogAboutSize" x:Class = "CheckerGame.SizeDialog"
+        xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d = "http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc = "http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local = "clr-namespace:CheckerGame"
+        mc:Ignorable = "d"
+        Title = "Размер поля" Height = "350" Width = "300" ResizeMode = "NoResize" 
+        WindowStartupLocation = "CenterOwner" WindowStyle = "ToolWindow">
+
+    <Window.Background>
+        <LinearGradientBrush EndPoint = "0.5,1" StartPoint = "0.5,0">
+            <LinearGradientBrush.RelativeTransform>
+                <TransformGroup>
+                    <ScaleTransform CenterY = "0.5" CenterX = "0.5"/>
+                    <SkewTransform CenterY = "0.5" CenterX = "0.5"/>
+                    <RotateTransform Angle = "45" CenterY = "0.5" CenterX = "0.5"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+                
+            </LinearGradientBrush.RelativeTransform>
+            <GradientStop Color = "#FF4D4D4D" Offset = "0"/>
+            <GradientStop Color = "#FF375976" Offset = "0.84"/>
+            <GradientStop Color = "#FF52766C" Offset = "0.32"/>
+            <GradientStop Color = "#FF436C6A" Offset = "0.554"/>
+        </LinearGradientBrush>
+    </Window.Background>
+
+    <Grid x:Name = "MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height = "15*"/>
+            <RowDefinition Height = "70*"/>
+            <RowDefinition Height = "20*"/>
+            <RowDefinition Height = "40*"/>
+            <RowDefinition Height = "20*"/>
+            <RowDefinition Height = "40*"/>
+            <RowDefinition Height = "20*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width = "35*"/>
+            <ColumnDefinition Width = "70*"/>
+            <ColumnDefinition Width = "35*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock x:Name = "SizeDes" Grid.Column = "1" Grid.Row = "1" Background = "Transparent"
+        FontSize = "12" FontFamily = "Comic Sans MS" Foreground = "AntiqueWhite" Text = "Укажите размер:"
+        VerticalAlignment  =  "Center" TextAlignment = "Center" TextWrapping = "Wrap"/>
+
+        <TextBox Name = "SizeBox" Grid.Column = "1" Grid.Row = "3" Background = "Transparent" BorderThickness = "3" 
+        BorderBrush = "AntiqueWhite" FontFamily = "Comic Sans MS" FontSize = "18" VerticalContentAlignment = "Center" 
+        HorizontalContentAlignment = "Center"/>
+
+        <Button Name = "ReadyToGameButton" Content = "Начать игру." Grid.Column = "1" Grid.Row = "5" Background = "Transparent" 
+        BorderThickness = "2" BorderBrush = "AntiqueWhite" FontFamily = "Comic Sans MS" FontSize = "14" 
+        Foreground = "AntiqueWhite" Click = "ReadyToGameButton_Click"/>
+    </Grid>
+</Window>

@@ -4,6 +4,7 @@ using System.Windows.Media;
 using System.Collections.Generic;
 using Bool = System.Boolean;
 using Colour = System.Windows.Media.Color;
+using SolidColourBrush = System.Windows.Media.SolidColorBrush;
 
 /// <summary>
 /// Основное Пространство Имен проекта.
@@ -38,15 +39,15 @@ namespace CheckerGame
         Int32 clickCounter;
 
         /// <summary>
+        /// Поле, содержащее все ячейки игрового поля.
+        /// </summary>
+        Cell[,] battleField;
+
+        /// <summary>
         /// Поле, содержащее выбранный при первом клике элемент 
         /// ("Шашка").
         /// </summary>
         UserControl1 chosedCell;
-
-        /// <summary>
-        /// Поле, содержащее все ячейки игрового поля.
-        /// </summary>
-        Cell[,] battleField = new Cell[8, 8];
 
         /// <summary>
         /// Поле, содержащее все фигуры Главной Стороны
@@ -140,11 +141,15 @@ namespace CheckerGame
         }
 
         /// <summary>
-        /// Точка входа в Приложение с Интерфесом.
+        /// Точка входа в приложение с интерфейсом.
         /// </summary>
-        public MainWindow(Hub hub)
+        /// <param name="hub">Экземпляр класса "Hub".</param>
+        /// <param name="size">Размер будущего игрового поля.</param>
+        public MainWindow(Hub hub, Int32 size)
         {
             this.hub = hub;
+
+            battleField = new Cell[size, size];
 
             Int32 j = 0;
             Int32 line = 0;
@@ -154,27 +159,71 @@ namespace CheckerGame
             battleFieldMiddleCellsRows.Add(limit);
             battleFieldMiddleCellsRows.Add(limit + 1);
 
-            whiteTurn = true;
-
             InitializeComponent();
 
-            GameFigure.CommonFigure = Convert.ToChar(Convert.ToString(_11.Content));
-            GameFigure.KingFigure = Convert.ToChar(Convert.ToString(_12.Content));
+            PointsPanel.Rows = size;
+            PointsPanel.Columns = size;
 
-            _12.Content = null;
+            whiteTurn = true;
 
-            for (int i = 0; i < Math.Pow(battleField.GetLength(1), 2); i++)
+            for (int i = battleField.GetLength(0); i > 0; i--)
+            {
+                for (int z = 1; z <= battleField.GetLength(1); z++)
+                {
+                    UserControl1 newButton = new UserControl1();
+
+                    if (i % 2 != 0)
+                    {
+                        if (z % 2 == 0)
+                        {
+                            newButton.Background = new SolidColourBrush(Colour.FromRgb(255, 255, 255));
+                        }
+
+                        else
+                        {
+                            newButton.Background = new SolidColourBrush(Colour.FromRgb(90, 44, 0));
+                        }
+                    }
+
+                    else
+                    {
+                        if (z % 2 != 0)
+                        {
+                            newButton.Background = new SolidColourBrush(Colour.FromRgb(255, 255, 255));
+                        }
+
+                        else
+                        {
+                            newButton.Background = new SolidColourBrush(Colour.FromRgb(90, 44, 0));
+                        }
+                    }
+
+                    newButton.Name = $"_{i}{z}";
+                    newButton.FontSize = 60;
+                    newButton.ButtonPosition = new Position(i, z);
+
+                    //Так как мы создаем элементы прямо через код, то нам необходимо зарегистрировать этот элемент в XAML.
+                    //Только в таком случае все методы будут работать корректно.
+                    NameScope.SetNameScope(newButton, NameScope.GetNameScope(PointsPanel));
+                    RegisterName(newButton.Name, newButton);
+
+                    PointsPanel.Children.Add(newButton);
+                }
+            }
+
+            for (int i = 0; i < Math.Pow(size, 2); i++)
             {
                 UserControl1 button = (UserControl1)PointsPanel.Children[i];
                 String name = button.Name;
 
-                Int32 row = Int32.Parse(name[1].ToString());
-                Int32 column = Int32.Parse(name[2].ToString());
+                Int32 row = button.ButtonPosition.Line;
+                Int32 column = button.ButtonPosition.Column;
 
-                button.ButtonPosition = new Position(row, column);
                 button.ButtonCell = new Cell();
 
-                Bool side = row <= 3;
+                //Проверка на сторону, к которой принадлежит фигура, находящаяся на данной клетке:
+                //Если она находится на линии меньшей или равной (limit - 1), то эта фигура принадлежит основной стороне.
+                Bool side = row <= limit - 1;
 
                 if (row % 2 == 0 && !battleFieldMiddleCellsRows.Contains(row))
                 {
@@ -188,14 +237,14 @@ namespace CheckerGame
                         {
                             firstSide.Add(button.ButtonCell.CurrentFigure);
 
-                            button.Foreground = new SolidColorBrush(Colour.FromRgb(255, 255, 255));
+                            button.Foreground = new SolidColourBrush(Colour.FromRgb(255, 255, 255));
                         }
 
                         else
                         {
                             secondSide.Add(button.ButtonCell.CurrentFigure);
 
-                            button.Foreground = new SolidColorBrush(Colour.FromRgb(0, 0, 0));
+                            button.Foreground = new SolidColourBrush(Colour.FromRgb(0, 0, 0));
                         }
 
                         button.Click += UserControl1_Click;
@@ -222,14 +271,14 @@ namespace CheckerGame
                         {
                             firstSide.Add(button.ButtonCell.CurrentFigure);
 
-                            button.Foreground = new SolidColorBrush(Colour.FromRgb(255, 255, 255));
+                            button.Foreground = new SolidColourBrush(Colour.FromRgb(255, 255, 255));
                         }
 
                         else
                         {
                             secondSide.Add(button.ButtonCell.CurrentFigure);
 
-                            button.Foreground = new SolidColorBrush(Colour.FromRgb(0, 0, 0));
+                            button.Foreground = new SolidColourBrush(Colour.FromRgb(0, 0, 0));
                         }
 
                         button.Click += UserControl1_Click;
@@ -294,7 +343,7 @@ namespace CheckerGame
                 }
             }
 
-            for (int i = 0; i < 63; i++)
+            for (int i = 0; i < Math.Pow(battleField.GetLength(1), 2); i++)
             {
                 if (latestButton.EndsWith("8"))
                 {
@@ -788,8 +837,12 @@ namespace CheckerGame
                 if (battleField[centerPosition.Line + line, centerPosition.Column + column].Occupied
                 && battleField[centerPosition.Line + line, centerPosition.Column + column].CurrentFigure.MainSide != whiteTurn)
                 {
-                    UserControl1 terminate = (UserControl1)FindName($"_{Int32.Parse(button.Name[1].ToString()) + line}" +
-                    $"{Int32.Parse(button.Name[2].ToString()) + column}");
+                    UserControl1 terminate;
+
+                    //Произведена замена метода по поиску по имени. 
+                    //Необходима проверка функциональности.
+                    terminate = (UserControl1)FindName($"_{button.ButtonPosition.Line + line}" +
+                    $"{button.ButtonPosition.Column + column}");
 
                     line *= 2;
                     column *= 2;
@@ -1405,12 +1458,12 @@ namespace CheckerGame
         /// <summary>
         /// Поле, содержащее символ простой фигуры.
         /// </summary>
-        static Char commonFigure;
+        static Char commonFigure = Convert.ToChar(11044);
 
         /// <summary>
         /// Поле, содержащее символ Дамки.
         /// </summary>
-        static Char kingFigure;
+        static Char kingFigure = Convert.ToChar(9711);
 
         /// <summary>
         /// Свойство, содержащее экземпляр класса "Location", с местонахождением данной фигуры.
