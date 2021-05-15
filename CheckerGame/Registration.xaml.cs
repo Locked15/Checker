@@ -135,7 +135,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender">Объект, вызвавший событие.</param>
         /// <param name="e">Аргументы события.</param>
-        private void SeeTheUnseen_Checked(object sender, RoutedEventArgs e)
+        private void SeeTheUnseen_Checked (object sender, RoutedEventArgs e)
         {
             passwordTool.Content = PasswordInputBox.Password;
 
@@ -147,7 +147,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender">Объект, вызвавший событие.</param>
         /// <param name="e">Аргументы события.</param>
-        private void SeeTheUnseen_Unchecked(object sender, RoutedEventArgs e)
+        private void SeeTheUnseen_Unchecked (object sender, RoutedEventArgs e)
         {
             PasswordInputBox.ToolTip = null;
         }
@@ -157,7 +157,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender">Объект, вызвавший событие.</param>
         /// <param name="e">Аргументы события.</param>
-        private void PasswordInputBox_PasswordChanged(object sender, RoutedEventArgs e)
+        private void PasswordInputBox_PasswordChanged (object sender, RoutedEventArgs e)
         {
             if ((Bool)SeeTheUnseen.IsChecked)
             {

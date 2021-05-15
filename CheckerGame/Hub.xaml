@@ -31,90 +31,92 @@
             <RowDefinition Height = "60*"/>
             <RowDefinition Height = "30*"/>
         </Grid.RowDefinitions>
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width = "60*"/>
-            <ColumnDefinition Width = "75*"/>
+            <ColumnDefinition Width = "45*"/>
+            <ColumnDefinition Width = "40*"/>
             <ColumnDefinition Width = "60*"/>
             <ColumnDefinition Width = "65*"/>
-            <ColumnDefinition Width = "65*"/>
+            <ColumnDefinition Width = "66*"/>
             <ColumnDefinition Width = "65*"/>
         </Grid.ColumnDefinitions>
 
         <TextBlock x:Name = "FirstUserDes" Text = "Первый Пользователь: " Grid.Row = "0" Grid.Column = "0" Foreground = "AntiqueWhite"
         TextAlignment = "Center" VerticalAlignment = "Top" FontSize = "14" FontFamily = "Comic Sans MS" TextWrapping = "Wrap" Height = "70"
-        Grid.ColumnSpan = "3"/>
+        Grid.ColumnSpan = "4"/>
 
-        <Button Name = "DeleteUser" Grid.Row = "1" Grid.Column = "0" Grid.ColumnSpan = "3" Content = "Удалить аккаунт." Foreground = "AntiqueWhite"
-        Background = "Transparent" FontFamily = "Comic Sans MS" BorderThickness = "2" BorderBrush = "AntiqueWhite" Click = "DeleteUser_Click"/>
+        <Button Name = "QuitUser" Grid.Row = "1" Grid.Column = "0" Grid.ColumnSpan = "4" Content = "Выйти." Foreground = "AntiqueWhite"
+        Background = "Transparent" FontFamily = "Comic Sans MS" BorderThickness = "2" BorderBrush = "AntiqueWhite" Click = "QuitUser_Click"/>
 
-        <TextBlock x:Name = "SecondUserDes" Text = "Второй Пользователь:" Grid.Row = "0" Grid.Column = "3" Foreground = "AntiqueWhite"
+        <TextBlock x:Name = "SecondUserDes" Text = "Второй Пользователь:" Grid.Row = "0" Grid.Column = "4" Foreground = "AntiqueWhite"
         TextAlignment = "Center" VerticalAlignment = "Top" FontSize = "14" FontFamily = "Comic Sans MS" TextWrapping = "Wrap" Grid.ColumnSpan = "3" 
         Height = "60"/>
 
-        <Button Name = "EnterSecondButton" Grid.Row = "1" Grid.Column = "3" Content = "Войти." Foreground = "AntiqueWhite" Background = "Transparent"
+        <Button Name = "EnterSecondButton" Grid.Row = "1" Grid.Column = "4" Content = "Войти." Foreground = "AntiqueWhite" Background = "Transparent"
         FontFamily = "Comic Sans MS" BorderThickness = "2" BorderBrush = "AntiqueWhite" Click = "EnterSecondButton_Click"/>
 
-        <Button Name = "RegisterSecondButton" Grid.Row = "1" Grid.Column = "4" Foreground = "AntiqueWhite" Content = "Регистрация." FontSize = "9"
+        <Button Name = "RegisterSecondButton" Grid.Row = "1" Grid.Column = "5" Foreground = "AntiqueWhite" Content = "Регистрация." FontSize = "9"
         Background = "Transparent" BorderBrush = "AntiqueWhite" BorderThickness = "2" FontFamily = "Comic Sans MS" Click = "RegisterSecondButton_Click"/>
 
-        <Button Name = "QuitSecondButton" Grid.Row = "1" Grid.Column = "5" Content = "Выйти." Foreground = "AntiqueWhite" Background = "Transparent"
+        <Button Name = "QuitSecondButton" Grid.Row = "1" Grid.Column = "6" Content = "Выйти." Foreground = "AntiqueWhite" Background = "Transparent"
         FontFamily = "Comic Sans MS" BorderThickness = "2" BorderBrush = "AntiqueWhite" Click = "QuitSecondButton_Click"/>
 
-        <TextBlock Name = "FirstUserStatDes" Grid.Row = "3" Grid.Column = "0" Grid.ColumnSpan = "3" Text = "Статистика: " Foreground = "AntiqueWhite"
+        <TextBlock Name = "FirstUserStatDes" Grid.Row = "3" Grid.Column = "0" Grid.ColumnSpan = "4" Text = "Статистика: " Foreground = "AntiqueWhite"
         FontSize = "20" FontFamily = "Comic Sans MS" TextAlignment = "Center" VerticalAlignment = "Center"/>
 
-        <TextBlock Name = "FirstUserWinsDes" Grid.Row = "4" Grid.Column = "0" Grid.ColumnSpan = "2" Text = "Количество побед:" Foreground = "AntiqueWhite"
+        <TextBlock Name = "FirstUserWinsDes" Grid.Row = "4" Grid.Column = "0" Grid.ColumnSpan = "3" Text = "Количество побед:" Foreground = "AntiqueWhite"
         FontSize = "14" FontFamily = "Comic Sans MS" TextAlignment = "Left" VerticalAlignment = "Center"/>
 
-        <TextBlock Name = "FirstUserWins" Grid.Row = "4" Grid.Column = "2" Foreground = "AntiqueWhite" FontSize = "14" FontFamily = "Comic Sans MS" 
+        <TextBlock Name = "FirstUserWins" Grid.Row = "4" Grid.Column = "3" Foreground = "AntiqueWhite" FontSize = "14" FontFamily = "Comic Sans MS" 
         TextAlignment = "Left" VerticalAlignment = "Center"/>
 
-        <TextBlock Name = "FirstUserAllGamesDes" Grid.Row = "5" Grid.Column = "0" Grid.ColumnSpan = "2" Text = "Количество игр:" Foreground = "AntiqueWhite"
+        <TextBlock Name = "FirstUserAllGamesDes" Grid.Row = "5" Grid.Column = "0" Grid.ColumnSpan = "3" Text = "Количество игр:" Foreground = "AntiqueWhite"
         FontFamily = "Comic Sans MS" TextAlignment = "Left" VerticalAlignment = "Center" FontSize = "14"/>
 
-        <TextBlock Name = "FirstUserAllGames" Grid.Row = "5" Grid.Column = "2" Foreground = "AntiqueWhite" FontFamily = "Comic Sans MS" 
+        <TextBlock Name = "FirstUserAllGames" Grid.Row = "5" Grid.Column = "3" Foreground = "AntiqueWhite" FontFamily = "Comic Sans MS" 
         TextAlignment = "Left" VerticalAlignment = "Center" FontSize = "14"/>
 
-        <TextBlock Name = "FirstUserWinsProcentDes" Grid.Row = "6" Grid.Column = "0" Grid.ColumnSpan = "2" Text = "Процент побед:" Foreground = "AntiqueWhite"
-        FontFamily = "Comic Sans MS" TextAlignment = "Left" VerticalAlignment = "Center" FontSize = "14"/>
+        <TextBlock Name = "FirstUserWinsProcentDes" Grid.Row = "6" Grid.Column = "0" Grid.ColumnSpan = "3" Text = "Процент побед:" Foreground = "AntiqueWhite"
+        FontFamily = "Comic Sans MS" TextAlignment = "Left" VerticalAlignment = "Center" FontSize = "14" Margin="0,5.167,0,4.833"/>
 
-        <TextBlock Name = "FirstUserWinsProcent" Grid.Row = "6" Grid.Column = "2" Foreground = "AntiqueWhite" FontFamily = "Comic Sans MS" 
+        <TextBlock Name = "FirstUserWinsProcent" Grid.Row = "6" Grid.Column = "3" Foreground = "AntiqueWhite" FontFamily = "Comic Sans MS" 
         TextAlignment = "Left" VerticalAlignment = "Center" FontSize = "14"/>
 
-        <TextBlock Name = "FirstUserLeavesDes" Grid.Row = "7" Grid.Column = "0" Grid.ColumnSpan = "2" Text = "Кол-во побегов:" Foreground = "AntiqueWhite"
+        <TextBlock Name = "FirstUserLeavesDes" Grid.Row = "7" Grid.Column = "0" Grid.ColumnSpan = "3" Text = "Кол-во побегов:" Foreground = "AntiqueWhite"
         FontFamily = "Comic Sans MS"  TextAlignment = "Left" VerticalAlignment = "Center" FontSize = "14"/>
 
-        <TextBlock Name = "FirstUserLeaves" Grid.Row = "7" Grid.Column = "2" Foreground = "AntiqueWhite" FontFamily = "Comic Sans MS"
+        <TextBlock Name = "FirstUserLeaves" Grid.Row = "7" Grid.Column = "3" Foreground = "AntiqueWhite" FontFamily = "Comic Sans MS"
         TextAlignment = "Left" VerticalAlignment = "Center" FontSize = "14"/>
 
-        <TextBlock Name = "SecondUserStatDes" Grid.Row = "3" Grid.Column = "3" Grid.ColumnSpan = "3" Text = "Статистика: " Foreground = "AntiqueWhite"
+        <TextBlock Name = "SecondUserStatDes" Grid.Row = "3" Grid.Column = "4" Grid.ColumnSpan = "3" Text = "Статистика: " Foreground = "AntiqueWhite"
         FontSize = "20" FontFamily = "Comic Sans MS" TextAlignment = "Center" VerticalAlignment = "Center" Visibility = "Hidden"/>
 
-        <TextBlock Name = "SecondUserWinsDes" Grid.Row = "4" Grid.Column = "3" Grid.ColumnSpan = "2" Text = "Количество побед:" Foreground = "AntiqueWhite"
+        <TextBlock Name = "SecondUserWinsDes" Grid.Row = "4" Grid.Column = "4" Grid.ColumnSpan = "2" Text = "Количество побед:" Foreground = "AntiqueWhite"
         FontSize = "14" FontFamily = "Comic Sans MS" TextAlignment = "Left" VerticalAlignment = "Center" Visibility = "Hidden"/>
 
-        <TextBlock Name = "SecondUserWins" Grid.Row = "4" Grid.Column = "5" Foreground = "AntiqueWhite" FontSize = "14" FontFamily = "Comic Sans MS" 
+        <TextBlock Name = "SecondUserWins" Grid.Row = "4" Grid.Column = "6" Foreground = "AntiqueWhite" FontSize = "14" FontFamily = "Comic Sans MS" 
         TextAlignment = "Left" VerticalAlignment = "Center"/>
 
-        <TextBlock Name = "SecondUserAllGamesDes" Grid.Row = "5" Grid.Column = "3" Grid.ColumnSpan = "2" Text = "Количество игр:" Foreground = "AntiqueWhite"
+        <TextBlock Name = "SecondUserAllGamesDes" Grid.Row = "5" Grid.Column = "4" Grid.ColumnSpan = "2" Text = "Количество игр:" Foreground = "AntiqueWhite"
         FontFamily = "Comic Sans MS" TextAlignment = "Left" VerticalAlignment = "Center" FontSize = "14" Visibility = "Hidden"/>
 
-        <TextBlock Name = "SecondUserAllGames" Grid.Row = "5" Grid.Column = "5" Foreground = "AntiqueWhite" FontFamily = "Comic Sans MS" 
+        <TextBlock Name = "SecondUserAllGames" Grid.Row = "5" Grid.Column = "6" Foreground = "AntiqueWhite" FontFamily = "Comic Sans MS" 
         TextAlignment = "Left" VerticalAlignment = "Center" FontSize = "14"/>
 
-        <TextBlock Name = "SecondUserWinsProcentDes" Grid.Row = "6" Grid.Column = "3" Grid.ColumnSpan = "2" Text = "Процент побед:" Foreground = "AntiqueWhite"
+        <TextBlock Name = "SecondUserWinsProcentDes" Grid.Row = "6" Grid.Column = "4" Grid.ColumnSpan = "2" Text = "Процент побед:" Foreground = "AntiqueWhite"
         FontFamily = "Comic Sans MS" TextAlignment = "Left" VerticalAlignment = "Center" FontSize = "14" Visibility = "Hidden"/>
 
-        <TextBlock Name = "SecondUserWinsProcent" Grid.Row = "6" Grid.Column = "5" Foreground = "AntiqueWhite" FontFamily = "Comic Sans MS" 
+        <TextBlock Name = "SecondUserWinsProcent" Grid.Row = "6" Grid.Column = "6" Foreground = "AntiqueWhite" FontFamily = "Comic Sans MS" 
         TextAlignment = "Left" VerticalAlignment = "Center" FontSize = "14"/>
 
-        <TextBlock Name = "SecondUserLeavesDes" Grid.Row = "7" Grid.Column = "3" Grid.ColumnSpan = "2" Text = "Кол-во побегов:" Foreground = "AntiqueWhite"
+        <TextBlock Name = "SecondUserLeavesDes" Grid.Row = "7" Grid.Column = "4" Grid.ColumnSpan = "2" Text = "Кол-во побегов:" Foreground = "AntiqueWhite"
         FontFamily = "Comic Sans MS"  TextAlignment = "Left" VerticalAlignment = "Center" FontSize = "14" Visibility = "Hidden"/>
 
-        <TextBlock Name = "SecondUserLeaves" Grid.Row = "7" Grid.Column = "5" Foreground = "AntiqueWhite" FontFamily = "Comic Sans MS"
+        <TextBlock Name = "SecondUserLeaves" Grid.Row = "7" Grid.Column = "6" Foreground = "AntiqueWhite" FontFamily = "Comic Sans MS"
         TextAlignment = "Left" VerticalAlignment = "Center" FontSize = "14"/>
 
-        <Button x:Name = "StartCheckerMatch" Content = "Начать игру." Grid.Row = "9" Grid.Column = "1" Grid.ColumnSpan = "4" Background = "Transparent"
+        <Button x:Name = "StartCheckerMatch" Content = "Начать игру." Grid.Row = "9" Grid.Column = "1" Grid.ColumnSpan = "5" Background = "Transparent"
         FontFamily = "Comic Sans MS" Foreground = "AntiqueWhite" BorderThickness = "4" BorderBrush = "AliceBlue" FontSize = "20"
         Click = "StartCheckerMatch_Click"/>
     </Grid>

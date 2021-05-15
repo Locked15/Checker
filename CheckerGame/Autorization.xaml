@@ -6,13 +6,14 @@
         xmlns:local = "clr-namespace:CheckerGame"
         mc:Ignorable = "d"
         Title = "Авторизация" Height = "500" Width = "400"
-        MinWidth = "200" MinHeight = "250" Background = "#FFE4AFAF">
+        MinWidth = "265" MinHeight = "335" Background = "#FFE4AFAF">
 
     <Grid x:Name = "Grid">
         <Grid.RowDefinitions>
             <RowDefinition Height = "65*"/>
-            <RowDefinition Height = "80*"/>
-            <RowDefinition Height = "70*"/>
+            <RowDefinition Height = "60*"/>
+            <RowDefinition Height = "60*"/>
+            <RowDefinition Height = "60*"/>
         </Grid.RowDefinitions>
 
         <TextBlock Name = "WelcomeUserLabel" Text = "Прежде чем начать работу с приложением, Вам следует войти в свой аккаунт." FontFamily = "Comic Sans MS" 
@@ -23,5 +24,8 @@
 
         <Button Name = "EnterInExistingAccountButton" Content = "Войти." Grid.Row = "2" FontFamily = "Comic Sans MS" FontSize = "22" 
         Foreground = "#FF762A2A" Background = "#FFE4AFAF" Click = "EnterInExistingAccountButton_Click"/>
+
+        <Button Name = "EnterInInformationMenuButton" Content = "Информация." Grid.Row = "3" FontFamily = "Comic Sans MS" FontSize = "22" 
+        Foreground = "#FF762A2A" Background = "#FFE4AFAF" Click = "EnterInInformationMenuButton_Click"/>
     </Grid>
 </Window>

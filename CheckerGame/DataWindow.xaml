@@ -1,0 +1,85 @@
+﻿<Window x:Name = "InformationWindow" x:Class = "CheckerGame.DataWindow"
+        xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d = "http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc = "http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local = "clr-namespace:CheckerGame"
+        mc:Ignorable = "d"
+        Title = "Информация" Height = "350" Width = "520" 
+        MinHeight = "350" MinWidth = "520">
+
+    <Window.Background>
+        <LinearGradientBrush EndPoint = "0.5,1" StartPoint = "0.5,0">
+            <GradientStop Color = "#FF191919" Offset = "0"/>
+            <GradientStop Color = "Gray" Offset = "1"/>
+            <GradientStop Color = "#FE595959" Offset = "0.201"/>
+            <GradientStop Color = "#FE272727" Offset = "0.441"/>
+            <GradientStop Color = "#FE4F4E4E" Offset = "0.669"/>
+            <GradientStop Color = "#FE343434" Offset = "0.836"/>
+        </LinearGradientBrush>
+    </Window.Background>
+
+    <Grid Name = "MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height = "10*"/>
+            <RowDefinition Height = "30*"/>
+            <RowDefinition Height = "10*"/>
+            <RowDefinition Height = "40*"/>
+            <RowDefinition Height = "10*"/>
+            <RowDefinition Height = "30*"/>
+            <RowDefinition Height = "10*"/>
+            <RowDefinition Height = "30*"/>
+            <RowDefinition Height = "10*"/>
+            <RowDefinition Height = "20*"/>
+            <RowDefinition Height = "20*"/>
+            <RowDefinition Height = "10*"/>
+            <RowDefinition Height = "70*"/>
+            <RowDefinition Height = "10*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width = "70*"/>
+            <ColumnDefinition Width = "90*"/>
+            <ColumnDefinition Width = "100*"/>
+            <ColumnDefinition Width = "90*"/>
+            <ColumnDefinition Width = "90*"/>
+            <ColumnDefinition Width = "70*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Name = "DesBorder" Background = "Transparent" Grid.Row = "0" Grid.Column = "0" Grid.RowSpan = "14" Grid.ColumnSpan = "3"
+        BorderThickness = "2" BorderBrush = "Black"/>
+
+        <TextBlock Name = "MainDes1" Text = "Добро пожаловать в Меню Информации!" TextWrapping = "Wrap" Grid.Row = "1" Grid.Column = "0"
+        Grid.RowSpan = "2" Grid.ColumnSpan = "3" FontSize = "18" TextAlignment = "Left" FontFamily = "Times New Roman"
+        Foreground = "Azure" Margin = "5, 0, 0, 0"/>
+
+        <TextBlock Name = "MainDes2" Text = "Здесь находятся разные инструменты для получения информации о текущих активных пользователях."
+        TextWrapping = "Wrap" Grid.Row = "4" Grid.Column = "0" Grid.RowSpan = "4" Grid.ColumnSpan = "3" FontSize = "18"
+        TextAlignment = "Left" FontFamily = "Times New Roman" Foreground = "Azure" Margin = "5, 0, 0, 0"/>
+
+        <TextBlock Name = "MainDes3" Text = "Кроме того, используя это меню вы можете удалить свой аккаунт. В целях безопасности для этого Вам придется ввести Логин и Пароль."
+        TextWrapping = "Wrap" Grid.Row = "10" Grid.Column = "0" Grid.ColumnSpan = "3" FontSize = "18" Grid.RowSpan = "4"
+        TextAlignment = "Left" FontFamily = "Times New Roman" Foreground = "Azure" Margin = "5, 0, 0, 0"/>
+
+        <Button x:Name = "GetExcelListButton" Grid.Row = "4" Grid.Column = "4" Background = "Transparent" BorderBrush = "Azure"
+        BorderThickness = "2" Click = "GetExcelListButton_Click" Grid.RowSpan = "2" Grid.ColumnSpan = "2">
+            <TextBlock Name = "GetExcelListButtonText" Text = "Вывести информацию об аккаунтах в Excel." Foreground = "Azure" TextWrapping = "Wrap"
+            FontFamily = "Times New Roman" TextAlignment = "Right"/>
+        </Button>
+
+        <Button x:Name = "GetWordListButton" Grid.Row = "7" Grid.Column = "4" Background = "Transparent" BorderBrush = "Azure"
+        BorderThickness = "2" Click = "GetWordListButton_Click" Grid.RowSpan = "2" Grid.ColumnSpan = "2">
+            <TextBlock Name = "GetWordListButtonText" Text = "Вывести информацию об аккаунтах в Word." Foreground = "Azure" TextWrapping = "Wrap"
+            FontFamily = "Times New Roman" TextAlignment = "Right"/>
+        </Button>
+
+        <Button x:Name = "QuitButton" Content = "Выйти." Grid.Row = "1" Grid.Column = "5" Background = "Transparent" BorderBrush = "Azure"
+        BorderThickness = "2" Foreground = "Azure" FontFamily = "Times New Roman" Click = "QuitButton_Click"/>
+
+        <Button x:Name = "DeleteAccountButton" Grid.Row = "12" Grid.Column = "5" Background = "Transparent" BorderBrush = "Azure"
+        BorderThickness = "2"  Click = "DeleteAccountButton_Click">
+            <TextBlock Name = "DeleteAccountButtonText" Text = "Удалить аккаунт." Foreground = "Azure" TextWrapping = "Wrap"
+            FontFamily = "Times New Roman"/>
+        </Button>
+    </Grid>
+</Window>

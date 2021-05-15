@@ -1,8 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.Windows;
 using System.Text.Json;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using Bool = System.Boolean;
+using Word = Microsoft.Office.Interop.Word;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace CheckerGame
 {
@@ -292,6 +296,21 @@ namespace CheckerGame
         }
 
         /// <summary>
+        /// Метод для проверки на то, есть ли сейчас в системе активные аккаунты.
+        /// </summary>
+        /// <returns>Логическое Значение, отвечающее за наличие активных аккаунтов.</returns>
+        public static Bool CheckActiveAccounts ()
+        {
+            if (ActualProfiles.Count > 0)
+            {
+                return true;
+            }
+
+            MessageBox.Show("На данный момент активные аккаунты отсутствуют.", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+            return false;
+        }
+
+        /// <summary>
         /// Метод для проверки Имени и Пароля на существование в списке пользователей.
         /// </summary>
         /// <param name="name">Имя которое необходимо проверить.</param>
@@ -364,12 +383,138 @@ namespace CheckerGame
         }
 
         /// <summary>
+        /// Создает таблицу Excel, в которой содержится информация о текущих пользователях.
+        /// </summary>
+        /// <param name="path">Абсолютный путь к создаваемому файлу.</param>
+        /// <param name="excelSheetName">Название создаваемого файла.</param>
+        /// <param name="openFileAfterCreate">Необязательный параметр. Отвечает за открытие файла после его создания.</param>>
+        public async static void CreateExcelUserList (String path, String excelSheetName, Bool openFileAfterCreate = false)
+        {
+            String fullPath;
+
+            if (!excelSheetName.EndsWith(".xlsx"))
+            {
+                excelSheetName += ".xlsx";
+            }
+
+            //Проверка на окончание пути.
+            _ = path.EndsWith("\\") ? fullPath = path + excelSheetName :
+            fullPath = path + "\\" + excelSheetName;
+
+            //Так как создание документа затрачивает много времени, этот алгоритм вынесен в отдельный поток.
+            await Task.Run(() =>
+            {
+                //Создается "Процесс" Excel. Далее указывается количество страниц в будущем файле.
+                Excel.Application appToWork = new Excel.Application();
+                appToWork.SheetsInNewWorkbook = ActualProfiles.Count;
+
+                //Создается "Книга" (файл), в него сразу добавляется страница. 
+                //Далее эта страница записывается в отдельную переменную.
+                //При работе с Excel индексация страниц начинается с 1.
+                Excel.Workbook mainWorkbook = appToWork.Workbooks.Add(1);
+                Excel.Worksheet currentWorksheet = mainWorkbook.Worksheets.Item[1];
+
+                for (int i = 0; i < ActualProfiles.Count; i++)
+                {
+                    //Так как страницы добавляются Справа -> Налево, то используем нестандартный индекс.
+                    currentWorksheet.Name = ActualProfiles[ActualProfiles.Count - (i + 1)].Name;
+
+                    //Заполняем ячейки будущей книги по их индексам.
+                    currentWorksheet.Cells[1, 1] = "Имя Пользователя:";
+                    currentWorksheet.Cells[2, 1] = "Количество Побед:";
+                    currentWorksheet.Cells[3, 1] = "Количество Игр:";
+                    currentWorksheet.Cells[4, 1] = "Количество Побегов:";
+                    currentWorksheet.Cells[5, 1] = "Пол:";
+                    currentWorksheet.Cells[6, 1] = "Дата Рождения:";
+
+                    //Добавляем в следующий столбец значения этих Свойств.
+                    currentWorksheet.Cells[1, 2] = ActualProfiles[ActualProfiles.Count - (i + 1)].Name + '.';
+                    currentWorksheet.Cells[2, 2] = ActualProfiles[ActualProfiles.Count - (i + 1)].Wins + '.';
+                    currentWorksheet.Cells[3, 2] = ActualProfiles[ActualProfiles.Count - (i + 1)].AllGames + '.';
+                    currentWorksheet.Cells[4, 2] = ActualProfiles[ActualProfiles.Count - (i + 1)].Leaves + '.';
+
+                    //Настраиваем выравнивание текста в ячейках:
+                    currentWorksheet.Range["B1", "B6"].HorizontalAlignment = Excel.XlHAlign.xlHAlignRight;
+
+                    //Так как перечисление Enum нормально записать не получится используем конструкцию Switch...Case...Default.
+                    switch (ActualProfiles[ActualProfiles.Count - (i + 1)].Gender)
+                    {
+                        //Условие, если Profile.Gender == UserGender.Male:
+                        case UserGender.Male:
+                            currentWorksheet.Cells[5, 2] = "Мужской.";
+
+                            break;
+
+                        //Условие, если Profile.Gender == UserGender.Female:
+                        case UserGender.Female:
+                            currentWorksheet.Cells[5, 2] = "Женский.";
+
+                            break;
+
+                        //Условие, если Profile.Gender == UserGender.Alternative:
+                        default:
+                            currentWorksheet.Cells[5, 2] = "Альтернативный.";
+
+                            break;
+                    }
+
+                    //Последней ячейкой является Дата Рождения. Сюда также записывается значение, но перед этим оно форматируется.
+                    currentWorksheet.Cells[6, 2] = ActualProfiles[ActualProfiles.Count - (i + 1)].BirthTime.ToString("dd.MM.yyyy!");
+
+                    //Выполняем выравнивание столбцов по размеру.
+                    Excel.Range columnsToFit = currentWorksheet.UsedRange;
+                    columnsToFit.Columns.AutoFit();
+
+                    //Задаем стиль для границ между ячейками:
+                    currentWorksheet.Range["A1", "B6"].Borders.LineStyle = Excel.XlLineStyle.xlDouble;
+                    currentWorksheet.Range["A1", "B6"].Borders.Color = Excel.XlRgbColor.rgbBlack;
+
+                    //Здесь выполняется проверка на существование следующей итерации.
+                    //Это нужно для избегания создания лишних страниц в файле.
+                    if (i + 1 < ActualProfiles.Count)
+                    {
+                        currentWorksheet = mainWorkbook.Worksheets.Add();
+                    }
+                }
+
+                //Сохраняем созданный файл по указанному адресу.
+                mainWorkbook.SaveAs(fullPath);
+
+                if (!openFileAfterCreate)
+                {
+                    /*
+                    * <——————————————————————————————————————————————————————————————————————————————————————————————————>
+                    * |                                     !ОЧЕНЬ ВАЖНЫЙ МОМЕНТ!                                        |
+                    * |——————————————————————————————————————————————————————————————————————————————————————————————————|
+                    * |Здесь происходит завершение процесса "EXCEL.exe":                                                 |
+                    * |1. Сначала мы закрываем саму "Рабочую Книгу" (файл);                                              |
+                    * |2. Затем мы закрываем ВСЕ Рабочие Книги (файлы), с которыми работал созданный процесс;            |
+                    * |3. И после этого, через метод Quit() мы завершаем работу процесса.                                |
+                    * |——————————————————————————————————————————————————————————————————————————————————————————————————|
+                    * |Если работу процесса не завершить, он останется работать на фоне, даже после закрытия программы.  |
+                    * <——————————————————————————————————————————————————————————————————————————————————————————————————>
+                    */
+
+                    mainWorkbook.Close(false);
+                    appToWork.Workbooks.Close();
+                    appToWork.Quit();
+                }
+
+                //Однако если пользователь решит сразу открыть окно с Excel-файлом, то принудительно завершать процесс не придется.
+                else
+                {
+                    //Достаточно сделать его видимым, изменив свойство "Visible".
+                    appToWork.Visible = true;
+                }
+            });
+        }
+
+        /// <summary>
         /// Метод для удаления аккаунта пользователя.
         /// </summary>
-        /// <param name="profile">Аккаунт, который необходимо удалить.</param>
-        public void DeleteUser(UserProfile profile)
+        public void DeleteUser ()
         {
-            ActualProfiles.Remove(profile);
+            ActualProfiles.Remove(this);
 
             RefreshFile();
         }

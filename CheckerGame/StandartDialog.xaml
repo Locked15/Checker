@@ -1,0 +1,55 @@
+﻿<Window x:Name = "MainDialog" x:Class = "CheckerGame.StandartDialog"
+        xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d = "http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc = "http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local = "clr-namespace:CheckerGame"
+        mc:Ignorable = "d"
+        Title = "Укажите путь" Height = "250" Width = "320" Background = "#FF666565"
+        MinHeight = "250" MinWidth = "300" Closed = "StandartDialog_Closed">
+
+    <Grid x:Name = "MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height = "5*"/>
+            <RowDefinition Height = "30*"/>
+            <RowDefinition Height = "15*"/>
+            <RowDefinition Height = "40*"/>
+            <RowDefinition Height = "10*"/>
+            <RowDefinition Height = "30*"/>
+            <RowDefinition Height = "10*"/>
+            <RowDefinition Height = "50*"/>
+            <RowDefinition Height = "10*"/>
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width = "40*"/>
+            <ColumnDefinition Width = "20*"/>
+            <ColumnDefinition Width = "50*"/>
+            <ColumnDefinition Width = "20*"/>
+            <ColumnDefinition Width = "40*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Name = "DialogDes" Text = "Укажите полный путь и название файла." TextWrapping = "Wrap" Foreground = "AntiqueWhite"
+        FontFamily = "Times New Roman" Grid.Row = "1" Grid.Column = "1" Grid.ColumnSpan = "3" TextAlignment = "Center" FontSize = "13"/>
+
+        <TextBlock Name = "FirstDes" Text = "Полный путь к файлу:" TextWrapping = "Wrap" Foreground = "AntiqueWhite"
+        FontFamily = "Times New Roman" Grid.Row = "3" Grid.Column = "0" Grid.ColumnSpan = "2" TextAlignment = "Center" 
+        VerticalAlignment = "Center" Margin = "0, 0, 5, 0"/>
+
+        <TextBox Name = "FirstBox" Grid.Row = "3" Grid.Column = "2" Grid.ColumnSpan = "2" Background = "Transparent"
+        BorderThickness = "3" BorderBrush = "AntiqueWhite" FontFamily = "Times New Roman" Foreground = "AntiqueWhite"
+        HorizontalContentAlignment = "Left" VerticalContentAlignment = "Center"/>
+
+        <TextBlock Name = "SecondDes" Text = "Название файла:" TextWrapping = "Wrap" Foreground = "AntiqueWhite"
+        FontFamily = "Times New Roman" Grid.Row = "5" Grid.Column = "0" Grid.ColumnSpan = "2" TextAlignment = "Center" 
+        VerticalAlignment = "Center" Margin = "0, 0, 5, 0"/>
+
+        <TextBox Name = "SecondBox" Grid.Row = "5" Grid.Column = "2" Grid.ColumnSpan = "2" Background = "Transparent"
+        BorderThickness = "3" BorderBrush = "AntiqueWhite" FontFamily = "Times New Roman" Foreground = "AntiqueWhite"
+        HorizontalContentAlignment = "Left" VerticalContentAlignment = "Center"/>
+
+        <Button Name = "ReadyButton" Content = "Продолжить." Grid.Row = "7" Grid.Column = "1" Grid.ColumnSpan = "3"
+        Background = "Transparent" BorderBrush = "AntiqueWhite" BorderThickness = "3" Foreground = "AntiqueWhite"
+        Click = "ReadyButton_Click" MouseEnter = "ReadyButton_MouseEnter" MouseLeave = "ReadyButton_MouseLeave"/>
+    </Grid>
+</Window>

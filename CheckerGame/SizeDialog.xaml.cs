@@ -56,7 +56,7 @@ namespace CheckerGame
                     "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
 
-                else if (currentSize % 2 == 0)
+                else
                 {
                     Size = currentSize;
 

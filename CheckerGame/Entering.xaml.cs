@@ -38,7 +38,7 @@ namespace CheckerGame
         /// <summary>
         /// Конструктор класса. Необходим для работы окна.
         /// </summary>
-        public Entering()
+        public Entering ()
         {
             InitializeComponent();
         }
@@ -48,7 +48,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void BeginEnterButton_Click(object sender, RoutedEventArgs e)
+        private void BeginEnterButton_Click (object sender, RoutedEventArgs e)
         {
             UserProfile profile = UserProfile.CheckAccount(UserNameInputBox.Text, PasswordInputTextBox.Password);
 
@@ -91,7 +91,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender">Объект, вызвавший событие.</param>
         /// <param name="e">Аргументы события.</param>
-        private void SeeTheUnseenBox_Checked(object sender, RoutedEventArgs e)
+        private void SeeTheUnseenBox_Checked (object sender, RoutedEventArgs e)
         {
             passwordTool.Content = PasswordInputTextBox.Password;
 
@@ -103,7 +103,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender">Объект, вызвавший событие.</param>
         /// <param name="e">Аргументы события.</param>
-        private void SeeTheUnseenBox_Unchecked(object sender, RoutedEventArgs e)
+        private void SeeTheUnseenBox_Unchecked (object sender, RoutedEventArgs e)
         {
             PasswordInputTextBox.ToolTip = null;
         }
@@ -113,7 +113,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender">Объект, вызвавший событие.</param>
         /// <param name="e">Аргументы события.</param>
-        private void PasswordInputTextBox_PasswordChanged(object sender, RoutedEventArgs e)
+        private void PasswordInputTextBox_PasswordChanged (object sender, RoutedEventArgs e)
         {
             if ((Bool)SeeTheUnseenBox.IsChecked)
             {
