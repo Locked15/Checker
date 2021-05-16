@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using Bool = System.Boolean;
 
 namespace CheckerGame
@@ -47,7 +46,18 @@ namespace CheckerGame
         {
             if (UserProfile.CheckActiveAccounts())
             {
-                MessageBox.Show("Функция в разработке.", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                StandartDialog wordDialog = new StandartDialog(DialogVariant.FileCreation);
+                wordDialog.ShowDialog();
+
+                if (!wordDialog.Error)
+                {
+                    Bool question = MessageBox.Show("Открыть документ после его создания?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question)
+                    == MessageBoxResult.Yes;
+
+                    UserProfile.CreateWordUserList(wordDialog.FirstBoxText, wordDialog.SecondBoxText, question);
+                }
+
+                wordDialog.Dispose();
             }
         }
 

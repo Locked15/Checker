@@ -2,11 +2,11 @@
 using System.IO;
 using System.Windows;
 using System.Text.Json;
+using Bool = System.Boolean;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Bool = System.Boolean;
-using Word = Microsoft.Office.Interop.Word;
 using Excel = Microsoft.Office.Interop.Excel;
+using Word = Microsoft.Office.Interop.Word;
 
 namespace CheckerGame
 {
@@ -351,10 +351,10 @@ namespace CheckerGame
         /// Метод для добавления победы какому-либо пользователю.
         /// </summary>
         /// <param name="winner">Пользователь, которому надо добавить победу.</param>
-        public void AddWin (UserProfile winner)
+        public void AddWin ()
         {
-            ActualProfiles.Find(profile => profile == winner).Wins += 1;
-            ActualProfiles.Find(profile => profile == winner).AllGames += 1;
+            ActualProfiles.Find(profile => profile == this).Wins += 1;
+            ActualProfiles.Find(profile => profile == this).AllGames += 1;
 
             RefreshFile();
             RefreshAccounts();
@@ -364,9 +364,9 @@ namespace CheckerGame
         /// Метод для увеличения счетчика игр у какого-либо пользователя.
         /// </summary>
         /// <param name="player">Пользователь, которому надо дополнить счетчик игр.</param>
-        public void AddGame (UserProfile player)
+        public void AddGame ()
         {
-            ActualProfiles.Find(profile => profile == player).Leaves += 1;
+            ActualProfiles.Find(profile => profile == this).Leaves += 1;
 
             RefreshFile();
         }
@@ -375,19 +375,159 @@ namespace CheckerGame
         /// Метод для увеличения счетчика побегов с матчей у какого-либо пользователя.
         /// </summary>
         /// <param name="player">Пользователь, которому надо дополнить счетчик побегов.</param>
-        public void AddLeave (UserProfile player)
+        public void AddLeave ()
         {
-            ActualProfiles.Find(profile => profile == player).Leaves += 1;
+            ActualProfiles.Find(profile => profile == this).Leaves += 1;
 
             RefreshFile();
         }
 
         /// <summary>
-        /// Создает таблицу Excel, в которой содержится информация о текущих пользователях.
+        /// Метод, который создает документ Word, в котором содержится информация о текущих пользователях.
         /// </summary>
         /// <param name="path">Абсолютный путь к создаваемому файлу.</param>
         /// <param name="excelSheetName">Название создаваемого файла.</param>
-        /// <param name="openFileAfterCreate">Необязательный параметр. Отвечает за открытие файла после его создания.</param>>
+        /// <param name="openFileAfterCreate">Необязательный параметр. Отвечает за открытие файла после его создания.</param>
+        public async static void CreateWordUserList (String path, String wordDocumentName, Bool openFileAfterCreate = false)
+        {
+            String fullPath;
+
+            if (!wordDocumentName.EndsWith(".docx"))
+            {
+                wordDocumentName += ".docx";
+            }
+
+            //Проверка на окончание пути.
+            _ = path.EndsWith("\\") ? fullPath = path + wordDocumentName :
+            fullPath = path + "\\" + wordDocumentName;
+
+            //Так как создание документа затрачивает много времени, этот алгоритм вынесен в отдельный поток.
+            await Task.Run(() =>
+            {
+                //Создаем процесс Word.
+                Word.Application appToDo = new Word.Application();
+
+                //Создаем документ. Связываем его с созданным ранее процессом.
+                appToDo.Documents.Add();
+                Word.Document mainDocument = appToDo.Documents[1];
+
+                //Производим запись в файл.
+                for (int i = 0; i < ActualProfiles.Count; i++)
+                {
+                    /*
+                    * <——————————————————————————————————————————————————————————————————————————————————————————————————>
+                    * |                                        !Запись в Файл!                                           |
+                    * |——————————————————————————————————————————————————————————————————————————————————————————————————|
+                    * | В данном регионе кода происходит наполнение Word-файла. Разберем этот алгоритм по пунктам:       |
+                    * |——————————————————————————————————————————————————————————————————————————————————————————————————|
+                    * |                                    I. Создание параграфа.                                        |
+                    * |——————————————————————————————————————————————————————————————————————————————————————————————————|
+                    * | 1. Создаем экземпляр класса Word.Paragraph, связываем его с документом и добавляем сам параграф. |
+                    * | 2. Далее используя "Range" мы задаем текст и его свойства.                                       |
+                    * | 3. Далее используем функцию ".InsertParagraphAfter()", чтобы завершить параграф.                 |
+                    * | 4. Если следующий параграф не последний, то используем метод "InsertParagraphBefore()", чтобы -> |
+                    * | -> красиво расположить текст, создав пробел между строками.                                      |
+                    * |——————————————————————————————————————————————————————————————————————————————————————————————————|
+                    * |                                      II. Завершение.                                             |
+                    * |——————————————————————————————————————————————————————————————————————————————————————————————————|
+                    * | 1. Выполняем проверку на длину файла, чтобы не создавать лишние страницы.                        |
+                    * | 2. Если проверка пройдена, используем метод "Sections.Add()", чтобы создать новую страницу.      |
+                    * <——————————————————————————————————————————————————————————————————————————————————————————————————>
+                    */
+
+                    #region Область Кода: Заполнение Файла.
+
+                    //Запись свойства: "Имя Пользователя.".
+                    Word.Paragraph userName = mainDocument.Content.Paragraphs.Add();
+                    userName.Range.Text = "Имя Пользователя: " + ActualProfiles[i].Name + ';';
+                    userName.Range.Font.Name = "Georgia";
+                    userName.Range.Font.Bold = 0;
+                    userName.Range.InsertParagraphAfter();
+
+                    //Запись свойства: "Количество побед.".
+                    Word.Paragraph userWins = mainDocument.Content.Paragraphs.Add();
+                    userWins.Range.InsertParagraphBefore();
+                    userWins.Range.Text = "Количество побед: " + ActualProfiles[i].Wins + ';';
+                    userWins.Range.Font.Name = "Georgia";
+                    userName.Range.Font.Bold = 0;
+                    userWins.Range.InsertParagraphAfter();
+
+                    //Запись свойства: "Количество игр.".
+                    Word.Paragraph userGames = mainDocument.Content.Paragraphs.Add();
+                    userGames.Range.InsertParagraphBefore();
+                    userGames.Range.Text = "Количество игр: " + ActualProfiles[i].AllGames + ';';
+                    userGames.Range.Font.Name = "Georgia";
+                    userName.Range.Font.Bold = 0;
+                    userGames.Range.InsertParagraphAfter();
+
+                    //Заголовок — "Количество побегов.".
+                    Word.Paragraph userLeaves = mainDocument.Content.Paragraphs.Add();
+                    userLeaves.Range.InsertParagraphBefore();
+                    userLeaves.Range.Text = "Количество побегов: " + ActualProfiles[i].Leaves + ';';
+                    userLeaves.Range.Font.Name = "Georgia";
+                    userName.Range.Font.Bold = 0;
+                    userLeaves.Range.InsertParagraphAfter();
+
+                    //Заголовок — "Пол пользователя.".
+                    Word.Paragraph userGender = mainDocument.Content.Paragraphs.Add();
+                    userGender.Range.InsertParagraphBefore();
+                    userGender.Range.Text = "Пол пользователя: " + ActualProfiles[i].GetStringGender() + ';';
+                    userGender.Range.Font.Name = "Georgia";
+                    userName.Range.Font.Bold = 0;
+                    userGender.Range.InsertParagraphAfter();
+
+                    //Заголовок — "Дата рождения.".
+                    Word.Paragraph userBirthTime = mainDocument.Content.Paragraphs.Add();
+                    userBirthTime.Range.InsertParagraphBefore();
+                    userBirthTime.Range.Text = "Дата рождения: " + ActualProfiles[i].BirthTime.ToString("dd.MM.yyyy!");
+                    userBirthTime.Range.Font.Name = "Georgia";
+                    userName.Range.Font.Bold = 0;
+
+                    //Проверка на длину файла. Создана для того, чтобы не создавать лишние страницы.
+                    if ((i + 1) < ActualProfiles.Count)
+                    {
+                        appToDo.ActiveDocument.Sections.Add();
+                    }
+
+                    #endregion
+                }
+
+                //Сохраняем созданный файл по указанному адресу.
+                mainDocument.SaveAs(fullPath);
+
+                //Описание завершения работы:
+                if (!openFileAfterCreate)
+                {
+                    /*
+                    * <——————————————————————————————————————————————————————————————————————————————————————————————————>
+                    * |                                     !ОЧЕНЬ ВАЖНЫЙ МОМЕНТ!                                        |
+                    * |——————————————————————————————————————————————————————————————————————————————————————————————————|
+                    * | Здесь происходит завершение процесса "WORD.exe":                                                 |
+                    * | 1. Сначала мы закрываем сам "Документ" (файл);                                                   |
+                    * | 2. Затем, через метод Quit() мы завершаем работу процесса.                                       |
+                    * |——————————————————————————————————————————————————————————————————————————————————————————————————|
+                    * | Если работу процесса не завершить, он останется работать на фоне, даже после закрытия программы. |
+                    * <——————————————————————————————————————————————————————————————————————————————————————————————————>
+                    */
+
+                    mainDocument.Close();
+                    appToDo.Quit();
+                }
+
+                //Однако если пользователь решил развернуть программу, то завершать процесс принудительно не нужно.
+                else
+                {
+                    appToDo.Visible = true;
+                }
+            });
+        }
+
+        /// <summary>
+        /// Метод, который создает таблицу Excel, в которой содержится информация о текущих пользователях.
+        /// </summary>
+        /// <param name="path">Абсолютный путь к создаваемому файлу.</param>
+        /// <param name="excelSheetName">Название создаваемого файла.</param>
+        /// <param name="openFileAfterCreate">Необязательный параметр. Отвечает за открытие файла после его создания.</param>
         public async static void CreateExcelUserList (String path, String excelSheetName, Bool openFileAfterCreate = false)
         {
             String fullPath;
@@ -432,34 +572,13 @@ namespace CheckerGame
                     currentWorksheet.Cells[2, 2] = ActualProfiles[ActualProfiles.Count - (i + 1)].Wins + '.';
                     currentWorksheet.Cells[3, 2] = ActualProfiles[ActualProfiles.Count - (i + 1)].AllGames + '.';
                     currentWorksheet.Cells[4, 2] = ActualProfiles[ActualProfiles.Count - (i + 1)].Leaves + '.';
-
-                    //Настраиваем выравнивание текста в ячейках:
-                    currentWorksheet.Range["B1", "B6"].HorizontalAlignment = Excel.XlHAlign.xlHAlignRight;
-
-                    //Так как перечисление Enum нормально записать не получится используем конструкцию Switch...Case...Default.
-                    switch (ActualProfiles[ActualProfiles.Count - (i + 1)].Gender)
-                    {
-                        //Условие, если Profile.Gender == UserGender.Male:
-                        case UserGender.Male:
-                            currentWorksheet.Cells[5, 2] = "Мужской.";
-
-                            break;
-
-                        //Условие, если Profile.Gender == UserGender.Female:
-                        case UserGender.Female:
-                            currentWorksheet.Cells[5, 2] = "Женский.";
-
-                            break;
-
-                        //Условие, если Profile.Gender == UserGender.Alternative:
-                        default:
-                            currentWorksheet.Cells[5, 2] = "Альтернативный.";
-
-                            break;
-                    }
+                    currentWorksheet.Cells[5, 2] = ActualProfiles[ActualProfiles.Count - (i + 1)].GetStringGender() + '.';
 
                     //Последней ячейкой является Дата Рождения. Сюда также записывается значение, но перед этим оно форматируется.
                     currentWorksheet.Cells[6, 2] = ActualProfiles[ActualProfiles.Count - (i + 1)].BirthTime.ToString("dd.MM.yyyy!");
+
+                    //Настраиваем выравнивание текста в ячейках:
+                    currentWorksheet.Range["B1", "B6"].HorizontalAlignment = Excel.XlHAlign.xlHAlignRight;
 
                     //Выполняем выравнивание столбцов по размеру.
                     Excel.Range columnsToFit = currentWorksheet.UsedRange;
@@ -480,18 +599,19 @@ namespace CheckerGame
                 //Сохраняем созданный файл по указанному адресу.
                 mainWorkbook.SaveAs(fullPath);
 
+                //Описание завершения работы:
                 if (!openFileAfterCreate)
                 {
                     /*
                     * <——————————————————————————————————————————————————————————————————————————————————————————————————>
                     * |                                     !ОЧЕНЬ ВАЖНЫЙ МОМЕНТ!                                        |
                     * |——————————————————————————————————————————————————————————————————————————————————————————————————|
-                    * |Здесь происходит завершение процесса "EXCEL.exe":                                                 |
-                    * |1. Сначала мы закрываем саму "Рабочую Книгу" (файл);                                              |
-                    * |2. Затем мы закрываем ВСЕ Рабочие Книги (файлы), с которыми работал созданный процесс;            |
-                    * |3. И после этого, через метод Quit() мы завершаем работу процесса.                                |
+                    * | Здесь происходит завершение процесса "EXCEL.exe":                                                |
+                    * | 1. Сначала мы закрываем саму "Рабочую Книгу" (файл);                                             |
+                    * | 2. Затем мы закрываем ВСЕ Рабочие Книги (файлы), с которыми работал созданный процесс;           |
+                    * | 3. И после этого, через метод Quit() мы завершаем работу процесса.                               |
                     * |——————————————————————————————————————————————————————————————————————————————————————————————————|
-                    * |Если работу процесса не завершить, он останется работать на фоне, даже после закрытия программы.  |
+                    * | Если работу процесса не завершить, он останется работать на фоне, даже после закрытия программы. |
                     * <——————————————————————————————————————————————————————————————————————————————————————————————————>
                     */
 
@@ -507,6 +627,25 @@ namespace CheckerGame
                     appToWork.Visible = true;
                 }
             });
+        }
+
+        /// <summary>
+        /// Метод для получения строкового представления пола пользователя.
+        /// </summary>
+        /// <returns>Строковое представление пола.</returns>
+        public String GetStringGender ()
+        {
+            switch (this.Gender)
+            {
+                case UserGender.Male:
+                    return "Мужской";
+
+                case UserGender.Female:
+                    return "Женский";
+
+                default:
+                    return "Альтернативный";
+            }
         }
 
         /// <summary>
