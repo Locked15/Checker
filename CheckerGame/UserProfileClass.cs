@@ -420,7 +420,15 @@ namespace CheckerGame
                     * |——————————————————————————————————————————————————————————————————————————————————————————————————|
                     * | В данном регионе кода происходит наполнение Word-файла. Разберем этот алгоритм по пунктам:       |
                     * |——————————————————————————————————————————————————————————————————————————————————————————————————|
-                    * |                                    I. Создание параграфа.                                        |
+                    * |                                    I. Создание Колонтитулов.                                     |
+                    * |——————————————————————————————————————————————————————————————————————————————————————————————————|
+                    * | 1. Создаем экземпляр интерфейса "HeaderFooter". Связываем его с текущей секцией документа.       |
+                    * | 2. При инициализации указываем, что это Верхний Колонтитул.                                      |
+                    * | 3. Настраиваем его свойства: шрифт, стиль, выравнивание. Задаем текст с именем пользователя.     |
+                    * | 4. Аналогично создаем еще один экземпляр интерфейса, но теперь прописываем номер страницы.       |
+                    * | 5. У второго колонтитула также изменяем стиль чисел, отвечающих за нумерацию страниц.            |
+                    * |——————————————————————————————————————————————————————————————————————————————————————————————————|
+                    * |                                     II. Создание Параграфов.                                     |
                     * |——————————————————————————————————————————————————————————————————————————————————————————————————|
                     * | 1. Создаем экземпляр класса Word.Paragraph, связываем его с документом и добавляем сам параграф. |
                     * | 2. Далее используя "Range" мы задаем текст и его свойства.                                       |
@@ -428,7 +436,7 @@ namespace CheckerGame
                     * | 4. Если следующий параграф не последний, то используем метод "InsertParagraphBefore()", чтобы -> |
                     * | -> красиво расположить текст, создав пробел между строками.                                      |
                     * |——————————————————————————————————————————————————————————————————————————————————————————————————|
-                    * |                                      II. Завершение.                                             |
+                    * |                                      III. Завершение.                                            |
                     * |——————————————————————————————————————————————————————————————————————————————————————————————————|
                     * | 1. Выполняем проверку на длину файла, чтобы не создавать лишние страницы.                        |
                     * | 2. Если проверка пройдена, используем метод "Sections.Add()", чтобы создать новую страницу.      |
@@ -437,16 +445,26 @@ namespace CheckerGame
 
                     #region Область Кода: Заполнение Файла.
 
-                    //Добавляем и настраиваем колонтитул с именем текущего пользователя.
+                    //Добавляем и настраиваем Верхний Колонтитул с именем текущего пользователя.
+                    Word.HeaderFooter currentHeader = appToDo.ActiveDocument.Sections[i + 1].Headers[Word.WdHeaderFooterIndex.wdHeaderFooterPrimary];
+                    currentHeader.Range.Font.Bold = 0;
+                    currentHeader.LinkToPrevious = false;
+                    currentHeader.Range.Font.Name = "Georgia";
+                    currentHeader.Range.Text = ActualProfiles[i].Name;
+                    currentHeader.Range.Paragraphs.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+
+                    //Добавляем и настраиваем Нижний Колонтитул с номером текущей страницы.
                     Word.HeaderFooter currentFooter = appToDo.ActiveDocument.Sections[i + 1].Footers[Word.WdHeaderFooterIndex.wdHeaderFooterPrimary];
                     currentFooter.Range.Font.Bold = 0;
                     currentFooter.LinkToPrevious = false;
                     currentFooter.Range.Font.Name = "Georgia";
-                    currentFooter.Range.Text = ActualProfiles[i].Name;
+                    currentFooter.Range.Text = (i + 1).ToString();
+                    currentFooter.PageNumbers.NumberStyle = Word.WdPageNumberStyle.wdPageNumberStyleHanjaRead;
                     currentFooter.Range.Paragraphs.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
 
                     //Запись свойства: "Имя Пользователя.".
                     Word.Paragraph userName = mainDocument.Content.Paragraphs.Add();
+                    userName.Range.InsertParagraphBefore();
                     userName.Range.Text = "Имя Пользователя: " + ActualProfiles[i].Name + ';';
                     userName.Range.Font.Name = "Georgia";
                     userName.Range.Font.Bold = 0;
