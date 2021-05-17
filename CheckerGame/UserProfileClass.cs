@@ -437,6 +437,14 @@ namespace CheckerGame
 
                     #region Область Кода: Заполнение Файла.
 
+                    //Добавляем и настраиваем колонтитул с именем текущего пользователя.
+                    Word.HeaderFooter currentFooter = appToDo.ActiveDocument.Sections[i + 1].Footers[Word.WdHeaderFooterIndex.wdHeaderFooterPrimary];
+                    currentFooter.Range.Font.Bold = 0;
+                    currentFooter.LinkToPrevious = false;
+                    currentFooter.Range.Font.Name = "Georgia";
+                    currentFooter.Range.Text = ActualProfiles[i].Name;
+                    currentFooter.Range.Paragraphs.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+
                     //Запись свойства: "Имя Пользователя.".
                     Word.Paragraph userName = mainDocument.Content.Paragraphs.Add();
                     userName.Range.Text = "Имя Пользователя: " + ActualProfiles[i].Name + ';';
