@@ -386,7 +386,7 @@ namespace CheckerGame
         /// Метод, который создает документ Word, в котором содержится информация о текущих пользователях.
         /// </summary>
         /// <param name="path">Абсолютный путь к создаваемому файлу.</param>
-        /// <param name="excelSheetName">Название создаваемого файла.</param>
+        /// <param name="wordDocumentName">Название создаваемого файла.</param>
         /// <param name="openFileAfterCreate">Необязательный параметр. Отвечает за открытие файла после его создания.</param>
         public async static void CreateWordUserList (String path, String wordDocumentName, Bool openFileAfterCreate = false)
         {
