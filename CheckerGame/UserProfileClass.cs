@@ -518,6 +518,9 @@ namespace CheckerGame
                     #endregion
                 }
 
+                //Защищаем документ от изменений:
+                mainDocument.Protect(Word.WdProtectionType.wdAllowOnlyReading, true, "Checkers!");
+
                 //Сохраняем созданный файл по указанному адресу.
                 mainDocument.SaveAs(fullPath);
 
@@ -621,6 +624,9 @@ namespace CheckerGame
                         currentWorksheet = mainWorkbook.Worksheets.Add();
                     }
                 }
+
+                //Защищаем документ от изменений:
+                mainWorkbook.Protect("Checkers!");
 
                 //Сохраняем созданный файл по указанному адресу.
                 mainWorkbook.SaveAs(fullPath);
