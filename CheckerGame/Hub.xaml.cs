@@ -53,7 +53,7 @@ namespace CheckerGame
         /// <summary>
         /// Конструктор класса. Необходим для работы окна.
         /// </summary>
-        public Hub ()
+        public Hub()
         {
             InitializeComponent();
         }
@@ -63,7 +63,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void HubWindow_Loaded (object sender, RoutedEventArgs e)
+        private void HubWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Double winRate;
 
@@ -92,7 +92,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender">Объект, вызвавший событие.</param>
         /// <param name="e">Аргументы события.</param>
-        private void QuitUser_Click (object sender, RoutedEventArgs e)
+        private void QuitUser_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Выйти из аккаунта?", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question)
             == MessageBoxResult.Yes)
@@ -117,16 +117,19 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender">Объект, который вызвал событие.</param>
         /// <param name="e">Аргументы события.</param>
-        private void EnterSecondButton_Click (object sender, RoutedEventArgs e)
+        private void EnterSecondButton_Click(object sender, RoutedEventArgs e)
         {
-            Entering secondEnter = new Entering();
-            secondEnter.ShowDialog();
-
-            if (SecondUser != null)
+            if (SecondUser == null)
             {
-                SecondUserDes.Text += '\n' + SecondUser.Name;
+                Entering secondEnter = new Entering();
+                secondEnter.ShowDialog();
 
-                SecondUserConnected();
+                if (secondUser != null)
+                {
+                    SecondUserDes.Text += '\n' + SecondUser.Name;
+
+                    SecondUserConnected();
+                }
             }
         }
 
@@ -135,16 +138,19 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender">Объект, который вызвал событие.</param>
         /// <param name="e">Аргументы события.</param>
-        private void RegisterSecondButton_Click (object sender, RoutedEventArgs e)
+        private void RegisterSecondButton_Click(object sender, RoutedEventArgs e)
         {
-            Registration registerSecond = new Registration();
-            registerSecond.ShowDialog();
-
-            if (SecondUser != null)
+            if (SecondUser == null)
             {
-                SecondUserDes.Text += '\n' + SecondUser.Name;
+                Registration registerSecond = new Registration();
+                registerSecond.ShowDialog();
 
-                SecondUserConnected();
+                if (secondUser != null)
+                {
+                    SecondUserDes.Text += '\n' + SecondUser.Name;
+
+                    SecondUserConnected();
+                }
             }
         }
 
@@ -153,7 +159,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender">Объект, который вызвал событие.</param>
         /// <param name="e">Аргументы события.</param>
-        private void QuitSecondButton_Click (object sender, RoutedEventArgs e)
+        private void QuitSecondButton_Click(object sender, RoutedEventArgs e)
         {
             SecondUserDes.Text = "Второй Пользователь:";
 
@@ -166,7 +172,7 @@ namespace CheckerGame
         /// </summary>
         /// <param name="sender">Объект, который вызвал событие.</param>
         /// <param name="e">Аргументы события.</param>
-        private void StartCheckerMatch_Click (object sender, RoutedEventArgs e)
+        private void StartCheckerMatch_Click(object sender, RoutedEventArgs e)
         {
             if (SecondUser == null)
             {
@@ -193,7 +199,7 @@ namespace CheckerGame
         /// <summary>
         /// Метод для обновления элементов управления при подключении Второго Пользователя.
         /// </summary>
-        private void SecondUserConnected ()
+        private void SecondUserConnected()
         {
             Double winRate;
 
@@ -220,7 +226,7 @@ namespace CheckerGame
         /// <summary>
         /// Метод для обновления элементов управления при отключении Второго Пользователя.
         /// </summary>
-        private void SecondUserDisconnected ()
+        private void SecondUserDisconnected()
         {
             SecondUserWinsDes.Visibility = Visibility.Hidden;
             SecondUserAllGamesDes.Visibility = Visibility.Hidden;
@@ -236,7 +242,7 @@ namespace CheckerGame
         /// <summary>
         /// Метод для обновления свойств с Пользователями при завершении игры в Шашки.
         /// </summary>
-        public void RefreshInformation ()
+        public void RefreshInformation()
         {
             UserProfile.RefreshAccounts();
 

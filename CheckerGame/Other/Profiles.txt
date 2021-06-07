@@ -1,0 +1,20 @@
+[
+  {
+    "Wins": 0,
+    "Leaves": 1,
+    "Name": "User1",
+    "AllGames": 0,
+    "Password": "UserOne",
+    "Gender": 0,
+    "BirthTime": "1996-08-09T00:00:00"
+  },
+  {
+    "Wins": 0,
+    "Leaves": 0,
+    "Name": "User2",
+    "AllGames": 0,
+    "Password": "UserTwo",
+    "Gender": 0,
+    "BirthTime": "2003-05-13T00:00:00"
+  }
+]
